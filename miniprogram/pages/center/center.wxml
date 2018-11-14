@@ -1,0 +1,10 @@
+<!--miniprogram/pages/center/center.wxml-->
+<view class='container'>
+  <view class='profile-info' bindtap='onEnterLogin'>
+    <image class='avatar' src='{{avatarUrl}}'></image>
+    <view class='info' >
+      <text class='name'>{{userName}}</text>
+    </view>
+  </view>
+  <button type = 'primary' hidden='{{userInfoIsGetted}}' open-type='getUserInfo' lang='zh_CN'                bindgetuserinfo='onGetUserInfo' class='get-info'>获取用户信息</button>
+ </view>
