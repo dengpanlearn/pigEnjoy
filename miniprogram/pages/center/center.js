@@ -28,6 +28,7 @@ Page({
           userName: e.detail.userInfo.nickName,
           userInfoIsGetted: true
         })
+        wx.hideLoading();
       }).catch(err => {
         console.log(err);
         wx.hideLoading();
