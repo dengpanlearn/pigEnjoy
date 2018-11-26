@@ -69,9 +69,9 @@ function loadWxUserInfo(appName) {
 
   return new Promise(function (resovle, reject) {
     wx.cloud.callFunction({
-      name: appName,
+      name: 'getUserId',
       data: {
-        appName: 'demo',
+        appName: appName,
         secret: 'f6a008cab77ada27c16a9d2b0ab6c9be',
         code: 'appCode'
       }

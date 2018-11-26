@@ -12,7 +12,43 @@ Page({
     userInfo: {},
     userName: 'Hi，你好！',
     userInfoIsGetted: false,
-    
+    userBlogInfos:[{
+      name:'等级',
+      value: 0
+    },
+      {
+        name: '原创',
+        value: 0
+      },
+
+      {
+        name: '提问',
+        value: 0
+      },
+
+      {
+        name: '回复',
+        value: 0
+      },
+
+      {
+        name: '获赞',
+        value: 0
+      }
+    ],
+
+    blogOriginal:[{
+      title:'参与微软Docs翻译',
+      content: '介绍了MLCP的翻译内容，本次介绍如果参与微软Docs翻译，微软Docs是微软的技术文档网站，里边有各种产品技术的文档说明介绍，但是里边的内容多是机器翻译的，所以翻译效果不是很好，因为微软开放了编辑翻译功能，希望更多的人来参与进来，把文档内容补充的更好，本次介绍一下如何参与Docs翻译。',
+      views:0,
+      time:'2018-11-26 16:56:32'
+    },{
+        title: '参与微软本地化翻译——MLCP',
+        content: ' 为了帮助当地社区成员更好的使用微软产品、服务，微软开辟了一个开放社区，微软本地化社区(https://aka.ms/MVP19Q2CNTeam31O)，又称MLCP。这是一种集投票、建议、翻译本地化字符串的一个社区平台，所有人都可以注册account来参与微软的本地化翻译。每个参与的人都可以通过Microsoft Cloud + AI International Community Leaderboard（https://microsoftl10n.github.io/）来查看自己的分数贡献值。',
+        views: 0,
+        time: '2018-11-26 16:56:32'
+    }
+    ]
   },
 
   onGetUserInfo: function (e) {

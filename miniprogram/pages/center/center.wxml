@@ -7,4 +7,20 @@
     </view>
   </view>
   <button type = 'primary' hidden='{{userInfoIsGetted}}' open-type='getUserInfo' lang='zh_CN'                bindgetuserinfo='onGetUserInfo' class='get-info'>获取用户信息</button>
+
+  <view class='blog-collect'>
+    <view class='blog-collect-item' wx:for='{{userBlogInfos}}' wx:key='name' id ='{{item.name}}'>
+      <text class='collect-value'>{{item.value}}</text>
+      <text class='collect-name'>{{item.name}}</text>
+    </view>
+  </view>
+
+  <view class='blog-original' >
+    <view class='blog-original' wx:for='{{blogOriginal}}' wx:key='title' id ='{{item.title}}'>
+      <text class='original-title'>{{item.title}}</text>
+      <text class='original-content'>{{item.content}}</text>
+      <text class='original-views'>{{item.views}}</text>
+      <text class='original-time'>{{item.time}}</text>
+    </view>
+  </view>
  </view>
