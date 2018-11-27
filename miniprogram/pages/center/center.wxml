@@ -13,14 +13,55 @@
       <text class='collect-value'>{{item.value}}</text>
       <text class='collect-name'>{{item.name}}</text>
     </view>
-  </view>
 
-  <view class='blog-original' >
-    <view class='blog-original' wx:for='{{blogOriginal}}' wx:key='title' id ='{{item.title}}'>
-      <text class='original-title'>{{item.title}}</text>
-      <text class='original-content'>{{item.content}}</text>
-      <text class='original-views'>{{item.views}}</text>
-      <text class='original-time'>{{item.time}}</text>
+    <view class='publish-new' bindtap='onPublish'>
+    <image class='publish-new-icon' src='../../images/publish-new.png'></image>
+    <text class='publish-new-title'>发表</text>
     </view>
   </view>
+
+
+  <view class='original-icon-view'>
+    <image class='original-icon' src='../../images/original.png'></image>
+    <text class='original-text'>我的原创</text>
+  </view>
+  <scroll-view class='blog-original-scroll' scroll-y ='true'>
+    <view class='blog-origina-item' wx:for='{{blogOriginal}}' wx:key='title' id ='{{item.title}}'>
+      <text class='original-title'>{{item.title}}</text>
+      <text class='original-content'>{{item.content}}</text>
+      <view class='original-end'>
+        <text class='original-time'>{{item.time}}</text>
+        <view class='original-views'>
+         <text class='original-views-read'>{{item.viewReads}}阅读</text>
+          <text class='original-views-discuss'>{{item.viewDiscuss}}评论</text>
+        </view>
+        
+      </view>
+    </view>
+  </scroll-view>
+
+ <view class='question-icon-view'>
+      <image class='question-icon' src='../../images/question.png'></image>
+      <text class='question-text'>我的提问</text>
+  </view>
+  <scroll-view class='question-scroll' scroll-y ='true'>
+   
+
+      <view class='question-item' wx:for='{{question}}' wx:key='title' id ='{{item.title}}'>
+      <text class='question-title'>{{item.title}}</text>
+      <text class='question-content'>{{item.content}}</text>
+      <view class='question-end'>
+        <text class='question-time'>{{item.time}}</text>
+        <view class='question-views'>
+         <text class='question-views-read'>{{item.questionReads}}阅读</text>
+          <text class='question-views-discuss'>{{item.questionAns}}回复</text>
+        </view>
+        
+      </view>
+    </view>
+  
+  
+  </scroll-view>
+
+<button class='secret-item' type='default' open-type='openSetting' bindopensetting='onOpenSetting'>权限设置</button>
  </view>

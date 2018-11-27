@@ -58,6 +58,15 @@
 }
 
 .blog-collect-item{
+  width: 16%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.publish-new{
   width: 20%;
   height: 100%;
   display: flex;
@@ -80,4 +89,237 @@
   line-height: 50rpx;
   text-align: center;
   font-size: 35rpx;
+}
+
+.publish-new-icon{
+  width: 50rpx;
+  height: 50rpx;
+}
+
+.publish-new-title{
+  width: 100%;
+  height: 50rpx;
+  line-height: 50rpx;
+  text-align: center;
+  font-size: 35rpx;
+}
+
+.blog-original-scroll{
+  width: 100%;
+  height: 400rpx;
+   display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+::-webkit-scrollbar{
+  width: 0;
+  height: 0;
+  color: transparent;
+}
+.original-icon-view{
+  width: 100%;
+  height: 50rpx;
+  background-color: #e7e7e7;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+.original-icon{
+  width: 50rpx;
+  height: 50rpx;
+}
+
+.original-text{
+  width: 150rpx;
+  height: 50rpx;
+  line-height: 50rpx;
+  text-align: center;
+  font-size: 30rpx;
+}
+
+
+
+.blog-origina-item{
+  width: 100%;
+  height: 150rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  border-bottom: 1rpx solid #e4e1e1;
+  border-top: 1rpx solid #e4e1e1;
+}
+
+.original-title{
+  width: 100%;
+  height: 35rpx;
+  line-height: 35rpx;
+  text-align: left;
+  font-size: 25rpx;
+}
+
+.original-content{
+  width: 100%;
+  height: 70rpx;
+  line-height: 35rpx;
+  text-align: left;
+  font-size: 20rpx;
+}
+
+.original-end{
+  width: 100%;
+  height: 30rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.original-time{
+  width: 80%;
+  height: 35rpx;
+  line-height: 35rpx;
+  text-align: left;
+  font-size: 20rpx;
+}
+
+.original-views{
+  width: 20%;
+  height: 35rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.original-views-read{
+  width: 50%;
+  height: 35rpx;
+  line-height: 35rpx;
+  text-align: center;
+  font-size: 20rpx;
+}
+
+.original-views-discuss
+{
+    width: 50%;
+  height: 35rpx;
+  line-height: 35rpx;
+  text-align: center;
+  font-size: 20rpx;
+}
+
+.question-scroll{
+  width: 100%;
+  height: 400rpx;
+   display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.question-icon-view{
+  width: 100%;
+  height: 50rpx;
+  background-color: #e7e7e7;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+.question-icon{
+  width: 50rpx;
+  height: 50rpx;
+}
+
+.question-text{
+  width: 150rpx;
+  height: 50rpx;
+  line-height: 50rpx;
+  text-align: center;
+  font-size: 30rpx;
+}
+
+
+.question-item{
+  width: 100%;
+  height: 150rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  border-bottom: 1rpx solid #e4e1e1;
+  border-top: 1rpx solid #e4e1e1;
+}
+
+.question-title{
+  width: 100%;
+  height: 35rpx;
+  line-height: 35rpx;
+  text-align: left;
+  font-size: 25rpx;
+}
+
+.question-content{
+  width: 100%;
+  height: 70rpx;
+  line-height: 35rpx;
+  text-align: left;
+  font-size: 20rpx;
+}
+
+.question-end{
+  width: 100%;
+  height: 30rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.question-time{
+  width: 80%;
+  height: 35rpx;
+  line-height: 35rpx;
+  text-align: left;
+  font-size: 20rpx;
+}
+
+.question-views{
+  width: 20%;
+  height: 35rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.question-views-read{
+  width: 50%;
+  height: 35rpx;
+  line-height: 35rpx;
+  text-align: center;
+  font-size: 20rpx;
+}
+
+.question-views-discuss
+{
+    width: 50%;
+  height: 35rpx;
+  line-height: 35rpx;
+  text-align: center;
+  font-size: 20rpx;
+}
+
+.secret-item{
+  width: 100%;
+  height: 100rpx;
+  line-height: 100rpx;
+  text-align: center;
+  font-size: 40rpx;
+  border-bottom: 1rpx solid #c5bebe; 
+  background: #cac6c6;
+  -webkit-text-fill-color: #0ef506;
 }

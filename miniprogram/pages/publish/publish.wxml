@@ -1,0 +1,21 @@
+<!--miniprogram/pages/publish/publish.wxml-->
+<view class='select-type'>
+  <view class='select-type-title'>请选择发表类型:</view>
+  <image class='select-icon' src='{{publishTypeIcon[curTypeIdx]}}'></image>
+  <picker class='select-type-pick' mode='selector' range="{{publishType}}" bindchange='onSelectType'>
+    <view class='select-value'>{{publishType[curTypeIdx]}}</view>
+  </picker>
+  
+</view>
+<textarea class='publish-input' value='说说你的想法...' maxlength ='500'></textarea>
+<view class='publish-image'>
+  <view class='publish-image-put' bindtap='onGetPhoto'>
+    <image class='publish-image-icon' src='../../images/photo.png'></image>
+    <text class='publish-image-title'>照片</text>
+  </view>
+</view>
+
+<view class='publish-address'>
+  <image class='publish-address-icon' src='../../images/address.png' bindtap='onGetAddress'></image>
+  <text class='publish-address-title'>{{curAddress}}</text>
+</view>

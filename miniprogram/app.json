@@ -10,7 +10,8 @@
     "pages/databaseGuide/databaseGuide",
     "pages/addFunction/addFunction",
     "pages/deployFunctions/deployFunctions",
-    "pages/chooseLib/chooseLib"
+    "pages/chooseLib/chooseLib",
+    "pages/publish/publish"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",
@@ -19,36 +20,35 @@
     "navigationBarTitleText": "小猪之家",
     "navigationBarTextStyle": "black"
   },
-    "tabBar": {
-      "backgroundColor": "#fafafa",
-      "borderStyle": "white",
-      "selectedColor": "#3ee807",
-      "color": "#666",
-      "list": [
-        {
-          "pagePath": "pages/pigHome/pigHome",
-          "iconPath": "images/home-nor.png",
-          "selectedIconPath": "images/home-pressed.png",
-          "text": "猪之家"
-        },
-
-        {
-          "pagePath": "pages/found/found",
-          "iconPath": "images/found-nor.png",
-          "selectedIconPath": "images/found-pressed.png",
-          "text": "发现"
-        },
-        {
-          "pagePath": "pages/center/center",
-          "iconPath": "images/me-nor.png",
-          "selectedIconPath": "images/me-pressed.png",
-          "text": "我的"
-        }
-      ]
-    },
-    "networkTimeout": {
-      "request": 10000,
-      "downloadFile": 10000
-    },
-    "debug": true
+  "tabBar": {
+    "backgroundColor": "#fafafa",
+    "borderStyle": "white",
+    "selectedColor": "#3ee807",
+    "color": "#666",
+    "list": [
+      {
+        "pagePath": "pages/pigHome/pigHome",
+        "iconPath": "images/home-nor.png",
+        "selectedIconPath": "images/home-pressed.png",
+        "text": "猪之家"
+      },
+      {
+        "pagePath": "pages/found/found",
+        "iconPath": "images/found-nor.png",
+        "selectedIconPath": "images/found-pressed.png",
+        "text": "发现"
+      },
+      {
+        "pagePath": "pages/center/center",
+        "iconPath": "images/me-nor.png",
+        "selectedIconPath": "images/me-pressed.png",
+        "text": "我的"
+      }
+    ]
+  },
+  "networkTimeout": {
+    "request": 10000,
+    "downloadFile": 10000
+  },
+  "debug": true
 }
