@@ -126,7 +126,7 @@ Page({
   },
 
   onPublish:function(e){
-    wx.navigateTo({
+    wx.redirectTo({
       url: '../publish/publish',
     })
   },
