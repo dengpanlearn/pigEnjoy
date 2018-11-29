@@ -124,15 +124,16 @@ Page({
   },
 
   onGetAddress:function(e){
+ 
     let that = this;
     wx.authorize({
-      scope: 'scope.address',
+      scope: 'scope.userLocation',
 
       success: function () {
-        wx.chooseAddress({
+        wx.chooseLocation({
           success: res => {
             that.setData({
-              curAddress:res.detailInfo
+              curAddress: res.address
             });
            // console.log(res);
           },
@@ -141,7 +142,7 @@ Page({
       },
       fail: function () {
         wx.showToast({
-          title: '请容许添加地址',
+          title: '请容许访问地址',
           icon: 'none',
           duration: 2000
         });
