@@ -1,7 +1,10 @@
 // miniprogram/pages/pigHome/pigHome.js
 
 var util = require('../../util/util.js');
+var publishUtil = require('../../util/publishUtil.js');
 const app = getApp();
+
+
 Page({
 
   /**
@@ -25,7 +28,13 @@ Page({
 
     util.loadWxUserInfo(app.globalData.appName).then((res) => {
       console.info('load wx user info ok');
-      wx.hideLoading();
+      publishUtil.loadSelfPublish();
+      let interNum = setInterval(res=>{
+        if (publishUtil.loadCompeted()) {
+          clearInterval(interNum);
+          wx.hideLoading();
+        }
+      }, 500, this);
 
     }, (res) => {
      

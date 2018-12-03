@@ -1,6 +1,7 @@
 // miniprogram/pages/publish/publish.js
 
 var publishUtil = require('../../util/publishUtil.js');
+var serverUtil = require('../../util/serverUtil.js');
 
 function getInputContent(className){
   return new Promise((resolve, reject)=>{
@@ -107,6 +108,7 @@ Page({
         wx.showLoading({
           title: '加载中',
         })
+       
         this.setData({
           toLoadedPhotos:toLoadedPhotos,
           bModify: true
@@ -198,7 +200,83 @@ Page({
   },
 
   onConfirm:function(e){
+   
+    getInputContent('.publish-title-input').then(res=>{
+      let title = res.trim();
+   
+      if (title == ""){
+        wx.showToast({
+          title: '提示!请输入有效标题',
+          icon:'none',
+          duration: 2000
+        })
 
+        return;
+      }
+
+      getInputContent('.publish-input').then(res=>{
+        let content = res.trim();
+        if (content==""){
+          wx.showToast({
+            title: '提示!请输入有效内容',
+            icon: 'none',
+            duration: 2000
+          })
+
+          return;
+        }
+
+        wx.showLoading({
+          title: '发表中..',
+        });
+
+
+        let toLoadedPhotos = this.data.toLoadedPhotos;
+        let toLoadedPhotoDir = [];
+        for (let i = 0; i < toLoadedPhotos.length; i++) {
+
+          toLoadedPhotoDir.push(toLoadedPhotos[i].src);
+        }
+
+        serverUtil.publishTopic({
+          topicType: this.data.curTypeIdx,
+           title: title,
+          content: content,
+          address: this.data.curAddress,
+          photoPathList: toLoadedPhotoDir,
+          bPhotoHighFormat: this.data.bPhotoHighFormat
+        }).then(res=>{
+          wx.hideLoading();
+          wx.showToast({
+            title: '发表成功',
+            duration: 2000
+          })
+
+          publishUtil.setUnUpdatePublish({
+            curTypeIdx: 0,
+            title: '',
+            content: '',
+            toLoadedPhotos: [],
+            address: '添加地点',
+            bPhotoHighFormat: false
+          });
+
+          wx.reLaunch({
+            url: '../center/center',
+          });
+
+        }).catch(e=>{
+          wx.hideLoading();
+          wx.showToast({
+            title: '发表失败',
+            duration: 2000
+          })
+        });
+
+      })
+    })
+
+   
   },
 
   /**
@@ -206,6 +284,7 @@ Page({
    */
   onLoad: function (options) {
    let unPublishUtil = publishUtil.getUnUpdatePublish();
+
    this.setData({
      title: unPublishUtil.title,
      content: unPublishUtil.content,
