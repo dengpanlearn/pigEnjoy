@@ -17,17 +17,12 @@ Page({
       value: 0
     },
       {
-        name: '原创',
+        name: '关注',
         value: 0
       },
 
       {
-        name: '提问',
-        value: 0
-      },
-
-      {
-        name: '回复',
+        name: '粉丝',
         value: 0
       },
 
@@ -37,62 +32,16 @@ Page({
       }
     ],
 
-    blogOriginal:[{
-      title:'参与微软Docs翻译',
-      content: '介绍了MLCP的翻译内容，本次介绍如果参与微软Docs翻译，微软Docs是微软的技术文档网站，里边有各种产品技术的文档说明介绍.....',
-      viewReads:0,
-      viewDiscuss: 0,
-      time:'2018-11-26 16:56:32'
-    },{
-        title: '参与微软本地化翻译——MLCP1',
-        content: ' 为了帮助当地社区成员更好的使用微软产品、服务，微软开辟了一个开放社区，微软本地化社区(https://aka.ms/MVP19Q2CNTeam31O).....',
-        viewReads: 0,
-        viewDiscuss: 0,
-        time: '2018-11-26 16:56:32'
-    }
-      , {
-        title: '参与微软本地化翻译——MLCP2',
-        content: ' 为了帮助当地社区成员更好的使用微软产品、服务，微软开辟了一个开放社区，微软本地化社区(https://aka.ms/MVP19Q2CNTeam31O).....',
-        viewReads: 0,
-        viewDiscuss: 0,
-        time: '2018-11-26 16:56:32'
-      }
-      , {
-        title: '参与微软本地化翻译——MLCP3',
-        content: ' 为了帮助当地社区成员更好的使用微软产品、服务，微软开辟了一个开放社区，微软本地化社区(https://aka.ms/MVP19Q2CNTeam31O).....',
-        viewReads: 0,
-        viewDiscuss: 0,
-        time: '2018-11-26 16:56:32'
-      }
+    centerMenu:[
+      '我的原创',
+      '我的提问',
+      '我的回复',
+      '我的收藏'
     ],
 
-    question: [{
-      title: '同一主体认证的公众号可以注册几个小程序',
-      content: '公众号已经用主体信息创建了10个小程序，再创建就创建不了了，如果再用这个主体注册认证一个公众号，是不是还能重新注册10个小程序......',
-      questionReads: 0,
-      questionAns: 0,
-      time: '2018-11-26 16:56:32'
-    }, {
-        title: 'form submit事件无效',
-        content: '当前 Bug 的表现（可附上截图）form button[type = submit]无法触发submit事件, 但是tap事件依然有效',
-        questionReads: 0,
-        questionAns: 0,
-        time: '2018-11-26 16:56:32'
-      }, 
-      {
-        title: 'form submit事件无效1',
-        content: '当前 Bug 的表现（可附上截图）form button[type = submit]无法触发submit事件, 但是tap事件依然有效',
-        questionReads: 0,
-        questionAns: 0,
-        time: '2018-11-26 16:56:32'
-      },
-      {
-        title: 'form submit事件无效2',
-        content: '当前 Bug 的表现（可附上截图）form button[type = submit]无法触发submit事件, 但是tap事件依然有效',
-        questionReads: 0,
-        questionAns: 0,
-        time: '2018-11-26 16:56:32'
-      }
+    connectMenu:[
+      '反馈问题',
+      '联系方式'
     ]
   },
 

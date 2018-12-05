@@ -1,1 +1,35 @@
 /* miniprogram/pages/found/found.wxss */
+.container{
+  width: 100%;
+  height: 100%;
+}
+
+.swiper-view{
+  position: fixed;
+  top: 0rpx;
+  left: 0rpx;
+  width: 100%;
+  height: 90%;
+}
+
+.swiper-item{
+  width: 100%;
+  height: 100%;
+}
+
+.swiper-item-image{
+    width: 100%;
+  height: 100%;
+}
+
+.show-text{
+  position: fixed;
+  top: 95%;
+  left: 0rpx;
+  width: 100%;
+  height: 20%;
+  line-height: 40rpx;
+
+  text-align: center;
+  font-size: 30rpx;
+}

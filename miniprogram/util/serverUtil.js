@@ -52,13 +52,16 @@ function publishTopic(topic){
         if (res.result.code == 0) {
           resolve(res.result);
         } else {
+          console.log(res);
           reject(res.result);
         }
       }).catch(e => {
+        console.log(res);
         reject(e);
       })
       
     }).catch(res=>{
+      console.log(res);
       reject(res);
   });
  
@@ -83,7 +86,41 @@ function loadSelfPublish(){
   })
 }
 
+function loadAllPublish(time, typeId){
+  return new Promise((resolve, reject)=>{
+    const db = wx.cloud.database();
+    const _command = db.command;
+    db.collection("pigEnjoy-publish").limit(10).where({
+      topicType: typeId,
+      createTime: _command.lte(time)
+    }).get().then(res=>{
+ 
+      resolve(res.data);
+    }).catch(res=>{
+      reject(res);
+    });
+  });
+}
+
+function loadAllPublishShareLife(time){
+  return loadAllPublish(time, 0);
+}
+
+function publishTopicShareLife(topicShareLife){
+  
+  return publishTopic({
+    topicType: 0,
+    title: '分享',
+    content: topicShareLife.content,
+    address: topicShareLife.address,
+    photoPathList: topicShareLife.photoPathList,
+    bPhotoHighFormat: topicShareLife.bPhotoHighFormat
+  });
+}
+
+
 module.exports = {
-  publishTopic,
-  loadSelfPublish
+  publishTopicShareLife,
+  loadSelfPublish,
+  loadAllPublishShareLife
 }

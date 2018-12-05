@@ -11,9 +11,27 @@ var unUpdatePublish ={
   bPhotoHighFormat: false
 };
 
+var unUpdatePublishShareLife={
+  content: '',
+  toLoadedPhotos: [],
+  address: '添加地点',
+  bPhotoHighFormat: false
+}
+
+
 var allSelfOriginalPublish = [];
 var allSelfQuestionPublish = [];
 var publishLoaded = false;
+
+var allShareLifePublish = [];
+
+function getUnUpdatePublishShareLife(){
+  return unUpdatePublishShareLife
+}
+
+function setUnUpdatePublishShareLife(usrUnUpdatePublishShareLife) {
+  unUpdatePublishShareLife = usrUnUpdatePublishShareLife;
+}
 
 function getUnUpdatePublish(){
   return unUpdatePublish;
@@ -43,6 +61,23 @@ function loadSelfPublish(){
 
 }
 
+function loadAllPublishShareLife(){
+  const curTime = wx.cloud.database().serverDate();
+  serverUtil.loadAllPublishShareLife(curTime).then(res=>{
+    allShareLifePublish = res;
+  
+    publishLoaded = true;
+  }).catch(res=>{
+    console.log(res);
+    publishLoaded = true;
+  });
+
+}
+
+function getAllPublishShareLife(){
+  return allShareLifePublish;
+}
+
 function loadCompeted(){
   return publishLoaded;
 }
@@ -50,6 +85,11 @@ function loadCompeted(){
 module.exports = {
   getUnUpdatePublish,
   setUnUpdatePublish,
+  getUnUpdatePublishShareLife,
+  setUnUpdatePublishShareLife,
   loadSelfPublish,
-  loadCompeted
+  loadCompeted,
+  loadAllPublishShareLife,
+  getAllPublishShareLife
+
 }

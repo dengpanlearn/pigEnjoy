@@ -5,7 +5,35 @@ Page({
    * 页面的初始数据
    */
   data: {
+    swiperList : [
+      {
+        url: '../../images/life.jpg',
+        text:'分享养猪生活',
+        page: '../shareLife/shareLife'
+      },{
+        url: '../../images/study.jpg',
+        text: '交流养猪技术',
+        page: '../shareLife/shareLife'
+      },{
+        url: '../../images/help.jpg',
+        text: '养猪求助',
+        page: '../shareLife/shareLife'
+      }
+    ],
+    curIdx : 0
+  },
 
+  onChangeSwiper:function(e){
+    
+    this.setData({
+      curIdx: e.detail.current
+    });
+  },
+
+  onTapSwiperItem:function(e){
+   wx.redirectTo({
+     url: e.currentTarget.id,
+   })
   },
 
   /**

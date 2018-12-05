@@ -1,2 +1,14 @@
 <!--miniprogram/pages/found/found.wxml-->
-<text>miniprogram/pages/found/found.wxml</text>
+<view class='container'>
+  <swiper class='swiper-view' indicator-dots='true' bindchange ='onChangeSwiper'>
+   <block wx:for="{{swiperList}}" wx:key='url'>
+       <swiper-item class = 'swiper-item' bindtap ='onTapSwiperItem' id = '{{item.page}}'>
+      <image class='swiper-item-image' src='{{item.url}}'></image>
+      
+    </swiper-item>
+   </block>
+
+  </swiper>
+
+  <text class='show-text'>{{swiperList[curIdx].text}}</text>
+</view>

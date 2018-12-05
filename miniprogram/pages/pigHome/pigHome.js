@@ -28,7 +28,7 @@ Page({
 
     util.loadWxUserInfo(app.globalData.appName).then((res) => {
       console.info('load wx user info ok');
-      publishUtil.loadSelfPublish();
+      publishUtil.loadAllPublishShareLife();
       let interNum = setInterval(res=>{
         if (publishUtil.loadCompeted()) {
           clearInterval(interNum);

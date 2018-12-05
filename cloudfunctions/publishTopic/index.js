@@ -21,7 +21,17 @@ exports.main = async (event, context) => {
   const db = cloud.database();
 
   try{
+    let usrInfo = await db.collection("pigEnjoy-user").where({
+      appId: appId,
+      openId: openId, 
+    }).get();
 
+    if (usrInfo.data.length == 0){
+      return {
+        code: -1,
+        data:"no user"
+      }
+    }
     let dbId = await db.collection("pigEnjoy-publish").add({
       data:{
         appId: appId,
@@ -31,6 +41,8 @@ exports.main = async (event, context) => {
         content: content,
         address: address,
         fileIdList: fileIdList,
+        avatar: usrInfo.data[0].avatarUrl,
+        userName: usrInfo.data[0].userName,
         createTime: db.serverDate()
       }
 
@@ -43,7 +55,7 @@ exports.main = async (event, context) => {
 
   }catch(e){
     return {
-      code: -1,
+      code: -2,
       data:e
     }
   }

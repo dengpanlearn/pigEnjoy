@@ -1,0 +1,36 @@
+<!--miniprogram/pages/shareLife/shareLife.wxml-->
+<view class='container'>
+<view class='share-self-life' bindtap='onShareSelfLife'>
+  <text class='share-self-title'>分享你的养猪生活...</text>
+  <image class='share-self-icon' src='../../images/photo.png'></image>
+</view>
+
+
+  <scroll-view class='scroll-share-all-life' scroll-y='true'>
+    <view class='share-life-item' wx:for ="{{allShareLifeArry}}" wx:key = '_id'
+    wx:for-item ="shareLifeItem">
+      <view class='share-life-info'>
+        <image class='share-life-avatar' src='{{shareLifeItem.avatar}}'></image>
+        <view class='share-life-author'>
+          <view class='share-life-author-name'>{{shareLifeItem.userName}}</view>
+          <view class='share-life-author-time'>{{shareLifeItem.createTime}}</view>
+        </view>
+      </view>
+
+
+      <view class='share-life-content'>{{shareLifeItem.content}}</view>
+
+      <view class='share-life-photo'>
+        <image  class = 'share-life-photo-item' wx:for ="{{shareLifeItem.fileIdList}}" wx:key = '*this' id = '*this'
+        src='{{item}}'></image>
+      </view>
+    </view>
+
+  </scroll-view>
+
+    <view class='back-view' wx:if = '{{bShowBackBtn}}' bindtap='onBackFound'>
+      <image class='back-btn' src='../../images/back.png'></image>
+   </view>
+
+
+  </view>
