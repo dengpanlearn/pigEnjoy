@@ -118,9 +118,38 @@ function publishTopicShareLife(topicShareLife){
   });
 }
 
+function addComment(comment){
+  return new Promise((resolve, reject)=>{
+    wx.cloud.callFunction({
+      name: 'addComment',
+      data: comment
+    }).then(res=>{
+      resolve(res);
+    }).catch(res=>{
+      reject(res);
+    });
+  }); 
+}
+
+function addPromise(publishId) {
+  return new Promise((resolve, reject) => {
+    wx.cloud.callFunction({
+      name: 'addPraise',
+      data: {
+        publishId: publishId
+      }
+    }).then(res => {
+      resolve(res);
+    }).catch(res => {
+      reject(res);
+    });
+  });
+}
 
 module.exports = {
   publishTopicShareLife,
   loadSelfPublish,
-  loadAllPublishShareLife
+  loadAllPublishShareLife,
+  addComment,
+  addPromise
 }

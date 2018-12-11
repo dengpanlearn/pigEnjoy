@@ -28,7 +28,7 @@ exports.main = async (event, context) => {
           provinceName: event.provinceName,
           telNumber: event.telNumber,
           userName: event.userName,
-          time: db.serverDate
+          time: db.serverDate()
       }
       });
       

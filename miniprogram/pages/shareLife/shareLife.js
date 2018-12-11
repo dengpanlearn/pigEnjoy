@@ -1,6 +1,7 @@
 // miniprogram/pages/shareLife/shareLife.js
 var publishUtil = require("../../util/publishUtil.js");
-
+var serverUtil = require("../../util/serverUtil.js");
+var util = require("../../util/util.js");
 Page({
 
   /**
@@ -18,6 +19,99 @@ Page({
     })
   },
 
+  onTextAreaBlur:function(e){
+   
+    let allShareLifeArry = this.data.allShareLifeArry;
+    for (let i = 0; i < allShareLifeArry.length; i++) {
+      if (allShareLifeArry[i]._id == e.currentTarget.id) {
+        allShareLifeArry[i].focus = false;
+        this.setData({
+          allShareLifeArry: allShareLifeArry
+        });
+        return;
+      }
+    }
+  },
+  
+  onTapTextArea:function(e){
+   
+    let allShareLifeArry = this.data.allShareLifeArry;
+    for (let i = 0; i < allShareLifeArry.length; i++){
+      if (allShareLifeArry[i]._id == e.currentTarget.id){
+        allShareLifeArry[i].focus = true;
+        this.setData({
+          allShareLifeArry: allShareLifeArry
+        });
+        return;
+      }
+    }
+  },
+
+  onCommentInputBtn:function(e){
+    util.getInputContents('.comment-input').then(res=>{
+
+      for (let i = 0; i < res.length; i++){
+        if (res[i].id == e.currentTarget.id){
+
+          let content = res[i].value;
+          if (content != '') {
+            wx.showLoading({
+              title: '加载',
+            });
+
+            serverUtil.addComment({
+              publishId: e.currentTarget.id,
+              content: content
+            }).then(res => {
+              wx.hideLoading();
+            }).catch(res => {
+              wx.hideLoading();
+              wx.showToast({
+                title: '评论失败',
+              })
+            });
+          }
+
+          return;
+        }
+      }
+    
+    })
+  },
+
+  onPraise:function(e){
+    wx.showLoading({
+      title: '加载',
+    });
+    serverUtil.addPromise(e.currentTarget.id).then(res=>{
+      wx.hideLoading();
+    }).catch(res=>{
+      wx.hideLoading();
+      wx.showToast({
+        title: '点赞失败',
+      })
+    });
+  },
+
+onCommentInput:function(e){
+  if (e.detail.value != ''){
+    wx.showLoading({
+      title: '加载',
+    });
+
+    serverUtil.addComment({
+      publishId:e.currentTarget.id,
+      content: e.detail.value
+    }).then(res=>{
+      wx.hideLoading();
+    }).catch(res=>{
+      wx.hideLoading();
+      wx.showToast({
+        title: '评论失败',
+      })
+    });
+  }
+},
   onBackFound:function(e){
     wx.reLaunch({
       url: '../found/found',
@@ -37,8 +131,16 @@ Page({
         clearInterval(interNum);
         wx.hideLoading();
         console.log(publishUtil.getAllPublishShareLife());
+        let loadedShareLifeArry = publishUtil.getAllPublishShareLife();
+        let allShareLifeArry = [];
+        for (let i = 0; i < loadedShareLifeArry.length; i++)
+        {
+          let tmpShareLife = loadedShareLifeArry[i];
+          tmpShareLife.focus = false;
+          allShareLifeArry.push(tmpShareLife);
+        }
         this.setData({
-          allShareLifeArry: publishUtil.getAllPublishShareLife()
+          allShareLifeArry: allShareLifeArry
         });
       }
     }, 500, this)

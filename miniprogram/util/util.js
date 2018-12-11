@@ -172,6 +172,35 @@ function throttle(fn, gapTime) {
   }
 }
 
+function getInputContent(className) {
+  return new Promise((resolve, reject) => {
+    wx.createSelectorQuery().select(className).fields({
+      dataset: true,
+      size: true,
+      scrollOffset: true,
+      id:true,
+      properties: ['value']
+    }, res => {
+      console.log(res);
+      resolve(res.value);
+    }).exec();
+  })
+}
+
+function getInputContents(className) {
+  return new Promise((resolve, reject) => {
+    wx.createSelectorQuery().selectAll(className).fields({
+      dataset: true,
+      size: true,
+      scrollOffset: true,
+      id: true,
+      properties: ['value']
+    }, res => {
+      resolve(res);
+    }).exec();
+  })
+}
+
 module.exports = {
   getIsUpdateInfo,
   getAvatarUrl,
@@ -182,5 +211,7 @@ module.exports = {
   objectIsEmpty,
   registerUser,
   throttle,
+  getInputContent,
+  getInputContents,
   getRight
 }

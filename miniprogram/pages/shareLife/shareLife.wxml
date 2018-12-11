@@ -24,13 +24,22 @@
         <image  class = 'share-life-photo-item' wx:for ="{{shareLifeItem.fileIdList}}" wx:key = '*this' id = '*this'
         src='{{item}}'></image>
       </view>
+
+      <view class='share-operator'>
+        <view class='view-times'>收藏0次</view>
+        <view class='share-operator-menu'>
+         <image class='share-icon' src='../../images/praise-nor.png' id='{{shareLifeItem._id}}'  bindtap='onPraise'></image>
+          <image class='share-icon' src='../../images/comment-nor.png' id='{{shareLifeItem._id}}' bindtap='onCommentInputBtn'></image> 
+          <image class='share-icon' src='../../images/store-nor.png' ></image> 
+        </view>
+      </view>
+      <view class='comment-input-view'>
+        <textarea class='comment-input' id='{{shareLifeItem._id}}' maxlength ='500' placeholder='评论' bindtap='onTapTextArea' bindblur ='onTextAreaBlur' bindconfirm = 'onCommentInput' focus='{{shareLifeItem.focus}}' cursor-spacing='20'></textarea>
+      </view>
     </view>
 
   </scroll-view>
 
-    <view class='back-view' wx:if = '{{bShowBackBtn}}' bindtap='onBackFound'>
-      <image class='back-btn' src='../../images/back.png'></image>
-   </view>
 
 
   </view>

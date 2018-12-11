@@ -2,19 +2,8 @@
 
 var publishUtil = require('../../util/publishUtil.js');
 var serverUtil = require('../../util/serverUtil.js');
+var util = require('../../util/util.js');
 
-function getInputContent(className) {
-  return new Promise((resolve, reject) => {
-    wx.createSelectorQuery().select(className).fields({
-      dataset: true,
-      size: true,
-      scrollOffset: true,
-      properties: ['value']
-    }, res => {
-      resolve(res.value);
-    }).exec();
-  })
-}
 
 Page({
 
@@ -145,7 +134,7 @@ Page({
   },
 
   onCancle: function (e) {
-      getInputContent('.publish-input').then(res => {
+      util.getInputContent('.publish-input').then(res => {
         this.data.content = res;
 
         if (this.data.bModify) {
@@ -184,7 +173,7 @@ Page({
 
   onConfirm: function (e) {
 
-      getInputContent('.publish-input').then(res => {
+      util.getInputContent('.publish-input').then(res => {
         let content = res.trim();
         if (content == "") {
           wx.showToast({
