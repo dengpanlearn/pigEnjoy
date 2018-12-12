@@ -52,8 +52,8 @@ Page({
 
       for (let i = 0; i < res.length; i++){
         if (res[i].id == e.currentTarget.id){
-
-          let content = res[i].value;
+      
+          let content = res[i].value.trim();
           if (content != '') {
             wx.showLoading({
               title: '加载',
@@ -94,7 +94,8 @@ Page({
   },
 
 onCommentInput:function(e){
-  if (e.detail.value != ''){
+  let content = e.detail.value.trim();
+  if (content != ''){
     wx.showLoading({
       title: '加载',
     });
