@@ -64,9 +64,24 @@ function loadSelfPublish(){
 function loadAllPublishShareLife(){
   const curTime = wx.cloud.database().serverDate();
   serverUtil.loadAllPublishShareLife(curTime).then(res=>{
-    allShareLifePublish = res;
-  
-    publishLoaded = true;
+    
+    for (let i = 0; i < res.length; i++){
+      let tmpShareLifePublish = res[i];
+      tmpShareLifePublish.commet = [];
+      serverUtil.getComment(res[i]._id).then(commet=>{
+        tmpShareLifePublish.commet = commet;
+        allShareLifePublish.push(tmpShareLifePublish);
+        if (i == (res.length -1)){
+          publishLoaded = true;
+        }
+      }).catch(err=>{
+        allShareLifePublish.push(tmpShareLifePublish);
+        if (i == (res.length - 1)){
+          publishLoaded = true;
+        }
+      })
+    }
+   
   }).catch(res=>{
     console.log(res);
     publishLoaded = true;
@@ -82,6 +97,25 @@ function loadCompeted(){
   return publishLoaded;
 }
 
+function addComment(comment){
+
+  var publishId = allShareLifePublish[comment.shareLifeIndex]._id;
+  return new Promise((resolve, reject)=>{
+   
+    serverUtil.addComment({
+      publishId: publishId,
+      content:comment.content
+      }).then(res=>{
+     console.log(res);
+        allShareLifePublish[comment.shareLifeIndex].commet.push(res);
+        resolve(res);
+    }).catch(err=>{
+      reject(err);
+    });
+  })
+
+}
+
 module.exports = {
   getUnUpdatePublish,
   setUnUpdatePublish,
@@ -90,6 +124,7 @@ module.exports = {
   loadSelfPublish,
   loadCompeted,
   loadAllPublishShareLife,
-  getAllPublishShareLife
+  getAllPublishShareLife,
+  addComment
 
 }

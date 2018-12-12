@@ -16,18 +16,38 @@ exports.main = async (event, context) => {
 
   try{
     const db = cloud.database();
-    await db.collection("pigEnjoy-comment").add({
+    let userResult = await db.collection("pigEnjoy-user").where({
+      openId: openId,
+      appId: appId,
+    }).get();
+
+    if (userResult.data.length <= 0){
+      return {
+        code: -1,
+        data:'user not register'
+      }
+    }
+    let creatTime =  db.serverDate();
+     let addResult = await db.collection("pigEnjoy-comment").add({
       data:{
         publishId: publishId,
         content: content,
         openId: openId,
         appId:appId,
-        createTime: db.serverDate()
+        createTime: creatTime
       }
     });
     return {
       code: 0,
-      data:0
+      data: {
+        _id: addResult._id,
+        publishId: publishId,
+        content: content,
+        openId: openId,
+        appId: appId,
+        createTime: creatTime,
+        userName: userResult.data[0].userName
+      }
     }
   }catch(e){
     return {

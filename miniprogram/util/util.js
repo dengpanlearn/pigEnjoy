@@ -8,7 +8,7 @@ function objectIsEmpty(obj) {
   for (var key in obj) {
     return false;
   }
-
+     
   return true;
 }
 function getIsLogged() {

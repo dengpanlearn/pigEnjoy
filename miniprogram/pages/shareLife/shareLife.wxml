@@ -8,7 +8,7 @@
 
   <scroll-view class='scroll-share-all-life' scroll-y='true'>
     <view class='share-life-item' wx:for ="{{allShareLifeArry}}" wx:key = '_id'
-    wx:for-item ="shareLifeItem">
+    wx:for-item ="shareLifeItem" wx:for-index ="shareLifeIndex">
       <view class='share-life-info'>
         <image class='share-life-avatar' src='{{shareLifeItem.avatar}}'></image>
         <view class='share-life-author'>
@@ -20,21 +20,32 @@
 
       <view class='share-life-content'>{{shareLifeItem.content}}</view>
 
-      <view class='share-life-photo'>
-        <image  class = 'share-life-photo-item' wx:for ="{{shareLifeItem.fileIdList}}" wx:key = '*this' id = '*this'
-        src='{{item}}'></image>
+      <view class="{{(shareLifeItem.fileIdList.length<3)?'share-life-photo-big':'share-life-photo-small'}}">
+        <image  class = "{{(shareLifeItem.fileIdList.length<3)?'share-life-photo-item-big':'share-life-photo-item-small'}}" wx:for ="{{shareLifeItem.fileIdList}}" wx:key = '*this'  wx:for-item ="sharePhotoItem" wx:for-index ="sharePhotoIndex" id = "{{''+shareLifeIndex+'+'+sharePhotoIndex}}"
+        src='{{sharePhotoItem}}' bindtap='onViewSharePhoto'></image>
       </view>
 
       <view class='share-operator'>
         <view class='view-times'>收藏0次</view>
         <view class='share-operator-menu'>
          <image class='share-icon' src='../../images/praise-nor.png' id='{{shareLifeItem._id}}'  bindtap='onPraise'></image>
-          <image class='share-icon' src='../../images/comment-nor.png' id='{{shareLifeItem._id}}' bindtap='onCommentInputBtn'></image> 
+          <image class='share-icon' src='../../images/comment-nor.png' id="{{shareLifeIndex}}" bindtap='onCommentInputBtn'></image> 
           <image class='share-icon' src='../../images/store-nor.png' ></image> 
         </view>
       </view>
+
+        <view class='comment-show-view' wx:if="{{shareLifeItem.commet.length > 0}}">
+          <view class='comment-show-total'>
+          <image class='comment-show-total-icon' src='../../images/comment-nor.png'></image>
+          <view class='comment-show-total-text'>{{shareLifeItem.commet.length}}条评论回复</view>
+          </view>
+          <view class='comment-show-item' wx:for = '{{shareLifeItem.commet}}' wx:for-item='commentItem' wx:key='_id'>
+            <view class='comment-show-item-usr'>{{commentItem.userName}}:</view>  
+            <view class='comment-show-item-content'>{{commentItem.content}}</view>
+          </view>
+        </view>
       <view class='comment-input-view'>
-        <textarea class='comment-input' id='{{shareLifeItem._id}}' maxlength ='500' placeholder='评论' bindtap='onTapTextArea' bindblur ='onTextAreaBlur' bindconfirm = 'onCommentInput' focus='{{shareLifeItem.focus}}' cursor-spacing='20'></textarea>
+        <textarea class='comment-input' value = '{{shareLifeItem.inputComment}}'id="{{shareLifeIndex}}"maxlength ='500' placeholder='评论' bindtap='onTapTextArea' bindblur ='onTextAreaBlur' bindconfirm = 'onCommentInput' focus='{{shareLifeItem.focus}}' cursor-spacing='20'></textarea>
       </view>
     </view>
 

@@ -13,6 +13,19 @@ Page({
     allShareLifeArry:[]
   },
 
+  onViewSharePhoto:function(e){
+    let indexArray = e.currentTarget.id.split('+');
+    if (indexArray.length != 2)
+     return;
+
+    let urls = this.data.allShareLifeArry[parseInt(indexArray[0])].fileIdList;
+    let current = urls[parseInt(indexArray[1])];
+    wx.previewImage({
+      urls: urls,
+      current: current
+    })
+  },
+
   onShareSelfLife:function(e){
     wx.redirectTo({
       url: '../publishShareLife/publishShareLife',
@@ -22,32 +35,25 @@ Page({
   onTextAreaBlur:function(e){
    
     let allShareLifeArry = this.data.allShareLifeArry;
-    for (let i = 0; i < allShareLifeArry.length; i++) {
-      if (allShareLifeArry[i]._id == e.currentTarget.id) {
-        allShareLifeArry[i].focus = false;
-        this.setData({
-          allShareLifeArry: allShareLifeArry
-        });
-        return;
-      }
-    }
+    let lifeIndex = parseInt(e.currentTarget.id);
+    allShareLifeArry[lifeIndex].focus = false;
+    this.setData({
+      allShareLifeArry: allShareLifeArry
+    });
   },
   
   onTapTextArea:function(e){
    
     let allShareLifeArry = this.data.allShareLifeArry;
-    for (let i = 0; i < allShareLifeArry.length; i++){
-      if (allShareLifeArry[i]._id == e.currentTarget.id){
-        allShareLifeArry[i].focus = true;
-        this.setData({
-          allShareLifeArry: allShareLifeArry
-        });
-        return;
-      }
-    }
+    let lifeIndex = parseInt(e.currentTarget.id);
+    allShareLifeArry[lifeIndex].focus = true;
+    this.setData({
+      allShareLifeArry: allShareLifeArry
+    });
   },
 
   onCommentInputBtn:function(e){
+  
     util.getInputContents('.comment-input').then(res=>{
 
       for (let i = 0; i < res.length; i++){
@@ -58,12 +64,25 @@ Page({
             wx.showLoading({
               title: '加载',
             });
+            let lifeIndex = parseInt(e.currentTarget.id);
 
-            serverUtil.addComment({
-              publishId: e.currentTarget.id,
+            publishUtil.addComment({
+              shareLifeIndex: lifeIndex,
               content: content
             }).then(res => {
               wx.hideLoading();
+              
+              let loadedShareLifeArry = publishUtil.getAllPublishShareLife();
+              let allShareLifeArry = [];
+              for (let i = 0; i < loadedShareLifeArry.length; i++) {
+                let tmpShareLife = loadedShareLifeArry[i];
+                tmpShareLife.focus = false;
+                tmpShareLife.inputComment = '';
+                allShareLifeArry.push(tmpShareLife);
+              }
+              this.setData({
+                allShareLifeArry: allShareLifeArry
+              });
             }).catch(res => {
               wx.hideLoading();
               wx.showToast({
@@ -85,6 +104,7 @@ Page({
     });
     serverUtil.addPromise(e.currentTarget.id).then(res=>{
       wx.hideLoading();
+
     }).catch(res=>{
       wx.hideLoading();
       wx.showToast({
@@ -99,12 +119,25 @@ onCommentInput:function(e){
     wx.showLoading({
       title: '加载',
     });
+    let lifeIndex = parseInt(e.currentTarget.id);
 
-    serverUtil.addComment({
-      publishId:e.currentTarget.id,
+    publishUtil.addComment({
+      shareLifeIndex: lifeIndex,
       content: e.detail.value
     }).then(res=>{
       wx.hideLoading();
+
+      let loadedShareLifeArry = publishUtil.getAllPublishShareLife();
+      let allShareLifeArry = [];
+      for (let i = 0; i < loadedShareLifeArry.length; i++) {
+        let tmpShareLife = loadedShareLifeArry[i];
+        tmpShareLife.focus = false;
+        tmpShareLife.inputComment = '';
+        allShareLifeArry.push(tmpShareLife);
+      }
+      this.setData({
+        allShareLifeArry: allShareLifeArry
+      });
     }).catch(res=>{
       wx.hideLoading();
       wx.showToast({
@@ -138,6 +171,7 @@ onCommentInput:function(e){
         {
           let tmpShareLife = loadedShareLifeArry[i];
           tmpShareLife.focus = false;
+          tmpShareLife.inputComment = '';
           allShareLifeArry.push(tmpShareLife);
         }
         this.setData({

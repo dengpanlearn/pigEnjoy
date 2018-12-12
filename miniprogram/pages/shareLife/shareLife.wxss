@@ -85,7 +85,7 @@ border-bottom: 20rpx solid #d3d2d2dc;
 .share-life-avatar{
   width: 70rpx;
   height: 70rpx;
-  margin-left: 20rpx;
+  margin-left: 10rpx;
   border-radius: 50%;
 }
 
@@ -104,7 +104,7 @@ border-bottom: 20rpx solid #d3d2d2dc;
   height: 50rpx;
   line-height: 50rpx;
   text-align: left;
-  font-size: 23rpx;
+  font-size: 30rpx;
 }
 
 .share-life-author-time{
@@ -121,22 +121,42 @@ border-bottom: 20rpx solid #d3d2d2dc;
   line-height: 50rpx;
   text-align: left;
   font-size: 25rpx;
+  margin-left: 10rpx;
 }
 
-.share-life-photo{
+.share-life-photo-big{
   width: 100%;
   height: 300;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: flex-start;
   align-items: center;
+  margin-left: 10rpx;
+  margin-right: 10rpx;
 }
 
-.share-life-photo-item{
-  width: 30%;
+
+.share-life-photo-small{
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  margin-left: 10rpx;
+  margin-right: 10rpx;
+}
+
+.share-life-photo-item-big{
+  width: 35%;
   height: 300rpx;
-  margin-left: 20rpx;
+}
+
+.share-life-photo-item-small{
+  width: 33%;
+  height: 210rpx;
 }
 
 .share-operator{
@@ -155,6 +175,7 @@ border-bottom: 20rpx solid #d3d2d2dc;
   line-height: 40rpx;
   text-align: left;
   font-size:25rpx;
+  margin-left: 10rpx;
 }
 
 .share-operator-menu{
@@ -169,8 +190,72 @@ border-bottom: 20rpx solid #d3d2d2dc;
 .share-icon{
   width: 50rpx;
   height: 50rpx;
-  margin-right: 20rpx;
+  margin-right: 25rpx;
 }
+
+.comment-show-view{
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.comment-show-total{
+  width: 100%;
+  height: 40rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  margin-left: 10rpx;
+}
+
+.comment-show-total-icon{
+  width: 35rpx;
+  height: 35rpx;
+}
+
+.comment-show-total-text{
+  width: auto;
+  height: 40rpx;
+  line-height: 45rpx;
+  text-align: left;
+  margin-left: 5rpx;
+  font-size: 25rpx;
+}
+
+.comment-show-item{
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+   margin-left: 10rpx;
+}
+
+.comment-show-item-usr{
+  width: auto;
+  height: 45rpx;
+  line-height: 45rpx;
+  text-align: left;
+  font-size: 25rpx;
+   color: #4c439edc;
+}
+
+.comment-show-item-content{
+  width: auto;
+  height: 45rpx;
+  line-height: 45rpx;
+  text-align: left;
+  font-size: 25rpx;
+}
+
+
+
+
 
 .comment-input-view{
    width: 100%;

@@ -86,25 +86,6 @@ function loadSelfPublish(){
   })
 }
 
-function loadAllPublish(time, typeId){
-  return new Promise((resolve, reject)=>{
-    const db = wx.cloud.database();
-    const _command = db.command;
-    db.collection("pigEnjoy-publish").limit(10).where({
-      topicType: typeId,
-      createTime: _command.lte(time)
-    }).get().then(res=>{
- 
-      resolve(res.data);
-    }).catch(res=>{
-      reject(res);
-    });
-  });
-}
-
-function loadAllPublishShareLife(time){
-  return loadAllPublish(time, 0);
-}
 
 function publishTopicShareLife(topicShareLife){
   
@@ -118,13 +99,17 @@ function publishTopicShareLife(topicShareLife){
   });
 }
 
-function addComment(comment){
+function addComment(comment){    
   return new Promise((resolve, reject)=>{
     wx.cloud.callFunction({
       name: 'addComment',
       data: comment
     }).then(res=>{
-      resolve(res);
+      if (res.result.code == 0) {
+        resolve(res.result.data);
+      } else {
+        reject(res.result.data);
+      }
     }).catch(res=>{
       reject(res);
     });
@@ -146,10 +131,50 @@ function addPromise(publishId) {
   });
 }
 
+function getComment(publishId){
+  return new Promise((resolve, reject)=>{
+    wx.cloud.callFunction({
+      name: "getComment",
+      data:{
+        publishId: publishId
+      }
+    }).then(res=>{
+      if (res.result.code == 0){
+        resolve(res.result.data);
+      }else{
+        reject(res.result.data);
+      }
+    }).catch(res=>{
+      reject(res);
+  })
+  })
+}
+
+
+function loadAllPublish(time, typeId) {
+  return new Promise((resolve, reject) => {
+    const db = wx.cloud.database();
+    const _command = db.command;
+    db.collection("pigEnjoy-publish").limit(10).where({
+      topicType: typeId,
+      createTime: _command.lte(time)
+    }).orderBy('createTime', "asc").get().then(res => {
+      resolve(res.data)
+    }).catch(res => {
+      reject(res);
+    });
+  });
+}
+
+function loadAllPublishShareLife(time) {
+  return loadAllPublish(time, 0);
+}
+
 module.exports = {
   publishTopicShareLife,
   loadSelfPublish,
   loadAllPublishShareLife,
   addComment,
-  addPromise
+  addPromise,
+  getComment
 }
