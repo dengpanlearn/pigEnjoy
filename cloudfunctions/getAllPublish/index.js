@@ -11,20 +11,19 @@ exports.main = async (event, context) => {
     userInfo
   } = event;
 
-  const db = wx.cloud.database();
+  const db = cloud.database();
   const _command = db.command;
   try{
     let result = await db.collection("pigEnjoy-publish").limit(10).where({
       topicType: typeId,
       createTime: _command.lte(time)
-    }).get();
+    }).orderBy('createTime', 'asc').get();
 
-    let allPublishArray = [];
     if (result.data.length > 0)
     {
-      for (let i = 0; i < result.data.length;i++){
-        let tmpPublish = result.data[i];
-        
+      return {
+        code: 0,
+        data: result.data
       }
     }else{
       return {

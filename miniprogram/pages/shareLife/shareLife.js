@@ -161,7 +161,7 @@ onCommentInput:function(e){
     });
 
     let interNum = setInterval(res => {
-      if (publishUtil.loadCompeted()) {
+      if (publishUtil.loadShareLifeCompeted()) {
         clearInterval(interNum);
         wx.hideLoading();
         console.log(publishUtil.getAllPublishShareLife());
@@ -172,6 +172,7 @@ onCommentInput:function(e){
           let tmpShareLife = loadedShareLifeArry[i];
           tmpShareLife.focus = false;
           tmpShareLife.inputComment = '';
+          tmpShareLife.creatTimeFormat = new Date(tmpShareLife.createTime).toLocaleString();
           allShareLifeArry.push(tmpShareLife);
         }
         this.setData({

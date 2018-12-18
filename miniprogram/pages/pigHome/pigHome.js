@@ -30,7 +30,7 @@ Page({
       console.info('load wx user info ok');
       publishUtil.loadAllPublishShareLife();
       let interNum = setInterval(res=>{
-        if (publishUtil.loadCompeted()) {
+        if (publishUtil.loadShareLifeCompeted()) {
           clearInterval(interNum);
           wx.hideLoading();
         }

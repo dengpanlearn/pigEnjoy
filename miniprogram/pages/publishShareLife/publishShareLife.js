@@ -197,7 +197,7 @@ Page({
           toLoadedPhotoDir.push(toLoadedPhotos[i].src);
         }
 
-        serverUtil.publishTopicShareLife({
+        publishUtil.publishShareLife({
           content: content,
           address: this.data.curAddress,
           photoPathList: toLoadedPhotoDir,

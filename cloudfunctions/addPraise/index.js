@@ -31,7 +31,7 @@ try{
       publishId: publishId,
       openId: openId,
       appId: appId,
-      createTime: db.serverDate()
+      createTime: new Date().getTime()
     }
   });
 

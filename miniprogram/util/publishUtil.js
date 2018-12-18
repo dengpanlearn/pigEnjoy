@@ -21,7 +21,7 @@ var unUpdatePublishShareLife={
 
 var allSelfOriginalPublish = [];
 var allSelfQuestionPublish = [];
-var publishLoaded = false;
+var publishShareLifeLoaded = false;
 
 var allShareLifePublish = [];
 
@@ -62,29 +62,33 @@ function loadSelfPublish(){
 }
 
 function loadAllPublishShareLife(){
-  const curTime = wx.cloud.database().serverDate();
+  const curTime = new Date().getTime();
+
   serverUtil.loadAllPublishShareLife(curTime).then(res=>{
-    
+    if (res.length == 0){
+      publishShareLifeLoaded = true;
+      return ;
+    }
+    allShareLifePublish = res;
     for (let i = 0; i < res.length; i++){
-      let tmpShareLifePublish = res[i];
-      tmpShareLifePublish.commet = [];
-      serverUtil.getComment(res[i]._id).then(commet=>{
-        tmpShareLifePublish.commet = commet;
-        allShareLifePublish.push(tmpShareLifePublish);
+   
+      serverUtil.getComment(res[i]._id).then(comment=>{
+        allShareLifePublish[i].comment = comment;
+      
         if (i == (res.length -1)){
-          publishLoaded = true;
+          publishShareLifeLoaded = true;
         }
       }).catch(err=>{
-        allShareLifePublish.push(tmpShareLifePublish);
+        allShareLifePublish[i].comment=[];
         if (i == (res.length - 1)){
-          publishLoaded = true;
+          publishShareLifeLoaded = true;
         }
       })
     }
    
   }).catch(res=>{
     console.log(res);
-    publishLoaded = true;
+    publishShareLifeLoaded = true;
   });
 
 }
@@ -93,36 +97,48 @@ function getAllPublishShareLife(){
   return allShareLifePublish;
 }
 
-function loadCompeted(){
-  return publishLoaded;
+function loadShareLifeCompeted(){
+  return publishShareLifeLoaded;
 }
 
 function addComment(comment){
-
-  var publishId = allShareLifePublish[comment.shareLifeIndex]._id;
   return new Promise((resolve, reject)=>{
-   
+    var publishId = allShareLifePublish[comment.shareLifeIndex]._id;
     serverUtil.addComment({
       publishId: publishId,
       content:comment.content
       }).then(res=>{
-     console.log(res);
-        allShareLifePublish[comment.shareLifeIndex].commet.push(res);
+    // console.log(res);
+        allShareLifePublish[comment.shareLifeIndex].comment.push(res);
         resolve(res);
     }).catch(err=>{
+  
       reject(err);
     });
   })
 
 }
 
+function publishShareLife(topicShareLife){
+  publishShareLifeLoaded = false;
+  return new Promise((resolve, reject)=>{
+    serverUtil.publishTopicShareLife(topicShareLife).then(res=>{
+      loadAllPublishShareLife();
+      resolve(res);
+    }).catch(res=>{
+      reject(res);
+    });
+  });
+}
+
 module.exports = {
+  publishShareLife,
   getUnUpdatePublish,
   setUnUpdatePublish,
   getUnUpdatePublishShareLife,
   setUnUpdatePublishShareLife,
   loadSelfPublish,
-  loadCompeted,
+  loadShareLifeCompeted,
   loadAllPublishShareLife,
   getAllPublishShareLife,
   addComment

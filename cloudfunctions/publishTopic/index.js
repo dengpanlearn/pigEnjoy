@@ -43,7 +43,7 @@ exports.main = async (event, context) => {
         fileIdList: fileIdList,
         avatar: usrInfo.data[0].avatarUrl,
         userName: usrInfo.data[0].userName,
-        createTime: db.serverDate()
+        createTime: new Date().getTime()
       }
 
     });

@@ -22,7 +22,7 @@ exports.main = async (event, context) => {
         let userResult = await db.collection("pigEnjoy-user").where({
           openId: result.data[i].openId,
           appId: result.data[i].appId,
-        }).get();
+        }).orderBy('createTime', 'desc').get();
 
         if (userResult.data.length > 0){
           let tmpCommentResult = result.data[i];

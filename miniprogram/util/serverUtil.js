@@ -100,6 +100,7 @@ function publishTopicShareLife(topicShareLife){
 }
 
 function addComment(comment){    
+
   return new Promise((resolve, reject)=>{
     wx.cloud.callFunction({
       name: 'addComment',
@@ -152,18 +153,41 @@ function getComment(publishId){
 
 
 function loadAllPublish(time, typeId) {
+  /*
+  return new Promise((resolve, reject)=>{
+    wx.cloud.callFunction({
+      name: 'getAllPublish',
+      data: {
+        time:time,
+        typeId: typeId,
+      }
+    }).then(res=>{
+      if (res.result.code == 0) {
+        resolve(res.result.data);
+      } else {
+        reject(res.result.data);
+      }
+    }).catch(res=>{
+      reject(res);
+    });
+  });
+*/
   return new Promise((resolve, reject) => {
     const db = wx.cloud.database();
     const _command = db.command;
-    db.collection("pigEnjoy-publish").limit(10).where({
+    const collection = db.collection("pigEnjoy-publish");
+    collection.where({
       topicType: typeId,
       createTime: _command.lte(time)
-    }).orderBy('createTime', "asc").get().then(res => {
+    }).orderBy("createTime", 'desc').limit(10).get().then(res => {
+     
       resolve(res.data)
     }).catch(res => {
       reject(res);
     });
   });
+
+ 
 }
 
 function loadAllPublishShareLife(time) {

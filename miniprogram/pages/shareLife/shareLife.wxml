@@ -13,7 +13,7 @@
         <image class='share-life-avatar' src='{{shareLifeItem.avatar}}'></image>
         <view class='share-life-author'>
           <view class='share-life-author-name'>{{shareLifeItem.userName}}</view>
-          <view class='share-life-author-time'>{{shareLifeItem.createTime}}</view>
+          <view class='share-life-author-time'>{{ shareLifeItem.creatTimeFormat}}</view>
         </view>
       </view>
 
@@ -34,12 +34,12 @@
         </view>
       </view>
 
-        <view class='comment-show-view' wx:if="{{shareLifeItem.commet.length > 0}}">
+        <view class='comment-show-view' wx:if="{{shareLifeItem.comment.length > 0}}">
           <view class='comment-show-total'>
           <image class='comment-show-total-icon' src='../../images/comment-nor.png'></image>
-          <view class='comment-show-total-text'>{{shareLifeItem.commet.length}}条评论回复</view>
+          <view class='comment-show-total-text'>{{shareLifeItem.comment.length}}条评论回复</view>
           </view>
-          <view class='comment-show-item' wx:for = '{{shareLifeItem.commet}}' wx:for-item='commentItem' wx:key='_id'>
+          <view class='comment-show-item' wx:for = '{{shareLifeItem.comment}}' wx:for-item='commentItem' wx:key='_id'>
             <view class='comment-show-item-usr'>{{commentItem.userName}}:</view>  
             <view class='comment-show-item-content'>{{commentItem.content}}</view>
           </view>

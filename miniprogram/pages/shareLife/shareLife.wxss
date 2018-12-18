@@ -152,6 +152,7 @@ border-bottom: 20rpx solid #d3d2d2dc;
 .share-life-photo-item-big{
   width: 35%;
   height: 300rpx;
+  margin-left: 10rpx;
 }
 
 .share-life-photo-item-small{

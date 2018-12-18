@@ -27,7 +27,7 @@ exports.main = async (event, context) => {
         data:'user not register'
       }
     }
-    let creatTime =  db.serverDate();
+    let creatTime =  new Date().getTime();
      let addResult = await db.collection("pigEnjoy-comment").add({
       data:{
         publishId: publishId,
