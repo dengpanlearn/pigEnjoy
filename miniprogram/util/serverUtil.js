@@ -117,7 +117,7 @@ function addComment(comment){
   }); 
 }
 
-function addPromise(publishId) {
+function addPraise(publishId) {
   return new Promise((resolve, reject) => {
     wx.cloud.callFunction({
       name: 'addPraise',
@@ -125,7 +125,11 @@ function addPromise(publishId) {
         publishId: publishId
       }
     }).then(res => {
-      resolve(res);
+      if (res.result.code == 0){
+        resolve(res.result.data);
+      }else{
+        reject(res.result.data);
+      }
     }).catch(res => {
       reject(res);
     });
@@ -151,6 +155,25 @@ function getComment(publishId){
   })
 }
 
+
+function getPraise(publishId) {
+  return new Promise((resolve, reject) => {
+    wx.cloud.callFunction({
+      name: "getPraise",
+      data: {
+        publishId: publishId
+      }
+    }).then(res => {
+      if (res.result.code == 0) {
+        resolve(res.result.data);
+      } else {
+        reject(res.result.data);
+      }
+    }).catch(res => {
+      reject(res);
+    })
+  })
+}
 
 function loadAllPublish(time, typeId) {
   /*
@@ -199,6 +222,7 @@ module.exports = {
   loadSelfPublish,
   loadAllPublishShareLife,
   addComment,
-  addPromise,
-  getComment
+  addPraise,
+  getComment,
+  getPraise
 }

@@ -102,14 +102,26 @@ Page({
     wx.showLoading({
       title: '加载',
     });
-    serverUtil.addPromise(e.currentTarget.id).then(res=>{
+    publishUtil.addPraise(parseInt(e.currentTarget.id)).then(res=>{
+
+
+      let loadedShareLifeArry = publishUtil.getAllPublishShareLife();
+      let allShareLifeArry = [];
+      for (let i = 0; i < loadedShareLifeArry.length; i++) {
+        let tmpShareLife = loadedShareLifeArry[i];
+        tmpShareLife.focus = false;
+        tmpShareLife.inputComment = '';
+        allShareLifeArry.push(tmpShareLife);
+      }
+      this.setData({
+        allShareLifeArry: allShareLifeArry
+      });
       wx.hideLoading();
+
 
     }).catch(res=>{
       wx.hideLoading();
-      wx.showToast({
-        title: '点赞失败',
-      })
+ 
     });
   },
 

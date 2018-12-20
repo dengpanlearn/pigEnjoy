@@ -194,6 +194,40 @@ border-bottom: 20rpx solid #d3d2d2dc;
   margin-right: 25rpx;
 }
 
+.show-praise{
+  width: 100%;
+  height: 70rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  margin-left: 20rpx;
+}
+
+.show-praise-icon{
+  width: 30rpx;
+  height: 30rpx;
+}
+
+.show-praise-title{
+  width: auto;
+  height: 30rpx;
+   display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  margin-left: 20rpx;
+}
+
+.show-praise-item{
+  width: auto;
+  height: 30rpx;
+  line-height: 30rpx;
+  align-self: center;
+  font-size: 25rpx;
+  color: #4c439edc;
+}
+
 .comment-show-view{
   width: 100%;
   height: auto;
@@ -214,8 +248,8 @@ border-bottom: 20rpx solid #d3d2d2dc;
 }
 
 .comment-show-total-icon{
-  width: 35rpx;
-  height: 35rpx;
+  width: 30rpx;
+  height: 30rpx;
 }
 
 .comment-show-total-text{

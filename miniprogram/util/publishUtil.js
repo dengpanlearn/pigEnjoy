@@ -21,7 +21,7 @@ var unUpdatePublishShareLife={
 
 var allSelfOriginalPublish = [];
 var allSelfQuestionPublish = [];
-var publishShareLifeLoaded = false;
+var publishShareLifeLoaded = 0;
 
 var allShareLifePublish = [];
 
@@ -76,19 +76,33 @@ function loadAllPublishShareLife(){
         allShareLifePublish[i].comment = comment;
       
         if (i == (res.length -1)){
-          publishShareLifeLoaded = true;
+          publishShareLifeLoaded |= 1;
         }
       }).catch(err=>{
         allShareLifePublish[i].comment=[];
         if (i == (res.length - 1)){
-          publishShareLifeLoaded = true;
+          publishShareLifeLoaded |= 1;
+        }
+      })
+
+      serverUtil.getPraise(res[i]._id).then(praise => {
+        //console.log(praise);
+        allShareLifePublish[i].praise = praise;
+
+        if (i == (res.length - 1)) {
+          publishShareLifeLoaded |= 2;
+        }
+      }).catch(err => {
+        allShareLifePublish[i].praise = [];
+        if (i == (res.length - 1)) {
+          publishShareLifeLoaded |= 2;
         }
       })
     }
    
   }).catch(res=>{
     console.log(res);
-    publishShareLifeLoaded = true;
+    publishShareLifeLoaded = 3;
   });
 
 }
@@ -98,7 +112,7 @@ function getAllPublishShareLife(){
 }
 
 function loadShareLifeCompeted(){
-  return publishShareLifeLoaded;
+  return publishShareLifeLoaded==3;
 }
 
 function addComment(comment){
@@ -113,6 +127,21 @@ function addComment(comment){
         resolve(res);
     }).catch(err=>{
   
+      reject(err);
+    });
+  })
+
+}
+
+function addPraise(idx) {
+  return new Promise((resolve, reject) => {
+    var publishId = allShareLifePublish[idx]._id;
+    serverUtil.addPraise(publishId).then(res => {
+      // console.log(res);
+      allShareLifePublish[idx].praise.push(res);
+      resolve(res);
+    }).catch(err => {
+
       reject(err);
     });
   })
@@ -141,6 +170,6 @@ module.exports = {
   loadShareLifeCompeted,
   loadAllPublishShareLife,
   getAllPublishShareLife,
-  addComment
-
+  addComment,
+  addPraise,
 }

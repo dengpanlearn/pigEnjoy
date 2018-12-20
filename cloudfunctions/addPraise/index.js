@@ -14,19 +14,33 @@ exports.main = async (event, context) => {
   let appId = userInfo.appId;
 try{
   const db = cloud.database();
+
+  let userResult = await db.collection("pigEnjoy-user").where({
+    openId: openId,
+    appId: appId,
+  }).get();
+
+  if (userResult.data.length <= 0) {
+    return {
+      code: -1,
+      data: 'user not register'
+    }
+  }
+
   let result = await db.collection("pigEnjoy-praise").where({
     openId: openId,
-    appId: appId
+    appId: appId,
+    publishId: publishId
   }).count();
 
   if (result.total > 0){
     return {
-      code: 0,
+      code: -1,
       data:'already praise'
     }
   }
 
-  await db.collection("pigEnjoy-praise").add({
+  let addResult = await db.collection("pigEnjoy-praise").add({
     data:{
       publishId: publishId,
       openId: openId,
@@ -37,7 +51,14 @@ try{
 
   return {
     code: 0,
-    data: 'add praise'
+    data: {
+      _id: addResult._id,
+      publishId: publishId,
+      openId: openId,
+      appId: appId,
+      userName: userResult.data[0].userName,
+      createTime: new Date().getTime()
+    }
   }
 
 }catch(e){
