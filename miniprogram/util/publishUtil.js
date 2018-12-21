@@ -2,14 +2,24 @@
 // 当前用户所发表的所有内容
 
 var serverUtil = require('serverUtil.js')
-var unUpdatePublish ={
-  curTypeIdx:0,
-  title: '',
-  content: '',
-  toLoadedPhotos:[],
-  address:'添加地点',
-  bPhotoHighFormat: false
-};
+var unUpdatePublish =[
+  {
+    curTypeIdx: 0,
+    title: '',
+    content: '',
+    toLoadedPhotos: [],
+    address: '添加地点',
+    bPhotoHighFormat: false
+  },
+  {
+    curTypeIdx: 1,
+    title: '',
+    content: '',
+    toLoadedPhotos: [],
+    address: '添加地点',
+    bPhotoHighFormat: false
+  }
+];
 
 var unUpdatePublishShareLife={
   content: '',
@@ -33,12 +43,12 @@ function setUnUpdatePublishShareLife(usrUnUpdatePublishShareLife) {
   unUpdatePublishShareLife = usrUnUpdatePublishShareLife;
 }
 
-function getUnUpdatePublish(){
-  return unUpdatePublish;
+function getUnUpdatePublish(typeIdx){
+  return unUpdatePublish[typeIdx];
 }
 
-function setUnUpdatePublish(usrUnUpdatePublish){
-  unUpdatePublish = usrUnUpdatePublish;
+function setUnUpdatePublish(typeIdx, usrUnUpdatePublish){
+  unUpdatePublish[typeIdx] = usrUnUpdatePublish;
 }
 
 function loadSelfPublish(){
@@ -149,7 +159,7 @@ function addPraise(idx) {
 }
 
 function publishShareLife(topicShareLife){
-  publishShareLifeLoaded = false;
+  publishShareLifeLoaded = 0;
   return new Promise((resolve, reject)=>{
     serverUtil.publishTopicShareLife(topicShareLife).then(res=>{
       loadAllPublishShareLife();
@@ -160,8 +170,22 @@ function publishShareLife(topicShareLife){
   });
 }
 
+
+function publishTechnology(topicTechnology) {
+
+  return new Promise((resolve, reject) => {
+    serverUtil.publishTopicTechnology(topicTechnology).then(res => {
+    //  loadAllPublishShareLife();
+      resolve(res);
+    }).catch(res => {
+      reject(res);
+    });
+  });
+}
+
 module.exports = {
   publishShareLife,
+  publishTechnology,
   getUnUpdatePublish,
   setUnUpdatePublish,
   getUnUpdatePublishShareLife,

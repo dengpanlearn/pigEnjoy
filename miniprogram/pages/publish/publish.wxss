@@ -16,20 +16,26 @@
 }
 
 .select-type-title{
-  width: 30%;
+  width: 20%;
   height: 70rpx;
   line-height: 70rpx;
   text-align: left;
   font-size: 30rpx;
 }
 
-.select-type-pick{
-  width: 200rpx;
+.select-view{
+  width: auto;
   height: 70rpx;
   display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
 }
 
-
+.select-icon{
+  width: 50rpx;
+  height: 50rpx;
+}
 
 .select-value{
   width: 50rpx;
@@ -37,11 +43,6 @@
   line-height: 70rpx;
   text-align: center;
   font-size: 25rpx;
-}
-
-.select-icon{
-  width: 50rpx;
-  height: 50rpx;
 }
 
 .publish-title-view{
@@ -54,7 +55,7 @@
 }
 
 .publish-title-text{
-  width: 10%;
+  width: 20%;
   height: 80rpx;
   line-height: 80rpx;
   text-align: left;

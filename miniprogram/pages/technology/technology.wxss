@@ -1,0 +1,64 @@
+/* miniprogram/pages/technology/technology.wxss */
+
+.container{
+  width: 100%;
+  height: 100%;
+}
+
+.technology-type{
+  width: 100%;
+  height: 100rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  border-top: 1rpx solid #f7f7f7fc;
+  border-bottom: 1rpx solid #f7f7f7fc;
+}
+
+.technology-type-item-selected{
+  width: 30%;
+  height: 95rpx;
+  line-height: 95rpx;
+  text-align: center;
+  font-size: 40rpx;
+  border-bottom: 1rpx solid #eb1616fc;
+}
+
+.technology-type-item{
+  width: 30%;
+  height: 95rpx;
+  line-height: 95rpx;
+  text-align: center;
+  font-size: 40rpx;
+}
+
+.publish-btn{
+  position: fixed;
+  top: 70%;
+  left: 83%;
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+  background: #d81e06;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.publish-icon{
+  width: 60rpx;
+  height: 60rpx;
+  background: #d81e06;
+  margin-bottom: 10rpx;
+}
+
+.publish-text{
+  width: auto;
+  height: 40rpx;
+  text-align: center;
+  line-height: 40rpx;
+  font-size: 25rpx;
+  color: #fffffffc;
+}

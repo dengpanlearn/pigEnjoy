@@ -22,8 +22,8 @@ Page({
    * 页面的初始数据
    */
   data: {
-    publishType:['文章','求助'],
-    publishTypeIcon: ['../../images/original.png', '../../images/question.png'],
+    publishType:'',
+    publishTypeIcon: '../../images/original.png',
     curTypeIdx:0,
     toLoadedPhotos:[],
     curAddress:'选择地址',
@@ -167,7 +167,7 @@ Page({
             success: res => {
               if (res.confirm) {
               
-                publishUtil.setUnUpdatePublish({
+                publishUtil.setUnUpdatePublish(this.data.curTypeIdx, {
                   curTypeIdx: this.data.curTypeIdx,
                   title: this.data.title,
                   content: this.data.content,
@@ -177,18 +177,18 @@ Page({
                 });
 
                 wx.reLaunch({
-                  url: '../center/center',
+                  url: '../technology/technology',
                 })
               } else if (res.cancel) {
                 wx.reLaunch({
-                  url: '../center/center',
+                  url: '../technology/technology',
                 })
               }
             }
           })
         }else{
           wx.reLaunch({
-            url: '../center/center',
+            url: '../technology/technology',
           })
         }
 
@@ -238,7 +238,7 @@ Page({
           toLoadedPhotoDir.push(toLoadedPhotos[i].src);
         }
 
-        serverUtil.publishTopic({
+        publishUtil.publishTechnology({
           topicType: this.data.curTypeIdx,
            title: title,
           content: content,
@@ -262,7 +262,7 @@ Page({
           });
 
           wx.reLaunch({
-            url: '../center/center',
+            url: '../technology/technology',
           });
 
         }).catch(e=>{
@@ -283,12 +283,15 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-   let unPublishUtil = publishUtil.getUnUpdatePublish();
+    //console.log(options);
+    let curTypeIdx = parseInt(options.technologyTypeIdx);
+    let unPublishUtil = publishUtil.getUnUpdatePublish(curTypeIdx);
 
    this.setData({
      title: unPublishUtil.title,
      content: unPublishUtil.content,
-     curTypeIdx: unPublishUtil.curTypeIdx,
+     publishType: options.technologyType,
+     curTypeIdx: curTypeIdx,
      toLoadedPhotos: unPublishUtil.toLoadedPhotos,
      curAddress: unPublishUtil.address,
      bPhotoHighFormat: unPublishUtil.bPhotoHighFormat

@@ -1,39 +1,32 @@
-// miniprogram/pages/found/found.js
+// miniprogram/pages/technology/technology.js
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    swiperList : [
-      {
-        url: '../../images/life.jpg',
-        text:'分享养猪生活',
-        page: '../shareLife/shareLife'
-      },{
-        url: '../../images/study.jpg',
-        text: '交流养猪技术',
-        page: '../technology/technology'
-      },{
-        url: '../../images/help.jpg',
-        text: '养猪求助',
-        page: '../shareLife/shareLife'
-      }
+    technologyType:[
+      '养猪',
+      '疾病',
+      '猪价'
     ],
-    curIdx : 0
+    curTypeIdx: 0
   },
 
-  onChangeSwiper:function(e){
-    
+
+  onPublish:function(e){
+    let curTypeIdx = this.data.curTypeIdx;
+    let curType = this.data.technologyType[curTypeIdx];
+    wx.redirectTo({
+      url: '../publish/publish?technologyTypeIdx='+curTypeIdx+'&technologyType='+curType,
+    })
+
+  },
+  onSelectType:function(e){
+    let curTypeIdx = parseInt(e.currentTarget.id);
     this.setData({
-      curIdx: e.detail.current
+      curTypeIdx: curTypeIdx
     });
-  },
-
-  onTapSwiperItem:function(e){
-   wx.redirectTo({
-     url: e.currentTarget.id,
-   })
   },
 
   /**

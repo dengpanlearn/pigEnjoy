@@ -1,0 +1,14 @@
+<!--miniprogram/pages/technology/technology.wxml-->
+<view class='container'>
+
+  <view class='technology-type'>
+    <view class= "{{(curTypeIdx == index)? 'technology-type-item-selected': 'technology-type-item'}}" wx:for='{{technologyType}}' wx:key ='*this' id='{{index}}' bindtap='onSelectType'>{{item}}</view>
+ 
+  </view>
+
+
+  <view class='publish-btn' bindtap='onPublish'>
+    <image class='publish-icon' src='../../images/publish.png'></image>
+    <view class='publish-text'>发帖</view>
+  </view>
+</view>

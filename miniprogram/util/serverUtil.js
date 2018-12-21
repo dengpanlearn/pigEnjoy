@@ -15,9 +15,8 @@ function uploadFileToCloud(cloudFile, localFile){
 function publishTopic(topic){
   return new Promise((resolve, reject) =>{
     let promiseArray =[];
-    
     let   photoPathList = topic.photoPathList;
-   
+
     for (let i = 0; i < photoPathList.length; i++) {
     
       let tmpList = photoPathList[i].split(".", 8);
@@ -35,9 +34,10 @@ function publishTopic(topic){
         promiseArray.push(tmpPromise);
       }
     }
+
    
     Promise.all(promiseArray).then(res=>{
-       
+      
       wx.cloud.callFunction({
         name: 'publishTopic',
         data: {
@@ -97,6 +97,16 @@ function publishTopicShareLife(topicShareLife){
     photoPathList: topicShareLife.photoPathList,
     bPhotoHighFormat: topicShareLife.bPhotoHighFormat
   });
+}
+
+function publishTopicTechnology(technologyTopic){
+ 
+  let publishTopicVar = technologyTopic;
+  publishTopicVar.topicType += 1; 
+
+  return publishTopic(
+    publishTopicVar
+   );
 }
 
 function addComment(comment){    
@@ -217,7 +227,31 @@ function loadAllPublishShareLife(time) {
   return loadAllPublish(time, 0);
 }
 
+
+function loadBriefPublish(time, typeId){
+  return new Promise((resolve, reject)=>{
+    const db = wx.cloud.database();
+    const _command = db.command;
+    const collection = db.collection("pigEnjoy-publish");
+    collection.where({
+      topicType: typeId,
+      createTime: _command.lte(time)
+    }).orderBy("createTime", 'desc').field({
+      _id:true,
+      avatar:true,
+      title:true,
+      userName:true
+    }).limit(10).get().then(res => {
+
+      resolve(res.data)
+    }).catch(res => {
+      reject(res);
+    });
+  });
+}
+
 module.exports = {
+  publishTopicTechnology,
   publishTopicShareLife,
   loadSelfPublish,
   loadAllPublishShareLife,

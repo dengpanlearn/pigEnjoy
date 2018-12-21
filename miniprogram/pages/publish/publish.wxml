@@ -3,11 +3,13 @@
 <view class='container' >
 
 <view class='select-type'>
-  <view class='select-type-title'>请选择发表类型:</view>
-  <image class='select-icon' src='{{publishTypeIcon[curTypeIdx]}}'></image>
-  <picker class='select-type-pick'  mode='selector' range="{{publishType}}" bindchange='onSelectType'>
-    <view class='select-value'>{{publishType[curTypeIdx]}}</view>
-  </picker>
+  <view class='select-type-title'>发表类型:</view>
+
+  <view class='select-view'>
+    <image class='select-icon' src='{{publishTypeIcon}}'></image>
+    <view class='select-value'>{{publishType}}</view>
+  </view>
+
 </view>
 
 <view class='publish-title-view'>
