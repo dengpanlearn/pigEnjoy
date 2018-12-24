@@ -1,4 +1,7 @@
 // miniprogram/pages/technology/technology.js
+var publishUtil = require("../../util/publishUtil.js");
+var serverUtil = require("../../util/serverUtil.js");
+var util = require("../../util/util.js");
 Page({
 
   /**
@@ -10,7 +13,8 @@ Page({
       '疾病',
       '猪价'
     ],
-    curTypeIdx: 0
+    curTypeIdx: 0,
+    publishTechnology:[]
   },
 
 
@@ -33,7 +37,24 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    publishUtil.loadBriefPublishTechnology(this.data.curTypeIdx);
+    wx.showLoading({
+      title: '加载',
+    });
 
+    let interNum = setInterval(res => {
+      if (publishUtil.loadBriefPublishTechnologyCompeted(this.data.curTypeIdx)) {
+        clearInterval(interNum);
+        wx.hideLoading();
+        console.log(publishUtil.getBriefPublishTechnoloy(this.data.curTypeIdx));
+        let tmpTechnology = this.data.publishTechnology;
+        tmpTechnology[this.data.curTypeIdx] = publishUtil.getBriefPublishTechnoloy(this.data.curTypeIdx);
+   
+        this.setData({
+          publishTechnology: tmpTechnology
+        });
+      }
+    }, 500, this)
   },
 
   /**

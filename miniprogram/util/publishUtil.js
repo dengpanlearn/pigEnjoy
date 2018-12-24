@@ -32,8 +32,11 @@ var unUpdatePublishShareLife={
 var allSelfOriginalPublish = [];
 var allSelfQuestionPublish = [];
 var publishShareLifeLoaded = 0;
-
 var allShareLifePublish = [];
+
+var briefPublishTechnologyLoaded = [0, 0, 0];
+var briefPublishTechnology =[];
+
 
 function getUnUpdatePublishShareLife(){
   return unUpdatePublishShareLife
@@ -76,7 +79,7 @@ function loadAllPublishShareLife(){
 
   serverUtil.loadAllPublishShareLife(curTime).then(res=>{
     if (res.length == 0){
-      publishShareLifeLoaded = true;
+      publishShareLifeLoaded = 3;
       return ;
     }
     allShareLifePublish = res;
@@ -121,8 +124,50 @@ function getAllPublishShareLife(){
   return allShareLifePublish;
 }
 
+function getBriefPublishTechnoloy(technologyId){
+  return briefPublishTechnology[technologyId];
+}
+
 function loadShareLifeCompeted(){
   return publishShareLifeLoaded==3;
+}
+
+function loadBriefPublishTechnology(technologyTypeId){
+  const curTime = new Date().getTime();
+  serverUtil.loadBriefPublishTechnology(curTime, technologyTypeId).then(res=>{
+ 
+    if (res.length == 0){
+      briefPublishTechnology[technologyTypeId] = [];
+      briefPublishTechnologyLoaded[technologyTypeId] = 1;
+      return;
+    }
+    briefPublishTechnology[technologyTypeId] = res;
+    for (let i = 0; i < res.length; i++){
+
+      serverUtil.getBriefComment(res[i]._id).then(briefComment=>{
+        briefPublishTechnology[technologyTypeId][i].briefComment = briefComment;
+        if (i == (res.length-1)){
+          briefPublishTechnologyLoaded[technologyTypeId] = 1;
+        }
+        
+      }).catch(err=>{
+        briefPublishTechnology[technologyTypeId][i].briefComment = {};
+        if (i == (res.length - 1)) {
+          briefPublishTechnologyLoaded[technologyTypeId] = 1;
+        }
+      });
+     
+    }
+  }).catch(err=>{
+    briefPublishTechnology[technologyTypeId] = [];
+    briefPublishTechnologyLoaded[technologyTypeId] = 1;
+  });
+
+}
+
+
+function loadBriefPublishTechnologyCompeted(technologyTypeId) {
+  return briefPublishTechnologyLoaded[technologyTypeId];
 }
 
 function addComment(comment){
@@ -193,7 +238,10 @@ module.exports = {
   loadSelfPublish,
   loadShareLifeCompeted,
   loadAllPublishShareLife,
+  loadBriefPublishTechnology,
+  loadBriefPublishTechnologyCompeted,
   getAllPublishShareLife,
+  getBriefPublishTechnoloy,
   addComment,
   addPraise,
 }

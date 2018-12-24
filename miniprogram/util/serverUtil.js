@@ -185,6 +185,38 @@ function getPraise(publishId) {
   })
 }
 
+function getBriefComment(publishId){
+  return new Promise((resolve, reject)=>{
+    const db = wx.cloud.database();
+    const collection = db.collection("pigEnjoy-comment");
+
+    collection.where({
+      publishId: publishId
+    }).count().then(res=>{
+      let commentCount = res.total;
+      if (commentCount > 0){
+        collection.where({
+          publishId: publishId
+        }).orderBy('createTime', 'desc').limit(1).get().then(res=>{
+          resolve({
+            count: commentCount,
+            createTime:res.data[0].createTime
+          });
+        }).catch(err=>{
+          reject(err);
+        });
+      }else{
+        reject({
+          count: 0,
+          createTime:0
+        });
+      }
+    }).catch(err=>{
+      reject(err);
+    });
+  })
+}
+
 function loadAllPublish(time, typeId) {
   /*
   return new Promise((resolve, reject)=>{
@@ -236,13 +268,15 @@ function loadBriefPublish(time, typeId){
     collection.where({
       topicType: typeId,
       createTime: _command.lte(time)
-    }).orderBy("createTime", 'desc').field({
+    }).orderBy("createTime", 'desc').limit(10).field({
       _id:true,
       avatar:true,
       title:true,
-      userName:true
-    }).limit(10).get().then(res => {
-
+      userName:true,
+      content:true,
+      createTime:true
+      }).get().then(res => {
+     
       resolve(res.data)
     }).catch(res => {
       reject(res);
@@ -250,13 +284,19 @@ function loadBriefPublish(time, typeId){
   });
 }
 
+function loadBriefPublishTechnology(time, typeId){
+  return loadBriefPublish(time, typeId+1);
+}
+
 module.exports = {
   publishTopicTechnology,
   publishTopicShareLife,
   loadSelfPublish,
   loadAllPublishShareLife,
+  loadBriefPublishTechnology,
   addComment,
   addPraise,
   getComment,
-  getPraise
+  getPraise,
+  getBriefComment
 }
