@@ -17,6 +17,31 @@ Page({
     publishTechnology:[]
   },
 
+  onRefresh: function (curTypeIdx){
+    publishUtil.loadBriefPublishTechnology(curTypeIdx);
+    wx.showLoading({
+      title: '加载',
+    });
+
+    let interNum = setInterval(res => {
+      if (publishUtil.loadBriefPublishTechnologyCompeted(curTypeIdx)) {
+        clearInterval(interNum);
+        wx.hideLoading();
+        console.log(publishUtil.getBriefPublishTechnoloy(curTypeIdx));
+        let tmpTechnologyArray = this.data.publishTechnology;
+        let tmpTechnology = publishUtil.getBriefPublishTechnoloy(curTypeIdx);
+        for (let i = 0; i < tmpTechnology.length; i++) {
+          tmpTechnology[i].createTimeFormat = new Date(tmpTechnology[i].briefComment.createTime).toLocaleString();
+        }
+
+        tmpTechnologyArray[curTypeIdx] = tmpTechnology
+        this.setData({
+          publishTechnology: tmpTechnologyArray,
+          curTypeIdx: curTypeIdx
+        });
+      }
+    }, 500, this)
+  },
 
   onPublish:function(e){
     let curTypeIdx = this.data.curTypeIdx;
@@ -28,33 +53,14 @@ Page({
   },
   onSelectType:function(e){
     let curTypeIdx = parseInt(e.currentTarget.id);
-    this.setData({
-      curTypeIdx: curTypeIdx
-    });
+    this.onRefresh(curTypeIdx);
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    publishUtil.loadBriefPublishTechnology(this.data.curTypeIdx);
-    wx.showLoading({
-      title: '加载',
-    });
-
-    let interNum = setInterval(res => {
-      if (publishUtil.loadBriefPublishTechnologyCompeted(this.data.curTypeIdx)) {
-        clearInterval(interNum);
-        wx.hideLoading();
-        console.log(publishUtil.getBriefPublishTechnoloy(this.data.curTypeIdx));
-        let tmpTechnology = this.data.publishTechnology;
-        tmpTechnology[this.data.curTypeIdx] = publishUtil.getBriefPublishTechnoloy(this.data.curTypeIdx);
-   
-        this.setData({
-          publishTechnology: tmpTechnology
-        });
-      }
-    }, 500, this)
+    this.onRefresh(this.data.curTypeIdx);
   },
 
   /**

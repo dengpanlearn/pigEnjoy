@@ -6,6 +6,19 @@
  
   </view>
 
+  <view class='technology-item' wx:for='{{publishTechnology[curTypeIdx]}}' wx:key='_id'>
+    <view class='technology-item-title'>{{item.title}}</view>
+    <view class='technology-item-brief'>
+      <view class='technology-item-user'>
+       <image class='technology-item-avatar' src='{{item.avatar}}'></image>
+       <view class='technology-item-username'>{{item.userName}}</view>
+      </view>
+      <view class='technology-item-comment'>
+        <view class='technology-item-comments-count'>{{item.briefComment.count}}条评论</view>
+        <view class='technology-item-comments-time'>{{item.createTimeFormat}}</view>
+      </view>
+    </view>
+  </view>
 
   <view class='publish-btn' bindtap='onPublish'>
     <image class='publish-icon' src='../../images/publish.png'></image>

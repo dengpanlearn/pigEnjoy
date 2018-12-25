@@ -151,7 +151,11 @@ function loadBriefPublishTechnology(technologyTypeId){
         }
         
       }).catch(err=>{
-        briefPublishTechnology[technologyTypeId][i].briefComment = {};
+        briefPublishTechnology[technologyTypeId][i].briefComment = {
+          count: 0,
+          createTime: briefPublishTechnology[technologyTypeId][i].createTime
+        };
+       
         if (i == (res.length - 1)) {
           briefPublishTechnologyLoaded[technologyTypeId] = 1;
         }
