@@ -13,7 +13,7 @@
   justify-content: space-around;
   align-items: center;
   border-top: 1rpx solid #f7f7f7fc;
-  border-bottom: 1rpx solid #f7f7f7fc;
+  border-bottom: 1rpx solid #ebe8e8fc;
 }
 
 .technology-type-item-selected{
@@ -71,7 +71,7 @@
   justify-content: flex-start;
   align-items: flex-start;
   margin-left: 20rpx;
-  border-bottom: 1rpx solid #f7f7f7fc;
+  border-bottom: 1rpx solid #ebe8e8fc;
 }
 
 .technology-item-title{

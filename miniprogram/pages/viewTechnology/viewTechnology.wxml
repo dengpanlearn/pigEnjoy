@@ -1,0 +1,18 @@
+<!--miniprogram/pages/viewTechnology/viewTechnology.wxml-->
+<view class='container'>
+  <view class='technology-header'>
+    <view class='technology-title'>{{technology.title}}</view>
+    <view class='technology-user'>
+      <view class='technology-user-info'>
+       <image class='technology-avatar' src='{{technology.avatar}}'></image>
+       <view class='technology-username'>{{technology.userName}}</view>
+      </view>
+
+      <view class='technology-createtime'>{{technology.createTimeFormate}}</view>
+    </view>
+  </view>
+
+  <view class='technology-content-view'>
+   <text class='technology-content'>{{technology.content}}</text>
+  </view>
+</view>

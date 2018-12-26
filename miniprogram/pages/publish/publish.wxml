@@ -17,7 +17,7 @@
   <input class='publish-title-input'  maxlength ='100' bindinput = 'onInput'value='{{title}}'
   placeholder='请添加标题'></input>
 </view>
-<textarea class='publish-input' value='{{content}}' maxlength ='500' bindinput='onInput'
+<textarea class='publish-input' value='{{content}}' maxlength ='-1' bindinput='onInput'
 placeholder='说说你的想法...'></textarea>
 <scroll-view class='publish-image' scroll-x= 'true'>
   <view class='publish-image-load' wx:for='{{toLoadedPhotos}}' wx:key = '*this' id = '{{item.src}}' bindlongpress='onTouchDelete'>

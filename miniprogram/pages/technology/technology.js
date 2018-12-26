@@ -17,6 +17,15 @@ Page({
     publishTechnology:[]
   },
 
+  onViewTechnology:function(e){
+    let curPublishTechnologyIndex = parseInt(e.currentTarget.id);
+    let curPublishTechnology = this.data.publishTechnology[this.data.curTypeIdx][curPublishTechnologyIndex];
+
+    wx.navigateTo({
+      url: '../viewTechnology/viewTechnology?_id=' + curPublishTechnology._id +'&technologyTypeIdx='+this.data.curTypeIdx,
+    })
+  },
+
   onRefresh: function (curTypeIdx){
     publishUtil.loadBriefPublishTechnology(curTypeIdx);
     wx.showLoading({
@@ -27,10 +36,12 @@ Page({
       if (publishUtil.loadBriefPublishTechnologyCompeted(curTypeIdx)) {
         clearInterval(interNum);
         wx.hideLoading();
-        console.log(publishUtil.getBriefPublishTechnoloy(curTypeIdx));
+       
         let tmpTechnologyArray = this.data.publishTechnology;
         let tmpTechnology = publishUtil.getBriefPublishTechnoloy(curTypeIdx);
+      
         for (let i = 0; i < tmpTechnology.length; i++) {
+        
           tmpTechnology[i].createTimeFormat = new Date(tmpTechnology[i].briefComment.createTime).toLocaleString();
         }
 

@@ -6,7 +6,7 @@
  
   </view>
 
-  <view class='technology-item' wx:for='{{publishTechnology[curTypeIdx]}}' wx:key='_id'>
+  <view class='technology-item' wx:for='{{publishTechnology[curTypeIdx]}}' wx:key='_id' bindtap='onViewTechnology' id='{{index}}'>
     <view class='technology-item-title'>{{item.title}}</view>
     <view class='technology-item-brief'>
       <view class='technology-item-user'>

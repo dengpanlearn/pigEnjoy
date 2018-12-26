@@ -134,6 +134,7 @@ function loadShareLifeCompeted(){
 
 function loadBriefPublishTechnology(technologyTypeId){
   const curTime = new Date().getTime();
+  briefPublishTechnologyLoaded[technologyTypeId] = 0;
   serverUtil.loadBriefPublishTechnology(curTime, technologyTypeId).then(res=>{
  
     if (res.length == 0){
@@ -221,7 +222,7 @@ function publishShareLife(topicShareLife){
 
 
 function publishTechnology(topicTechnology) {
-
+  briefPublishTechnologyLoaded[topicTechnology.topicType]= 0;
   return new Promise((resolve, reject) => {
     serverUtil.publishTopicTechnology(topicTechnology).then(res => {
     //  loadAllPublishShareLife();
@@ -230,6 +231,42 @@ function publishTechnology(topicTechnology) {
       reject(res);
     });
   });
+}
+
+function loadTechnologyInfo(technologyTypeId, _id)
+{
+  return new Promise((resolve, reject)=>{
+    serverUtil.loadPublishTechnologyInfo(technologyTypeId, _id).then(res=>{
+      let technologyInfo = res;
+      technologyInfo.comment = [];
+      technologyInfo.praise = [];
+      technologyInfo.loaded = 0;
+      serverUtil.getComment(_id).then(comment=>{
+        technologyInfo.comment = comment;
+        technologyInfo.loaded |= 1;
+      }).catch(err=>{
+        technologyInfo.loaded |= 1;
+      })
+
+      serverUtil.getPraise(_id).then(praise=>{
+        technologyInfo.praise = praise;
+        technologyInfo.loaded |= 2;
+      }).catch(err=>{
+        technologyInfo.loaded |= 2;
+      })
+
+      let timeNum = setInterval(result=>{
+        if (technologyInfo.loaded == 3){
+          clearInterval(timeNum);
+          resolve(technologyInfo);
+        }
+      }, 500, 0);
+
+    }).catch(err=>{
+      reject(err);
+    });
+
+  })
 }
 
 module.exports = {
@@ -248,4 +285,5 @@ module.exports = {
   getBriefPublishTechnoloy,
   addComment,
   addPraise,
+  loadTechnologyInfo,
 }

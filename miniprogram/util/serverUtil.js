@@ -273,7 +273,6 @@ function loadBriefPublish(time, typeId){
       avatar:true,
       title:true,
       userName:true,
-      content:true,
       createTime:true
       }).get().then(res => {
      
@@ -288,6 +287,37 @@ function loadBriefPublishTechnology(time, typeId){
   return loadBriefPublish(time, typeId+1);
 }
 
+
+function loadPublishInfo(typeId, _id) {
+  return new Promise((resolve, reject) => {
+    const db = wx.cloud.database();
+
+    const collection = db.collection("pigEnjoy-publish");
+    collection.where({
+      topicType: typeId,
+      _id: _id
+    }).field({
+      _id: true,
+      avatar: true,
+      title: true,
+      userName: true,
+      content: true,
+      createTime: true
+    }).get().then(res => {
+      if (res.data.length == 0){
+        reject('none');
+      }else{
+      resolve(res.data[0]);
+      }
+    }).catch(res => {
+      reject(res);
+    });
+  });
+}
+
+function loadPublishTechnologyInfo(typeId, _id) {
+  return loadPublishInfo( typeId + 1, _id);
+}
 module.exports = {
   publishTopicTechnology,
   publishTopicShareLife,
@@ -298,5 +328,6 @@ module.exports = {
   addPraise,
   getComment,
   getPraise,
-  getBriefComment
+  getBriefComment,
+  loadPublishTechnologyInfo
 }
