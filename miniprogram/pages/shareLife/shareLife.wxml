@@ -9,6 +9,7 @@
   <scroll-view class='scroll-share-all-life' scroll-y='true'>
     <view class='share-life-item' wx:for ="{{allShareLifeArry}}" wx:key = '_id'
     wx:for-item ="shareLifeItem" wx:for-index ="shareLifeIndex">
+    <view class='item-val'>
       <view class='share-life-info'>
         <image class='share-life-avatar' src='{{shareLifeItem.avatar}}'></image>
         <view class='share-life-author'>
@@ -60,8 +61,10 @@
           </view>
         </view>
       <view class='comment-input-view'>
-        <textarea class='comment-input' value = '{{shareLifeItem.inputComment}}'id="{{shareLifeIndex}}"maxlength ='500' placeholder='评论' bindtap='onTapTextArea' bindblur ='onTextAreaBlur' bindconfirm = 'onCommentInput' focus='{{shareLifeItem.focus}}' cursor-spacing='20'></textarea>
+        <textarea class='comment-input' placeholder-class = 'comment-placeholder'value = '{{shareLifeItem.inputComment}}'id="{{shareLifeIndex}}"maxlength ='500' placeholder='评论' bindtap='onTapTextArea' bindblur ='onTextAreaBlur' bindconfirm = 'onCommentInput' focus='{{shareLifeItem.focus}}' cursor-spacing='20'></textarea>
       </view>
+      </view>
+      <view class='item-operator'></view>
     </view>
 
   </scroll-view>

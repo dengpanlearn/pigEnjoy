@@ -85,9 +85,9 @@
 .technology-content{
   width: 100%;
   height: auto;
-  line-height: 35rpx;
+  line-height: 40rpx;
   text-align: left;
-  font-size: 30rpx;
+  font-size: 28rpx;
   margin-left: 20rpx;
   margin-right: 10rpx;
 }

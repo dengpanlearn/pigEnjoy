@@ -70,7 +70,19 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-border-bottom: 20rpx solid #d3d2d2dc;
+}
+
+.item-val{
+  width: 96%;
+  height: auto;
+  margin-left: 20rpx;
+  margin-right: 20rpx;
+}
+
+.item-operator{
+  width: 100%;
+  height: 20rpx;
+  background: #d3d2d2dc;
 }
 
 .share-life-info{
@@ -85,13 +97,12 @@ border-bottom: 20rpx solid #d3d2d2dc;
 .share-life-avatar{
   width: 70rpx;
   height: 70rpx;
-  margin-left: 10rpx;
   border-radius: 50%;
 }
 
 .share-life-author{
   width: auto;
-  height: 100%;
+  height: 70rpx;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -101,18 +112,19 @@ border-bottom: 20rpx solid #d3d2d2dc;
 
 .share-life-author-name{
   width: auto;
-  height: 50rpx;
-  line-height: 50rpx;
+  height: 35rpx;
+  line-height: 35rpx;
   text-align: left;
   font-size: 30rpx;
 }
 
 .share-life-author-time{
   width: auto;
-  height: 50rpx;
-  line-height: 50rpx;
+  height: 25rpx;
+  line-height: 25rpx;
   text-align: left;
   font-size: 20rpx;
+  color: #9e9c9cdc;
 }
 
 .share-life-content{
@@ -120,8 +132,7 @@ border-bottom: 20rpx solid #d3d2d2dc;
   height: auto;
   line-height: 50rpx;
   text-align: left;
-  font-size: 25rpx;
-  margin-left: 10rpx;
+  font-size: 30rpx;
 }
 
 .share-life-photo-big{
@@ -132,8 +143,7 @@ border-bottom: 20rpx solid #d3d2d2dc;
   flex-wrap: wrap;
   justify-content: flex-start;
   align-items: center;
-  margin-left: 10rpx;
-  margin-right: 10rpx;
+
 }
 
 
@@ -145,14 +155,13 @@ border-bottom: 20rpx solid #d3d2d2dc;
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
-  margin-left: 10rpx;
-  margin-right: 10rpx;
+
 }
 
 .share-life-photo-item-big{
   width: 35%;
   height: 300rpx;
-  margin-left: 10rpx;
+  margin-right: 30rpx;
 }
 
 .share-life-photo-item-small{
@@ -168,6 +177,7 @@ border-bottom: 20rpx solid #d3d2d2dc;
   justify-content: space-between;
   align-items: center;
   margin-top: 20rpx;
+  border-bottom: 1rpx solid #cccbcedc;
 }
 
 .view-times{
@@ -177,6 +187,7 @@ border-bottom: 20rpx solid #d3d2d2dc;
   text-align: left;
   font-size:25rpx;
   margin-left: 10rpx;
+  color: #9e9c9cdc;
 }
 
 .share-operator-menu{
@@ -189,8 +200,8 @@ border-bottom: 20rpx solid #d3d2d2dc;
 }
 
 .share-icon{
-  width: 50rpx;
-  height: 50rpx;
+  width: 45rpx;
+  height: 45rpx;
   margin-right: 25rpx;
 }
 
@@ -201,7 +212,6 @@ border-bottom: 20rpx solid #d3d2d2dc;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  margin-left: 20rpx;
 }
 
 .show-praise-icon{
@@ -235,6 +245,7 @@ border-bottom: 20rpx solid #d3d2d2dc;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
+  margin-bottom: 20rpx;
 }
 
 .comment-show-total{
@@ -294,18 +305,29 @@ border-bottom: 20rpx solid #d3d2d2dc;
 
 .comment-input-view{
    width: 100%;
-   height: 60rpx;
-    margin-top: 20rpx;
+   height: 50rpx;
   margin-bottom: 40rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
 }
 .comment-input{
   width: 100%;
   height: 100%;
   text-align: left;
-  line-height:40rpx;
+  line-height:50rpx;
   font-size: 25rpx;
   border-top: 1rpx solid #dfdededc;
   border-bottom: 1rpx solid #dfdededc;
   background: #f7f7f7dc;
 
+}
+
+.comment-placeholder{
+  width: auto;
+  height: 100%;
+   line-height:50rpx;
+  font-size: 25rpx;
+   text-align: left;
 }
