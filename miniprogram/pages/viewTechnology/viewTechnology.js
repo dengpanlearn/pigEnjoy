@@ -8,7 +8,66 @@ Page({
    * 页面的初始数据
    */
   data: {
-    technology:{}
+    technology:{},
+    commenFocus: false,
+    commentValue:''
+  },
+
+  onPraise:function(e){
+    wx.showLoading({
+      title: '加载',
+    });
+    serverUtil.addPraise(this.data.technology._id).then(res=>{
+      wx.hideLoading();
+ 
+      let tmpTechnology = this.data.technology;
+      tmpTechnology.praise.push(res);
+      this.setData({
+        technology: tmpTechnology
+      });
+    }).catch(err=>{
+      wx.hideLoading();
+    });
+  },
+
+  onTapTextArea:function(e){
+    this.setData({
+      commenFocus: true
+    });
+  },
+
+  onTextAreaBlur:function(e){
+    this.setData({
+      commenFocus: false
+    });
+  },
+
+  onCommentInput:function(e){
+
+    let content = e.detail.value.trim();
+    if (content != ''){
+      wx.showLoading({
+        title: '加载',
+      })
+      serverUtil.addComment({
+        publishId: this.data.technology._id,
+        content: content
+      }).then(res=>{
+        wx.hideLoading();
+        let tmpTechnology = this.data.technology;
+        tmpTechnology.comment.push(res);
+        this.setData({
+          technology: tmpTechnology,
+          commentValue:''
+        });
+      }).catch(err=>{
+        wx.hideLoading();
+        this.setData({
+          commentValue: ''
+        });
+      });
+    }
+
   },
 
   /**

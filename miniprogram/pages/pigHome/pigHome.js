@@ -28,14 +28,14 @@ Page({
 
     util.loadWxUserInfo(app.globalData.appName).then((res) => {
       console.info('load wx user info ok');
-      publishUtil.loadAllPublishShareLife();
+     /* publishUtil.loadAllPublishShareLife();
       let interNum = setInterval(res=>{
         if (publishUtil.loadShareLifeCompeted()) {
           clearInterval(interNum);
           wx.hideLoading();
         }
-      }, 500, this);
-
+      }, 500, this);*/
+      wx.hideLoading();
     }, (res) => {
      
       wx.hideLoading();

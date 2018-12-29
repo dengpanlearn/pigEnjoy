@@ -1,5 +1,6 @@
 <!--miniprogram/pages/viewTechnology/viewTechnology.wxml-->
 <view class='container'>
+  <scroll-view class='scroll-view' scroll-y='true'>
   <view class='technology-header'>
     <view class='technology-title'>{{technology.title}}</view>
     <view class='technology-user'>
@@ -14,5 +15,62 @@
 
   <view class='technology-content-view'>
    <text class='technology-content'>{{technology.content}}</text>
+  </view>
+
+  <view class='menu-view'>
+    <view class='menu-item-view'>
+    <view class='menu-item'>
+      <view class='item-photo' bindtap='onPraise'>
+      <image class='item-icon' src='../../images/praise-icon.png'></image>
+      </view>
+
+      <view class='item-title'>点赞鼓励</view>
+    </view>
+
+      <view class='menu-item'>
+      <view class='item-photo'>
+      <image class='item-icon' src='../../images/transmit.png'></image>
+      
+      </view>
+      <view class='item-title'>转发给朋友</view>
+    </view>
+    </view>
+  </view>
+
+  <view class='show-praise' wx:if='{{technology.praise.length > 0}}'>
+        <image class='show-praise-icon' src='../../images/praise-nor.png'></image>
+        <view class='show-praise-title' wx:if='{{technology.praise.length < 5}}'>
+          <view class='show-praise-item' wx:for ='{{technology.praise}}' wx:key='_id'>{{item.userName}} </view>
+        </view>
+
+        <view class='show-praise-title' wx:if='{{technology.praise.length >= 5}}'>
+          <view class='show-praise-item'>{{technology.praise[0].userName}} </view>
+          <view class='show-praise-item'>{{technology.praise[1].userName}} </view>
+          <view class='show-praise-item'>{{technology.praise[2].userName}} </view>
+          <view class='show-praise-item'>{{technology.praise[3].userName}} </view>
+          <view class='show-praise-item'>{{technology.praise[4].userName}} </view>
+          <view class='show-praise-item'>{{technology.praise.length}} 觉得很赞</view>
+        </view>
+      </view>
+
+        <view class='comment-show-view' wx:if="{{technology.comment.length > 0}}">
+          <view class='comment-show-total'>
+          <image class='comment-show-total-icon' src='../../images/comment-nor.png'></image>
+          <view class='comment-show-total-text'>{{technology.comment.length}}条评论回复</view>
+          </view>
+          <view class='comment-show-item' wx:for = '{{technology.comment}}' wx:for-item='commentItem' wx:key='_id'>
+            <view class='comment-show-item-usr'>{{commentItem.userName}}:</view>  
+            <view class='comment-show-item-content'>{{commentItem.content}}</view>
+          </view>
+        </view>
+  </scroll-view>
+
+  <view class='comment-view'>
+  <textarea class='comment-input' maxlength ='500' 
+placeholder='回帖参与讨论' placeholder-class ='placeholder-view' bindtap='onTapTextArea' bindblur ='onTextAreaBlur' bindconfirm = 'onCommentInput' focus='{{commenFocus}}' value = '{{commentValue}}' cursor-spacing='20'></textarea>
+  <view class='collect-view'>
+    <image class='collect-icon' src='../../images/store-pressed.png'></image>
+    <text class='collect-title'>收藏</text>
+  </view>
   </view>
 </view>

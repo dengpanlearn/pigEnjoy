@@ -27,7 +27,31 @@ Page({
   },
 
   onRefresh: function (curTypeIdx){
-    publishUtil.loadBriefPublishTechnology(curTypeIdx);
+    wx.showLoading({
+      title: '加载',
+    });
+
+    publishUtil.loadBriefPublishTechnology(curTypeIdx).then(res=>{
+      let tmpTechnologyArray = this.data.publishTechnology;
+
+      let tmpTechnology = res;
+
+      for (let i = 0; i < tmpTechnology.length; i++) {
+
+        tmpTechnology[i].createTimeFormat = new Date(tmpTechnology[i].briefComment.createTime).toLocaleString();
+      }
+
+      tmpTechnologyArray[curTypeIdx] = tmpTechnology
+      this.setData({
+        publishTechnology: tmpTechnologyArray,
+        curTypeIdx: curTypeIdx
+      });
+
+      wx.hideLoading();
+    }).catch(err=>{
+      wx.hideLoading();
+    });
+    /*publishUtil.loadBriefPublishTechnology(curTypeIdx);
     wx.showLoading({
       title: '加载',
     });
@@ -51,7 +75,7 @@ Page({
           curTypeIdx: curTypeIdx
         });
       }
-    }, 500, this)
+    }, 500, this)*/
   },
 
   onPublish:function(e){

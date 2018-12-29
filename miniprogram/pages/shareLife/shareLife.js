@@ -172,6 +172,24 @@ onCommentInput:function(e){
       title: '加载',
     });
 
+    publishUtil.loadAllPublishShareLife().then(res=>{
+      wx.hideLoading();
+      let loadedShareLifeArry = res;
+      let allShareLifeArry = [];
+      for (let i = 0; i < loadedShareLifeArry.length; i++) {
+        let tmpShareLife = loadedShareLifeArry[i];
+        tmpShareLife.focus = false;
+        tmpShareLife.inputComment = '';
+        tmpShareLife.creatTimeFormat = new Date(tmpShareLife.createTime).toLocaleString();
+        allShareLifeArry.push(tmpShareLife);
+      }
+      this.setData({
+        allShareLifeArry: allShareLifeArry
+      });
+    }).catch(err=>{
+      wx.hideLoading();
+    })
+/*
     let interNum = setInterval(res => {
       if (publishUtil.loadShareLifeCompeted()) {
         clearInterval(interNum);
@@ -191,7 +209,7 @@ onCommentInput:function(e){
           allShareLifeArry: allShareLifeArry
         });
       }
-    }, 500, this)
+    }, 500, this)*/
   },
 
   /**
