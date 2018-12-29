@@ -32,7 +32,8 @@ exports.main = async (event, context) => {
         data:"no user"
       }
     }
-    let dbId = await db.collection("pigEnjoy-publish").add({
+    let createTime = new Date().getTime();
+    let addResult = await db.collection("pigEnjoy-publish").add({
       data:{
         appId: appId,
         openId: openId,
@@ -43,14 +44,24 @@ exports.main = async (event, context) => {
         fileIdList: fileIdList,
         avatar: usrInfo.data[0].avatarUrl,
         userName: usrInfo.data[0].userName,
-        createTime: new Date().getTime()
+        createTime: createTime
       }
 
     });
 
     return {
       code: 0,
-      data: 0
+      data: {
+        _id: addResult._id,
+        topicType: topicType,
+        title: title,
+        content: content,
+        address: address,
+        fileIdList: fileIdList,
+        avatar: usrInfo.data[0].avatarUrl,
+        userName: usrInfo.data[0].userName,
+        createTime: createTime
+      }
     };
 
   }catch(e){

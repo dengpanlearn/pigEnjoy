@@ -18,6 +18,14 @@ var unUpdatePublish =[
     toLoadedPhotos: [],
     address: '添加地点',
     bPhotoHighFormat: false
+  },
+  {
+    curTypeIdx: 2,
+    title: '',
+    content: '',
+    toLoadedPhotos: [],
+    address: '添加地点',
+    bPhotoHighFormat: false
   }
 ];
 
@@ -98,7 +106,7 @@ function loadAllPublishShareLife(){
 
 
           serverUtil.getPraise(res[i]._id).then(praise => {
-            //console.log(praise);
+           // console.log(praise);
             allShareLifePublish[i].praise = praise;
             waitCompleteds++;
           
@@ -272,13 +280,10 @@ function loadBriefPublishTechnologyCompeted(technologyTypeId) {
 
 function addComment(comment){
   return new Promise((resolve, reject)=>{
-    var publishId = allShareLifePublish[comment.shareLifeIndex]._id;
-    serverUtil.addComment({
-      publishId: publishId,
-      content:comment.content
-      }).then(res=>{
+   
+    serverUtil.addComment(comment).then(res=>{
     // console.log(res);
-        allShareLifePublish[comment.shareLifeIndex].comment.push(res);
+       // allShareLifePublish[comment.shareLifeIndex].comment.push(res);
         resolve(res);
     }).catch(err=>{
   
@@ -288,12 +293,12 @@ function addComment(comment){
 
 }
 
-function addPraise(idx) {
+function addPraise(publishId) {
   return new Promise((resolve, reject) => {
-    var publishId = allShareLifePublish[idx]._id;
+    
     serverUtil.addPraise(publishId).then(res => {
-      // console.log(res);
-      allShareLifePublish[idx].praise.push(res);
+     //  console.log(res);
+      //allShareLifePublish[idx].praise.push(res);
       resolve(res);
     }).catch(err => {
 

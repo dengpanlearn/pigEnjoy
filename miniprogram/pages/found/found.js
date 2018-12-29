@@ -31,7 +31,7 @@ Page({
   },
 
   onTapSwiperItem:function(e){
-   wx.redirectTo({
+   wx.navigateTo({
      url: e.currentTarget.id,
    })
   },

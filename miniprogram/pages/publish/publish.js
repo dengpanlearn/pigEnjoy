@@ -176,19 +176,19 @@ Page({
                   bPhotoHighFormat: this.data.bPhotoHighFormat,
                 });
 
-                wx.reLaunch({
-                  url: '../technology/technology',
+                wx.navigateBack({
+                  delta: 1
                 })
               } else if (res.cancel) {
-                wx.reLaunch({
-                  url: '../technology/technology',
+                wx.navigateBack({
+                  delta: 1
                 })
               }
             }
           })
         }else{
-          wx.reLaunch({
-            url: '../technology/technology',
+          wx.navigateBack({
+            delta: 1
           })
         }
 
@@ -261,9 +261,37 @@ Page({
             bPhotoHighFormat: false
           });
 
-          wx.reLaunch({
+         /* wx.reLaunch({
             url: '../technology/technology',
+          });*/
+
+          let pages = getCurrentPages();
+          let currentPage = pages[pages.length - 2];
+          let curTypeIdx = currentPage.data.curTypeIdx;
+          let publishTechnology = currentPage.data.publishTechnology;
+
+          let briefComment = {
+            count: 0,
+            createTime: 0
+          };
+
+
+          let newBrief ={
+            _id: res._id,
+            avatar: res.avatar,
+            title: res.title,
+            userName: res.userName,
+            createTime: res.createTime,
+            createTimeFormat: new Date(res.createTime).toLocaleString(),
+           briefComment: briefComment
+          }
+          publishTechnology[curTypeIdx].unshift(newBrief);
+          currentPage.setData({
+            publishTechnology: publishTechnology
           });
+          wx.navigateBack({
+            delta: 1
+          })
 
         }).catch(e=>{
           wx.hideLoading();
@@ -271,6 +299,7 @@ Page({
             title: '发表失败',
             duration: 2000
           })
+    
         });
 
       })

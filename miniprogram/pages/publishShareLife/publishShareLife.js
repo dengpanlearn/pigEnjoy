@@ -151,19 +151,31 @@ Page({
                   bPhotoHighFormat: this.data.bPhotoHighFormat,
                 });
 
-                wx.redirectTo({
+               /* wx.redirectTo({
                   url: '../shareLife/shareLife',
+                })*/
+
+                wx.navigateBack({
+                  delta:1
                 })
               } else if (res.cancel) {
-                wx.redirectTo({
+               /* wx.redirectTo({
                   url: '../shareLife/shareLife',
+                })*/
+
+                wx.navigateBack({
+                  delta: 1
                 })
               }
             }
           })
         } else {
-          wx.redirectTo({
+          /*wx.redirectTo({
             url: '../shareLife/shareLife',
+          })*/
+
+          wx.navigateBack({
+            delta: 1
           })
         }
 
@@ -197,7 +209,7 @@ Page({
           toLoadedPhotoDir.push(toLoadedPhotos[i].src);
         }
 
-        publishUtil.publishShareLife({
+       publishUtil.publishShareLife({
           content: content,
           address: this.data.curAddress,
           photoPathList: toLoadedPhotoDir,
@@ -216,9 +228,26 @@ Page({
             bPhotoHighFormat: false
           });
 
-          wx.redirectTo({
+         /* wx.redirectTo({
             url: '../shareLife/shareLife',
+          });*/
+          let pages = getCurrentPages();
+          let currentPage = pages[pages.length-2];
+         
+         let currentArray=  currentPage.data.allShareLifeArry;
+        let tmpPublishTopic = res;
+          tmpPublishTopic.comment =[];
+          tmpPublishTopic.praise = [];
+          tmpPublishTopic.focus = false;
+          tmpPublishTopic.inputComment = '';
+          tmpPublishTopic.creatTimeFormat = new Date(tmpPublishTopic.createTime).toLocaleString();
+          currentArray.unshift(tmpPublishTopic);
+          currentPage.setData({
+            allShareLifeArry: currentArray
           });
+          wx.navigateBack({
+            delta: 1
+          })
 
         }).catch(e => {
           wx.hideLoading();

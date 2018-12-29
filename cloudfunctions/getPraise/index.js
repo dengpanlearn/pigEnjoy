@@ -13,8 +13,12 @@ exports.main = async (event, context) => {
   const db = cloud.database();
   try{
 
-    let result = await db.collection("pigEnjoy-praise").orderBy('createTime', 'desc').where({
+    let result = await db.collection("pigEnjoy-praise").orderBy('createTime', 'asc').where({
       publishId: publishId
+    }).field({
+      _id:true,
+      publishId: true,
+      createTime: true
     }).get();
 
     if (result.data.length > 0){

@@ -43,8 +43,6 @@ exports.main = async (event, context) => {
         _id: addResult._id,
         publishId: publishId,
         content: content,
-        openId: openId,
-        appId: appId,
         createTime: creatTime,
         userName: userResult.data[0].userName
       }

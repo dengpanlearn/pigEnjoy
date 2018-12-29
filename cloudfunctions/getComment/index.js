@@ -14,7 +14,12 @@ exports.main = async (event, context) => {
   try{
     let result = await db.collection("pigEnjoy-comment").where({
       publishId: publishId
-    }).orderBy('createTime', 'desc').get();
+    }).orderBy('createTime', 'asc').field({
+      _id: true,
+      publishId: true,
+      content: true,
+      createTime: true,
+    }).get();
 
     let commentResults = [];
     if (result.data.length > 0){

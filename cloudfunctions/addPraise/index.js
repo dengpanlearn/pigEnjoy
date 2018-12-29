@@ -39,13 +39,13 @@ try{
       data:'already praise'
     }
   }
-
+  let creatTime = new Date().getTime();
   let addResult = await db.collection("pigEnjoy-praise").add({
     data:{
       publishId: publishId,
       openId: openId,
       appId: appId,
-      createTime: new Date().getTime()
+      createTime: creatTime
     }
   });
 
@@ -54,10 +54,8 @@ try{
     data: {
       _id: addResult._id,
       publishId: publishId,
-      openId: openId,
-      appId: appId,
       userName: userResult.data[0].userName,
-      createTime: new Date().getTime()
+      createTime: creatTime
     }
   }
 

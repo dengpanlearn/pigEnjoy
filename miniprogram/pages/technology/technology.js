@@ -81,7 +81,7 @@ Page({
   onPublish:function(e){
     let curTypeIdx = this.data.curTypeIdx;
     let curType = this.data.technologyType[curTypeIdx];
-    wx.redirectTo({
+    wx.navigateTo({
       url: '../publish/publish?technologyTypeIdx='+curTypeIdx+'&technologyType='+curType,
     })
 

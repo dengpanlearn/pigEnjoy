@@ -10,7 +10,8 @@ Page({
   data: {
     technology:{},
     commenFocus: false,
-    commentValue:''
+    commentValue:'',
+    newComment:false
   },
 
   onPraise:function(e){
@@ -56,8 +57,10 @@ Page({
         wx.hideLoading();
         let tmpTechnology = this.data.technology;
         tmpTechnology.comment.push(res);
+
         this.setData({
           technology: tmpTechnology,
+          newComment: true,
           commentValue:''
         });
       }).catch(err=>{
@@ -116,7 +119,33 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
+    let tmpTechnology = this.data.technology;
+  
+    if (this.data.newComment){
+      let pages = getCurrentPages();
+      let currentPage = pages[pages.length - 2];
+      let curTypeIdx = currentPage.data.curTypeIdx;
+      let publishTechnology = currentPage.data.publishTechnology;
+      let typePublishTechnology = publishTechnology[curTypeIdx];
+      
+      for (let i = 0; i < typePublishTechnology.length; i++){
+        if (typePublishTechnology[i]._id = tmpTechnology._id){
+          let briefComment = typePublishTechnology[i].briefComment;
 
+          briefComment.count = tmpTechnology.comment.length;
+          briefComment.createTime = tmpTechnology.comment[tmpTechnology.comment.length-1].createTime;
+          typePublishTechnology[i].createTimeFormat = new Date(briefComment.createTime).toLocaleString();
+          typePublishTechnology[i].briefComment = briefComment;
+          publishTechnology[curTypeIdx] = typePublishTechnology;
+          currentPage.setData({
+            publishTechnology: publishTechnology
+          });
+          return;
+        }
+      }
+     
+    }
+   
   },
 
   /**

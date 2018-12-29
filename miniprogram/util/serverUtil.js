@@ -50,7 +50,7 @@ function publishTopic(topic){
         }
       }).then(res => {
         if (res.result.code == 0) {
-          resolve(res.result);
+          resolve(res.result.data);
         } else {
           console.log(res);
           reject(res.result);
@@ -244,8 +244,17 @@ function loadAllPublish(time, typeId) {
     collection.where({
       topicType: typeId,
       createTime: _command.lte(time)
-    }).orderBy("createTime", 'desc').limit(10).get().then(res => {
-     
+    }).orderBy("createTime", 'desc').limit(10).field({
+      _id:true,
+      topicType: true,
+      title: true,
+      content: true,
+      address: true,
+      fileIdList: true,
+      avatar: true,
+      userName: true,
+      createTime: true
+    }).get().then(res => {
       resolve(res.data)
     }).catch(res => {
       reject(res);
