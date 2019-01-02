@@ -1,41 +1,19 @@
-// miniprogram/pages/found/found.js
+// miniprogram/pages/question/question.js
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    swiperList : [
-      {
-        url: '../../images/life.jpg',
-        text:'分享养猪生活',
-        page: '../shareLife/shareLife'
-      },{
-        url: '../../images/study.jpg',
-        text: '交流养猪技术',
-        page: '../technology/technology'
-      },{
-        url: '../../images/help.jpg',
-        text: '养猪求助',
-        page: '../question/question'
-      }
-    ],
-    curIdx : 0
+      searchValue:''
   },
 
-  onChangeSwiper:function(e){
-    
-    this.setData({
-      curIdx: e.detail.current
+
+  onQuestion:function(e){
+    wx.navigateTo({
+      url: '../publishQuestion/publishQuestion',
     });
   },
-
-  onTapSwiperItem:function(e){
-   wx.navigateTo({
-     url: e.currentTarget.id,
-   })
-  },
-
   /**
    * 生命周期函数--监听页面加载
    */

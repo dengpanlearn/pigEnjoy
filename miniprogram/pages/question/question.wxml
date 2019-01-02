@@ -1,0 +1,19 @@
+<!--miniprogram/pages/question/question.wxml-->
+<view class='container'>
+  <view class='search-view'>
+    <view class='search-title'>养猪搜一搜</view>
+    <view class='search-menu'>
+      <input class='search-menu-input' value='{{searchValue}}' placeholder='搜索症状/用药/疾病' placeholder-class='search-menu-input-placeholder'></input>
+      <view class='search-btn'>搜索</view>
+    </view>
+  </view>
+
+  <view class='question-menu-view'>
+    <view class='question-menu-title'>养猪求助</view>
+    <view class='question-menu-btn' bindtap='onQuestion'>立即提问</view>
+  
+  </view>
+
+  
+
+</view>

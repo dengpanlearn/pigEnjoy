@@ -1,0 +1,70 @@
+<!--miniprogram/pages/publishQuestion/publishQuestion.wxml-->
+<view class='container'>
+  <view class='quetion-period-view'>
+    <view class='quetion-period-header'>
+      <view class='quetion-in-icon'>*</view>
+      <view class='quetion-period-title'>病猪阶段</view>
+    </view>
+
+    <view class='quetion-period-end'>
+      <picker class='quetion-period-pick' value='{{selectedPeriod}}' range='{{questionPeriod}}'>
+        <view class='quetion-period-selected'>{{questionPeriod[selectedPeriod]}}</view>
+      </picker>
+      <image class='slected-icon' src='../../images/go.png'></image>
+    </view>
+  </view>
+
+  <view class='quetion-num-view'>
+    <view class='quetion-num-header'>
+      <view class='quetion-in-icon'>*</view>
+      <view class='quetionnum-title'>发病头数</view>
+    </view>
+
+    <view class='quetion-num-end'>
+      <input class='quetion-num-input' value='{{quetionNum}}' type='number' placeholder= '0'></input>
+      
+      <view class='quetion-num-type'>头数</view>
+
+    </view>
+  
+  </view>
+
+  <view class='quetion-temp-view'>
+    <view class='quetion-temp-header'>
+      <view class='quetion-in-icon'>*</view>
+      <view class='quetion-temp-title'>体温</view>
+    </view>
+
+    <view class='quetion-temp-end'>
+      <input class='quetion-temp-input' value='{{quetionTmp}}' type='digit' placeholder= '0'></input>
+      
+      <view class='quetion-temp-type'>℃</view>
+
+    </view>
+  
+  </view>
+
+  <view class='quetion-symptoms'> 
+     <view class='quetion-symptoms-icon'>*</view>
+     <textarea class='quetion-symptoms-input' placeholder='症状描述' placeholder-class ='quetion-symptoms-placeholder' maxlength='1000'></textarea>
+  </view>
+
+  <scroll-view class='publish-image' scroll-x= 'true'>
+  <view class='publish-image-load' wx:for='{{toLoadedPhotos}}' wx:key = 'src' id = '{{item.src}}' bindlongpress='onTouchDelete'>
+  <image class='publish-image-load-src' src='{{item.src}}' bindtap='onShowImage' id='{{item.src}}'></image>
+    <image class='publish-image-load-delete' wx:if='{{item.bDelete}}'  bindtap='onDeleteImage' id='{{item.src}}' src='../../images/delete.png'></image>
+  </view>
+
+    <view class='publish-image-put' bindtap='onGetPhoto'>
+    <view class='publish-image-put-tmp'>
+      <image class='publish-image-icon' src='../../images/photo.png'></image>
+      <text class='publish-image-title'>照片</text>
+    </view>
+   </view>
+</scroll-view>
+
+<view class='publish-address'>
+  <image class='publish-address-icon' src='../../images/address.png' bindtap='onGetAddress'></image>
+  <text class='publish-address-title'>{{curAddress}}</text>
+</view>
+</view>

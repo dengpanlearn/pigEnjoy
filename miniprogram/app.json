@@ -15,7 +15,9 @@
     "pages/shareLife/shareLife",
     "pages/publishShareLife/publishShareLife",
     "pages/technology/technology",
-    "pages/viewTechnology/viewTechnology"
+    "pages/viewTechnology/viewTechnology",
+    "pages/question/question",
+    "pages/publishQuestion/publishQuestion"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",
