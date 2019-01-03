@@ -20,7 +20,7 @@
 <textarea class='publish-input' value='{{content}}' maxlength ='-1' bindinput='onInput'
 placeholder='说说你的想法...'></textarea>
 <scroll-view class='publish-image' scroll-x= 'true'>
-  <view class='publish-image-load' wx:for='{{toLoadedPhotos}}' wx:key = '*this' id = '{{item.src}}' bindlongpress='onTouchDelete'>
+  <view class='publish-image-load' wx:for='{{toLoadedPhotos}}' wx:key = 'src' id = '{{item.src}}' bindlongpress='onTouchDelete'>
   <image class='publish-image-load-src' src='{{item.src}}' bindtap='onShowImage' id='{{item.src}}'></image>
     <image class='publish-image-load-delete' wx:if='{{item.bDelete}}'  bindtap='onDeleteImage' id='{{item.src}}' src='../../images/delete.png'></image>
   </view>
@@ -34,8 +34,8 @@ placeholder='说说你的想法...'></textarea>
 </scroll-view>
 
 
-<view class='publish-address'>
-  <image class='publish-address-icon' src='../../images/address.png' bindtap='onGetAddress'></image>
+<view class='publish-address' bindtap='onGetAddress'>
+  <image class='publish-address-icon' src='../../images/address.png' ></image>
   <text class='publish-address-title'>{{curAddress}}</text>
 </view>
 
@@ -48,4 +48,6 @@ placeholder='说说你的想法...'></textarea>
     <text class='publish-end-cancle' bindtap='onCancle'>取消</text>
     <text class='publish-end-confirm' bindtap='onConfirm'>发表</text>
   </view>
+
+
 </view>

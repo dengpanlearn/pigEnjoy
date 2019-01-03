@@ -13,7 +13,18 @@
     <view class='question-menu-btn' bindtap='onQuestion'>立即提问</view>
   
   </view>
-
+  <view class='result-show'>-最新问题-</view>
+  <view class='question-biref-item' wx:for='{{questionBriefList}}' wx:key='_id' id='{{index}}'>
+    <view class='question-item-title'>{{item.title}}</view>
+    <view class='question-item-brief-info'>
+      <view class='question-item-time'>{{item.createTimeFormat}}</view>
+      <view class='question-item-comment'>
+        <image class='question-item-comment-icon' src='../../images/comment.png'></image>
+        <view class='question-item-comment-counts'>{{item.briefComment.count}}</view>
+      </view>
+    </view>
+  
+  </view>
   
 
 </view>

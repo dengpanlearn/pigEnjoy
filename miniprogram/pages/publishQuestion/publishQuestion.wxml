@@ -1,5 +1,17 @@
 <!--miniprogram/pages/publishQuestion/publishQuestion.wxml-->
 <view class='container'>
+
+
+  <view class='quetion-title-view'>
+    <view class='quetion-title-header'>
+      <view class='quetion-in-icon'>*</view>
+      <view class='quetion-title-title'>标题</view>
+    </view>
+
+    <input class='quetion-title-input' value='{{questionTitle}}' maxlength ='150' bindinput = 'onInput'
+    placeholder='请添加标题'></input>
+  </view>
+
   <view class='quetion-period-view'>
     <view class='quetion-period-header'>
       <view class='quetion-in-icon'>*</view>
@@ -7,8 +19,8 @@
     </view>
 
     <view class='quetion-period-end'>
-      <picker class='quetion-period-pick' value='{{selectedPeriod}}' range='{{questionPeriod}}'>
-        <view class='quetion-period-selected'>{{questionPeriod[selectedPeriod]}}</view>
+      <picker class='quetion-period-pick' value='{{selectedPeriodIndex}}' range='{{questionPeriods}}' bindchange='onSelectPeriod'>
+        <view class='quetion-period-selected'>{{questionPeriods[selectedPeriodIndex]}}</view>
       </picker>
       <image class='slected-icon' src='../../images/go.png'></image>
     </view>
@@ -21,7 +33,7 @@
     </view>
 
     <view class='quetion-num-end'>
-      <input class='quetion-num-input' value='{{quetionNum}}' type='number' placeholder= '0'></input>
+      <input class='quetion-num-input' value='{{quetionNum}}' type='number' bindinput = 'onInput' placeholder= '0'></input>
       
       <view class='quetion-num-type'>头数</view>
 
@@ -36,7 +48,7 @@
     </view>
 
     <view class='quetion-temp-end'>
-      <input class='quetion-temp-input' value='{{quetionTmp}}' type='digit' placeholder= '0'></input>
+      <input class='quetion-temp-input' value='{{quetionTmp}}' type='digit' placeholder= '0' bindinput = 'onInput'></input>
       
       <view class='quetion-temp-type'>℃</view>
 
@@ -46,7 +58,7 @@
 
   <view class='quetion-symptoms'> 
      <view class='quetion-symptoms-icon'>*</view>
-     <textarea class='quetion-symptoms-input' placeholder='症状描述' placeholder-class ='quetion-symptoms-placeholder' maxlength='1000'></textarea>
+     <textarea class='quetion-symptoms-input' value='{{questionSymptoms}}' placeholder='症状描述' placeholder-class ='quetion-symptoms-placeholder' maxlength='1000' bindinput = 'onInput'></textarea>
   </view>
 
   <scroll-view class='publish-image' scroll-x= 'true'>
@@ -63,8 +75,13 @@
    </view>
 </scroll-view>
 
-<view class='publish-address'>
-  <image class='publish-address-icon' src='../../images/address.png' bindtap='onGetAddress'></image>
+<view class='publish-address' bindtap='onGetAddress'>
+  <image class='publish-address-icon' src='../../images/address.png' ></image>
   <text class='publish-address-title'>{{curAddress}}</text>
 </view>
+
+  <view class='publish-end'>
+    <text class='publish-end-cancle' bindtap='onCancle'>取消</text>
+    <text class='publish-end-confirm' bindtap='onConfirm'>发表</text>
+  </view>
 </view>

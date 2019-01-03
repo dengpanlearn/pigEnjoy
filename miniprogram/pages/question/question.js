@@ -1,11 +1,15 @@
 // miniprogram/pages/question/question.js
+var publishUtil = require("../../util/publishUtil.js");
+var serverUtil = require("../../util/serverUtil.js");
+var util = require("../../util/util.js");
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-      searchValue:''
+      searchValue:'',
+      questionBriefList:[]
   },
 
 
@@ -18,7 +22,25 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    wx.showLoading({
+      title: '加载',
+    })
+    publishUtil.loadBriefPublishTechnologyQuestion().then(res => {
+      console.log(res);
+      let questionBriefList = res;
 
+
+      for (let i = 0; i < questionBriefList.length; i++) {
+
+        questionBriefList[i].createTimeFormat = new Date(questionBriefList[i].briefComment.createTime).toLocaleString();
+      }
+      this.setData({
+        questionBriefList: questionBriefList
+      });
+      wx.hideLoading();
+    }).catch(err => {
+      wx.hideLoading();
+    });
   },
 
   /**
@@ -46,7 +68,7 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-
+   
   },
 
   /**

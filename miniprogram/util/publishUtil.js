@@ -26,6 +26,14 @@ var unUpdatePublish =[
     toLoadedPhotos: [],
     address: '添加地点',
     bPhotoHighFormat: false
+  },
+  {
+    curTypeIdx: 3,
+    title: '',
+    content: '',
+    toLoadedPhotos: [],
+    address: '添加地点',
+    bPhotoHighFormat: false
   }
 ];
 
@@ -61,6 +69,29 @@ function getUnUpdatePublish(typeIdx){
 function setUnUpdatePublish(typeIdx, usrUnUpdatePublish){
   unUpdatePublish[typeIdx] = usrUnUpdatePublish;
 }
+
+function setUnUpdatePublishQuestion(userUnUnpdateQuestion) {
+  unUpdatePublish[3] = {
+    curTypeIdx: 3,
+    title: userUnUnpdateQuestion.title,
+    content: JSON.stringify(userUnUnpdateQuestion.content),
+    address: userUnUnpdateQuestion.address,
+    toLoadedPhotos: userUnUnpdateQuestion.toLoadedPhotos,
+    bPhotoHighFormat: true,
+  };
+}
+
+function getUnUpdatePublishQuestion() {
+  let technology = unUpdatePublish[3];
+  return {
+    title: technology.title,
+    content: (technology.content=='')?undefined:JSON.parse(technology.content),
+    address: technology.address,
+    photoPathList: technology.toLoadedPhotos,
+    bPhotoHighFormat: true,
+  }
+}
+
 
 function loadSelfPublish(){
   serverUtil.loadSelfPublish().then(res=>{
@@ -273,6 +304,9 @@ function loadBriefPublishTechnology(technologyTypeId){
 
 }
 
+function loadBriefPublishTechnologyQuestion(){
+  return loadBriefPublishTechnology(3);
+}
 
 function loadBriefPublishTechnologyCompeted(technologyTypeId) {
   return briefPublishTechnologyLoaded[technologyTypeId];
@@ -333,6 +367,25 @@ function publishTechnology(topicTechnology) {
   });
 }
 
+function publishQuestion(question){
+  return new Promise((resolve, reject) => {
+   let technologyQuestion={
+     topicType: 3,
+     title: question.title,
+     content: JSON.stringify(question.content),
+     address: question.curAddress,
+     photoPathList: question.toLoadedPhotoDir,
+     bPhotoHighFormat: true
+   };
+    serverUtil.publishTopicTechnology(technologyQuestion).then(res => {
+      //  loadAllPublishShareLife();
+      resolve(res);
+    }).catch(res => {
+      reject(res);
+    });
+  });
+}
+
 function loadTechnologyInfo(technologyTypeId, _id)
 {
   return new Promise((resolve, reject)=>{
@@ -372,15 +425,19 @@ function loadTechnologyInfo(technologyTypeId, _id)
 module.exports = {
   publishShareLife,
   publishTechnology,
+  publishQuestion,
   getUnUpdatePublish,
   setUnUpdatePublish,
   getUnUpdatePublishShareLife,
   setUnUpdatePublishShareLife,
+  setUnUpdatePublishQuestion,
+  getUnUpdatePublishQuestion,
   loadSelfPublish,
   loadShareLifeCompeted,
   loadAllPublishShareLife,
   loadBriefPublishTechnology,
   loadBriefPublishTechnologyCompeted,
+  loadBriefPublishTechnologyQuestion,
   getAllPublishShareLife,
   getBriefPublishTechnoloy,
   addComment,
