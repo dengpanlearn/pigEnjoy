@@ -422,6 +422,18 @@ function loadTechnologyInfo(technologyTypeId, _id)
   })
 }
 
+function loadTechnologyQuestionInfo(questionId){
+  return new Promise((resolve, reject)=>{
+    loadTechnologyInfo(3, questionId).then(res=>{
+      let technologyQuestion = res;
+      technologyQuestion.content = JSON.parse(res.content);
+      resolve(technologyQuestion);
+    }).catch(err=>{
+      reject(err)
+    });
+  })
+}
+
 module.exports = {
   publishShareLife,
   publishTechnology,
@@ -443,4 +455,5 @@ module.exports = {
   addComment,
   addPraise,
   loadTechnologyInfo,
+  loadTechnologyQuestionInfo,
 }

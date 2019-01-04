@@ -1,0 +1,40 @@
+<!--miniprogram/pages/viewQuestion/viewQuestion.wxml-->
+<view class='container'>
+  <scroll-view class='scroll-view' scroll-y='true'>
+    <view class='question-header'>
+      <view class='question-title'>{{question.title}}</view>
+      <view class='question-user'>
+        <view class='question-user-info'>
+          <image class='question-avatar' src='{{question.avatar}}'></image>
+          <view class='question-username'>{{question.userName}}</view>
+        </view>
+
+        <view class='question-createtime'>{{question.createTimeFormate}}</view>
+      </view>
+    </view>
+
+    <view class='question-period'>
+      <view class='question-period-title'>病猪阶段:</view>
+      <view class='question-period-value'>{{question.content.selectedPeriodIndex}}</view>
+    </view>
+
+    <view class='question-num'>
+      <view class='question-num-title'>发病头数:</view>
+      <view class='question-num-value'>{{question.content.inputNum}}头</view>
+    </view>
+
+    <view class='question-temp'>
+      <view class='question-temp-title'>体温:</view>
+      <view class='question-temp-value'>{{question.content.inputTemp}}℃</view>
+    </view>
+
+    <view class='question-Symptoms'>症状描述:{{question.content.inputSymptomsValue}}
+    </view>
+
+    <view class="{{(question.fileIdList.length<3)?'question-photo-big':'question-photo-small'}}">
+        <image  class = "{{(question.fileIdList.length<3)?'question-photo-item-big':'question-photo-item-small'}}" wx:for ="{{question.fileIdList}}" wx:key = '*this'  wx:for-item ="questionPhotoItem" wx:for-index ="questionPhotoIndex" id = "{{questionPhotoIndex}}"
+        src='{{questionPhotoItem}}' bindtap='onViewQuestionPhoto'></image>
+      </view>
+  </scroll-view>
+
+</view>

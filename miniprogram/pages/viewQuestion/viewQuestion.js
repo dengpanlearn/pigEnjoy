@@ -1,4 +1,4 @@
-// miniprogram/pages/question/question.js
+// miniprogram/pages/viewQuestion/viewQuestion.js
 var publishUtil = require("../../util/publishUtil.js");
 var serverUtil = require("../../util/serverUtil.js");
 var util = require("../../util/util.js");
@@ -8,23 +8,18 @@ Page({
    * 页面的初始数据
    */
   data: {
-      searchValue:'',
-      questionBriefList:[]
+    question:{}
   },
 
-  onViewQuestion:function(e){
-    let index = parseInt(e.currentTarget.id);
-    wx.navigateTo({
-      url: '../viewQuestion/viewQuestion?questionId=' + this.data.questionBriefList[index]._id,
+  onViewQuestionPhoto:function(e){
+    let urls = this.data.question.fileIdList;
+    let current = urls[parseInt(e.currentTarget.id)];
+    wx.previewImage({
+      urls: urls,
+      current: current
     })
   },
 
-  onQuestion:function(e){
-
-    wx.navigateTo({
-      url: '../publishQuestion/publishQuestion',
-    });
-  },
   /**
    * 生命周期函数--监听页面加载
    */
@@ -32,19 +27,15 @@ Page({
     wx.showLoading({
       title: '加载',
     })
-    publishUtil.loadBriefPublishTechnologyQuestion().then(res => {
-      console.log(res);
-      let questionBriefList = res;
-
-
-      for (let i = 0; i < questionBriefList.length; i++) {
-
-        questionBriefList[i].createTimeFormat = new Date(questionBriefList[i].briefComment.createTime).toLocaleString();
-      }
-      this.setData({
-        questionBriefList: questionBriefList
-      });
+    let questionId = options.questionId;
+    publishUtil.loadTechnologyQuestionInfo(questionId).then(question => {
       wx.hideLoading();
+
+      question.createTimeFormate = new Date(question.createTime).toLocaleString();
+      console.log(question);
+      this.setData({
+        question: question
+      });
     }).catch(err => {
       wx.hideLoading();
     });
@@ -75,7 +66,7 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-   
+
   },
 
   /**

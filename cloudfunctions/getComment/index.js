@@ -32,6 +32,7 @@ exports.main = async (event, context) => {
         if (userResult.data.length > 0){
           let tmpCommentResult = result.data[i];
           tmpCommentResult.userName = userResult.data[0].userName;
+          tmpCommentResult.avatar= userResult.data[0].avatarUrl;
           commentResults.push(tmpCommentResult);
         }
       }

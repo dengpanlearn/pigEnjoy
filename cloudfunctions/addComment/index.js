@@ -44,7 +44,8 @@ exports.main = async (event, context) => {
         publishId: publishId,
         content: content,
         createTime: creatTime,
-        userName: userResult.data[0].userName
+        userName: userResult.data[0].userName,
+        avatar: userResult.data[0].avatarUrl,
       }
     }
   }catch(e){
