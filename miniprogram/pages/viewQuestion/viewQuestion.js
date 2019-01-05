@@ -8,7 +8,25 @@ Page({
    * 页面的初始数据
    */
   data: {
-    question:{}
+    question:{},
+    commenFocus:false,
+    commentValue:''
+  },
+
+  onSendComment:function(e){
+
+  },
+  
+  onTapTextArea: function (e) {
+    this.setData({
+      commenFocus: true
+    });
+  },
+
+  onTextAreaBlur: function (e) {
+    this.setData({
+      commenFocus: false
+    });
   },
 
   onViewQuestionPhoto:function(e){

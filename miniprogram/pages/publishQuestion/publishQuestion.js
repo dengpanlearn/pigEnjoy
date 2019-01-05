@@ -162,7 +162,7 @@ Page({
               toLoadedPhotoDir: toLoadedPhotoDir,
             }).then(res=>{
               wx.hideLoading();
-
+              console.log(res);
               let pages = getCurrentPages();
               let currentPage = pages[pages.length - 2];
     

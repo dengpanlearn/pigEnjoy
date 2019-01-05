@@ -48,21 +48,21 @@ function publishTopic(topic){
           fileIdList: res,
           bPhotoHighFormat: topic.bPhotoHighFormat
         }
-      }).then(res => {
-        if (res.result.code == 0) {
-          resolve(res.result.data);
+      }).then(pubRes => {
+        if (pubRes.result.code == 0) {
+          resolve(pubRes.result.data);
         } else {
-          console.log(res);
-          reject(res.result);
+          console.log(pubRes);
+          reject(pubRes.result);
         }
-      }).catch(e => {
-        console.log(res);
-        reject(e);
+      }).catch(err => {
+        console.log(err);
+        reject(err);
       })
       
-    }).catch(res=>{
-      console.log(res);
-      reject(res);
+    }).catch(err=>{
+      console.log(err);
+      reject(err);
   });
  
  
@@ -311,6 +311,7 @@ function loadPublishInfo(typeId, _id) {
       title: true,
       userName: true,
       content: true,
+      fileIdList: true,
       createTime: true
     }).get().then(res => {
       if (res.data.length == 0){

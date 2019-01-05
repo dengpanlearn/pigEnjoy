@@ -37,4 +37,10 @@
       </view>
   </scroll-view>
 
+  <view class='comment-view'>
+    <textarea class='comment-input' maxlength ='500' 
+placeholder='回帖参与讨论' placeholder-class ='placeholder-view' bindtap='onTapTextArea' bindblur ='onTextAreaBlur' focus='{{commenFocus}}' value = '{{commentValue}}' cursor-spacing='20'></textarea>
+  <view class='send-view' bindtap='onSendComment'>解答</view>
+  </view>
+
 </view>
