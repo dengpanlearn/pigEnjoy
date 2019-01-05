@@ -14,6 +14,15 @@ Page({
     newComment:false
   },
 
+  onViewtechnologyPhoto: function(e){
+    let urls = this.data.technology.fileIdList;
+    let current = urls[parseInt(e.currentTarget.id)];
+    wx.previewImage({
+      urls: urls,
+      current: current
+    })
+  },
+
   onPraise:function(e){
     wx.showLoading({
       title: '加载',
@@ -129,7 +138,7 @@ Page({
       let typePublishTechnology = publishTechnology[curTypeIdx];
       
       for (let i = 0; i < typePublishTechnology.length; i++){
-        if (typePublishTechnology[i]._id = tmpTechnology._id){
+        if (typePublishTechnology[i]._id == tmpTechnology._id){
           let briefComment = typePublishTechnology[i].briefComment;
 
           briefComment.count = tmpTechnology.comment.length;

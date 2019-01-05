@@ -16,7 +16,10 @@
   <view class='technology-content-view'>
    <text class='technology-content'>{{technology.content}}</text>
   </view>
-
+      <view class="{{(technology.fileIdList.length<3)?'technology-photo-big':'technology-photo-small'}}">
+        <image  class = "{{(technology.fileIdList.length<3)?'technology-photo-item-big':'technology-photo-item-small'}}" wx:for ="{{technology.fileIdList}}" wx:key = '*this'  wx:for-item ="technologyPhotoItem" wx:for-index ="technologyPhotoIndex" id = "{{technologyPhotoIndex}}"
+        src='{{technologyPhotoItem}}' bindtap='onViewtechnologyPhoto'></image>
+      </view>
   <view class='menu-view'>
     <view class='menu-item-view'>
     <view class='menu-item'>
@@ -52,6 +55,8 @@
           <view class='show-praise-item'>{{technology.praise.length}} 觉得很赞</view>
         </view>
       </view>
+
+    
 
         <view class='comment-show-view' wx:if="{{technology.comment.length > 0}}">
           <view class='comment-show-total'>

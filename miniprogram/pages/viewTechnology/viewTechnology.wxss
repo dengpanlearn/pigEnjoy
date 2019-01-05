@@ -189,6 +189,44 @@
   margin-left: 20rpx;
 }
 
+.technology-photo-big{
+  width: 100%;
+  height: 300;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+
+.technology-photo-small{
+  width: 95%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+ margin-left: 20rpx;
+}
+
+
+.technology-photo-item-big{
+  width: 38%;
+  height: 300rpx;
+  margin-left: 20rpx;
+   margin-top: 10rpx;
+   margin-bottom: 10rpx;
+}
+
+.technology-photo-item-small{
+  width: 32.6%;
+  height: 210rpx;
+     margin-top: 10rpx;
+      margin-right: 5rpx;
+       margin-bottom: 10rpx;
+}
 .comment-show-view{
   width: 100%;
   height: auto;

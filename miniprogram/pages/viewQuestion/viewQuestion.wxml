@@ -35,6 +35,20 @@
         <image  class = "{{(question.fileIdList.length<3)?'question-photo-item-big':'question-photo-item-small'}}" wx:for ="{{question.fileIdList}}" wx:key = '*this'  wx:for-item ="questionPhotoItem" wx:for-index ="questionPhotoIndex" id = "{{questionPhotoIndex}}"
         src='{{questionPhotoItem}}' bindtap='onViewQuestionPhoto'></image>
       </view>
+     
+
+      <view class='question-comment-show-item' wx:for='{{question.comment}}' wx:key='_id'>
+        <view class='question-comment-user'>
+          <image class='question-comment-user-avatar' src='{{item.avatar}}'></image>
+          <view class='question-comment-user-info'>
+            <view class='question-comment-user-name'>{{item.userName}}</view>
+            <view class='question-comment-user-time'>{{item.createTimeFormate}}</view>
+          </view>
+
+          
+        </view>
+        <view class='question-user-content'>{{item.content}}</view>
+        </view>
   </scroll-view>
 
   <view class='comment-view'>
