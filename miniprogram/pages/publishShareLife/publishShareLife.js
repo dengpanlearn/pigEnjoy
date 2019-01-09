@@ -1,8 +1,8 @@
 // miniprogram/pages/publish/publish.js
 
-var publishUtil = require('../../util/publishUtil.js');
-var serverUtil = require('../../util/serverUtil.js');
-var util = require('../../util/util.js');
+var publishUtil = require('../../zhyUtil/publishUtil.js');
+var serverUtil = require('../../zhyUtil/serverUtil.js');
+var util = require('../../zhyUtil/util.js');
 
 
 Page({
@@ -214,13 +214,14 @@ Page({
           address: this.data.curAddress,
           photoPathList: toLoadedPhotoDir,
           bPhotoHighFormat: this.data.bPhotoHighFormat
-        }).then(res => {
+        }).then(topicResult => {
           wx.hideLoading();
           wx.showToast({
             title: '发表成功',
             duration: 2000
           })
-
+          console.log(topicResult);
+   
           publishUtil.setUnUpdatePublishShareLife({
             content: '',
             toLoadedPhotos: [],
@@ -235,12 +236,13 @@ Page({
           let currentPage = pages[pages.length-2];
          
          let currentArray=  currentPage.data.allShareLifeArry;
-        let tmpPublishTopic = res;
+          
+          let tmpPublishTopic = topicResult;
           tmpPublishTopic.comment =[];
           tmpPublishTopic.praise = [];
           tmpPublishTopic.focus = false;
           tmpPublishTopic.inputComment = '';
-          tmpPublishTopic.creatTimeFormat = new Date(tmpPublishTopic.createTime).toLocaleString();
+          tmpPublishTopic.creatTimeFormat = new Date(topicResult.created_at*1000).toLocaleString();
           currentArray.unshift(tmpPublishTopic);
           currentPage.setData({
             allShareLifeArry: currentArray

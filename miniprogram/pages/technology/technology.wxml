@@ -10,7 +10,7 @@
     <view class='technology-item-title'>{{item.title}}</view>
     <view class='technology-item-brief'>
       <view class='technology-item-user'>
-       <image class='technology-item-avatar' src='{{item.avatar}}'></image>
+       <image class='technology-item-avatar' src='{{item.avatarUrl}}'></image>
        <view class='technology-item-username'>{{item.userName}}</view>
       </view>
       <view class='technology-item-comment'>

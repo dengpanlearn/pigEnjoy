@@ -1,7 +1,7 @@
 // miniprogram/pages/question/question.js
-var publishUtil = require("../../util/publishUtil.js");
-var serverUtil = require("../../util/serverUtil.js");
-var util = require("../../util/util.js");
+var publishUtil = require("../../zhyUtil/publishUtil.js");
+var serverUtil = require("../../zhyUtil/serverUtil.js");
+var util = require("../../zhyUtil/util.js");
 Page({
 
   /**
@@ -39,7 +39,7 @@ Page({
 
       for (let i = 0; i < questionBriefList.length; i++) {
 
-        questionBriefList[i].createTimeFormat = new Date(questionBriefList[i].briefComment.createTime).toLocaleString();
+        questionBriefList[i].createTimeFormat = new Date(questionBriefList[i].briefComment.created_at*1000).toLocaleString();
       }
       this.setData({
         questionBriefList: questionBriefList

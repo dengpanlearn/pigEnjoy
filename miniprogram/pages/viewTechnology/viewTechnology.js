@@ -1,7 +1,7 @@
 // miniprogram/pages/viewTechnology/viewTechnology.js
-var publishUtil = require("../../util/publishUtil.js");
-var serverUtil = require("../../util/serverUtil.js");
-var util = require("../../util/util.js");
+var publishUtil = require("../../zhyUtil/publishUtil.js");
+var serverUtil = require("../../zhyUtil/serverUtil.js");
+var util = require("../../zhyUtil/util.js");
 Page({
 
   /**
@@ -15,7 +15,12 @@ Page({
   },
 
   onViewtechnologyPhoto: function(e){
-    let urls = this.data.technology.fileIdList;
+    let imageFiles = this.data.technology.imageFiles;
+    let urls = [];
+    for (let i = 0; i < imageFiles.length; i++) {
+      urls.push(imageFiles[i].path);
+    }
+
     let current = urls[parseInt(e.currentTarget.id)];
     wx.previewImage({
       urls: urls,
@@ -93,7 +98,7 @@ Page({
     publishUtil.loadTechnologyInfo(parseInt(options.technologyTypeIdx), options._id).then(technology=>{
       wx.hideLoading();
 
-      technology.createTimeFormate = new Date(technology.createTime).toLocaleString();
+      technology.createTimeFormate = new Date(technology.created_at*1000).toLocaleString();
       console.log(technology);
       this.setData({
         technology: technology
@@ -142,8 +147,8 @@ Page({
           let briefComment = typePublishTechnology[i].briefComment;
 
           briefComment.count = tmpTechnology.comment.length;
-          briefComment.createTime = tmpTechnology.comment[tmpTechnology.comment.length-1].createTime;
-          typePublishTechnology[i].createTimeFormat = new Date(briefComment.createTime).toLocaleString();
+          briefComment.created_at = tmpTechnology.comment[tmpTechnology.comment.length - 1].created_at;
+          typePublishTechnology[i].createTimeFormat = new Date(briefComment.created_at*1000).toLocaleString();
           typePublishTechnology[i].briefComment = briefComment;
           publishTechnology[curTypeIdx] = typePublishTechnology;
           currentPage.setData({

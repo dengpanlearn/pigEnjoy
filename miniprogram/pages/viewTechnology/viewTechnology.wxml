@@ -5,7 +5,7 @@
     <view class='technology-title'>{{technology.title}}</view>
     <view class='technology-user'>
       <view class='technology-user-info'>
-       <image class='technology-avatar' src='{{technology.avatar}}'></image>
+       <image class='technology-avatar' src='{{technology.avatarUrl}}'></image>
        <view class='technology-username'>{{technology.userName}}</view>
       </view>
 
@@ -16,9 +16,9 @@
   <view class='technology-content-view'>
    <text class='technology-content'>{{technology.content}}</text>
   </view>
-      <view class="{{(technology.fileIdList.length<3)?'technology-photo-big':'technology-photo-small'}}">
-        <image  class = "{{(technology.fileIdList.length<3)?'technology-photo-item-big':'technology-photo-item-small'}}" wx:for ="{{technology.fileIdList}}" wx:key = '*this'  wx:for-item ="technologyPhotoItem" wx:for-index ="technologyPhotoIndex" id = "{{technologyPhotoIndex}}"
-        src='{{technologyPhotoItem}}' bindtap='onViewtechnologyPhoto'></image>
+      <view class="{{(technology.imageFiles.length<3)?'technology-photo-big':'technology-photo-small'}}">
+        <image  class = "{{(technology.imageFiles.length<3)?'technology-photo-item-big':'technology-photo-item-small'}}" wx:for ="{{technology.imageFiles}}" wx:key = 'path'  wx:for-item ="technologyPhotoItem" wx:for-index ="technologyPhotoIndex" id = "{{technologyPhotoIndex}}"
+        src='{{technologyPhotoItem.path}}' bindtap='onViewtechnologyPhoto'></image>
       </view>
   <view class='menu-view'>
     <view class='menu-item-view'>

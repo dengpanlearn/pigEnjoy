@@ -1,7 +1,7 @@
 // miniprogram/pages/pigHome/pigHome.js
 
-var util = require('../../util/util.js');
-var publishUtil = require('../../util/publishUtil.js');
+
+var util = require('../../zhyUtil/util.js');
 const app = getApp();
 
 
@@ -23,23 +23,13 @@ Page({
       mask: true
     })
 
-
-
-
-    util.loadWxUserInfo(app.globalData.appName).then((res) => {
-      console.info('load wx user info ok');
-     /* publishUtil.loadAllPublishShareLife();
-      let interNum = setInterval(res=>{
-        if (publishUtil.loadShareLifeCompeted()) {
-          clearInterval(interNum);
-          wx.hideLoading();
-        }
-      }, 500, this);*/
+    util.userLoad().then(res=>{
       wx.hideLoading();
-    }, (res) => {
-     
+    }).catch(err=>{
       wx.hideLoading();
-    })
+    });
+
+
   },
 
   /**

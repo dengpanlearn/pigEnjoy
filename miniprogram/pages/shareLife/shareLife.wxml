@@ -11,7 +11,7 @@
     wx:for-item ="shareLifeItem" wx:for-index ="shareLifeIndex">
     <view class='item-val'>
       <view class='share-life-info'>
-        <image class='share-life-avatar' src='{{shareLifeItem.avatar}}'></image>
+        <image class='share-life-avatar' src='{{shareLifeItem.avatarUrl}}'></image>
         <view class='share-life-author'>
           <view class='share-life-author-name'>{{shareLifeItem.userName}}</view>
           <view class='share-life-author-time'>{{ shareLifeItem.creatTimeFormat}}</view>
@@ -21,9 +21,9 @@
 
       <view class='share-life-content'>{{shareLifeItem.content}}</view>
 
-      <view class="{{(shareLifeItem.fileIdList.length<3)?'share-life-photo-big':'share-life-photo-small'}}">
-        <image  class = "{{(shareLifeItem.fileIdList.length<3)?'share-life-photo-item-big':'share-life-photo-item-small'}}" wx:for ="{{shareLifeItem.fileIdList}}" wx:key = '*this'  wx:for-item ="sharePhotoItem" wx:for-index ="sharePhotoIndex" id = "{{''+shareLifeIndex+'+'+sharePhotoIndex}}"
-        src='{{sharePhotoItem}}' bindtap='onViewSharePhoto'></image>
+      <view class="{{(shareLifeItem.imageFiles.length<3)?'share-life-photo-big':'share-life-photo-small'}}">
+        <image  class = "{{(shareLifeItem.imageFiles.length<3)?'share-life-photo-item-big':'share-life-photo-item-small'}}" wx:for ="{{shareLifeItem.imageFiles}}" wx:key = 'cdn_path'  wx:for-item ="sharePhotoItem" wx:for-index ="sharePhotoIndex" id = "{{''+shareLifeIndex+'+'+sharePhotoIndex}}"
+        src='{{sharePhotoItem.path}}' bindtap='onViewSharePhoto'></image>
       </view>
 
       <view class='share-operator'>

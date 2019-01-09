@@ -1,7 +1,7 @@
 // miniprogram/pages/shareLife/shareLife.js
-var publishUtil = require("../../util/publishUtil.js");
-var serverUtil = require("../../util/serverUtil.js");
-var util = require("../../util/util.js");
+var publishUtil = require("../../zhyUtil/publishUtil.js");
+var serverUtil = require("../../zhyUtil/serverUtil.js");
+var util = require("../../zhyUtil/util.js");
 Page({
 
   /**
@@ -18,7 +18,12 @@ Page({
     if (indexArray.length != 2)
      return;
 
-    let urls = this.data.allShareLifeArry[parseInt(indexArray[0])].fileIdList;
+
+    let imageFiles = this.data.allShareLifeArry[parseInt(indexArray[0])].imageFiles;
+    let urls = [];
+    for (let i = 0; i < imageFiles.length; i++){
+      urls.push(imageFiles[i].path);
+    }
     let current = urls[parseInt(indexArray[1])];
     wx.previewImage({
       urls: urls,
@@ -156,11 +161,6 @@ onCommentInput:function(e){
     });
   }
 },
-  onBackFound:function(e){
-    wx.reLaunch({
-      url: '../found/found',
-    })
-  },
 
   /**
    * 生命周期函数--监听页面加载
@@ -174,11 +174,12 @@ onCommentInput:function(e){
       wx.hideLoading();
       let loadedShareLifeArry = res;
       let allShareLifeArry = [];
+
       for (let i = 0; i < loadedShareLifeArry.length; i++) {
         let tmpShareLife = loadedShareLifeArry[i];
         tmpShareLife.focus = false;
         tmpShareLife.inputComment = '';
-        tmpShareLife.creatTimeFormat = new Date(tmpShareLife.createTime).toLocaleString();
+        tmpShareLife.creatTimeFormat = new Date(tmpShareLife.created_at*1000).toLocaleString();
         allShareLifeArry.push(tmpShareLife);
       }
       this.setData({
@@ -245,31 +246,9 @@ onCommentInput:function(e){
  
   },
 
-  onPageScroll:function(opt){
-
-    
-    let curTimerNum = this.data.curTimerNum;
-    if (curTimerNum != 0) {
-      clearTimeout(curTimerNum);
-    }
-
-    curTimerNum = setTimeout(res => {
-      this.setData({
-        bShowBackBtn: false,
-        curTimerNum: 0
-      })
-    }, 4000, this);
-
-    this.setData({
-      bShowBackBtn: true,
-      curTimerNum: curTimerNum
-    });
-
- 
-    
   
 
-  },
+
 
   /**
    * 页面上拉触底事件的处理函数

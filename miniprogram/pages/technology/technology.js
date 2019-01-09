@@ -1,7 +1,7 @@
 // miniprogram/pages/technology/technology.js
-var publishUtil = require("../../util/publishUtil.js");
-var serverUtil = require("../../util/serverUtil.js");
-var util = require("../../util/util.js");
+var publishUtil = require("../../zhyUtil/publishUtil.js");
+var serverUtil = require("../../zhyUtil/serverUtil.js");
+var util = require("../../zhyUtil/util.js");
 Page({
 
   /**
@@ -38,7 +38,7 @@ Page({
 
       for (let i = 0; i < tmpTechnology.length; i++) {
 
-        tmpTechnology[i].createTimeFormat = new Date(tmpTechnology[i].briefComment.createTime).toLocaleString();
+        tmpTechnology[i].createTimeFormat = new Date(tmpTechnology[i].briefComment.created_at*1000).toLocaleString();
       }
 
       tmpTechnologyArray[curTypeIdx] = tmpTechnology

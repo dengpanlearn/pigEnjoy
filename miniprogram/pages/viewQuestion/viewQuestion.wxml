@@ -5,7 +5,7 @@
       <view class='question-title'>{{question.title}}</view>
       <view class='question-user'>
         <view class='question-user-info'>
-          <image class='question-avatar' src='{{question.avatar}}'></image>
+          <image class='question-avatar' src='{{question.avatarUrl}}'></image>
           <view class='question-username'>{{question.userName}}</view>
         </view>
 
@@ -31,15 +31,15 @@
     <view class='question-Symptoms'>症状描述:{{question.content.inputSymptomsValue}}
     </view>
 
-    <view class="{{(question.fileIdList.length<3)?'question-photo-big':'question-photo-small'}}">
-        <image  class = "{{(question.fileIdList.length<3)?'question-photo-item-big':'question-photo-item-small'}}" wx:for ="{{question.fileIdList}}" wx:key = '*this'  wx:for-item ="questionPhotoItem" wx:for-index ="questionPhotoIndex" id = "{{questionPhotoIndex}}"
-        src='{{questionPhotoItem}}' bindtap='onViewQuestionPhoto'></image>
+    <view class="{{(question.imageFiles.length<3)?'question-photo-big':'question-photo-small'}}">
+        <image  class = "{{(question.imageFiles.length<3)?'question-photo-item-big':'question-photo-item-small'}}" wx:for ="{{question.imageFiles}}" wx:key = 'path'  wx:for-item ="questionPhotoItem" wx:for-index ="questionPhotoIndex" id = "{{questionPhotoIndex}}"
+        src='{{questionPhotoItem.path}}' bindtap='onViewQuestionPhoto'></image>
       </view>
      
 
       <view class='question-comment-show-item' wx:for='{{question.comment}}' wx:key='_id'>
         <view class='question-comment-user'>
-          <image class='question-comment-user-avatar' src='{{item.avatar}}'></image>
+          <image class='question-comment-user-avatar' src='{{item.avatarUrl}}'></image>
           <view class='question-comment-user-info'>
             <view class='question-comment-user-name'>{{item.userName}}</view>
             <view class='question-comment-user-time'>{{item.createTimeFormate}}</view>

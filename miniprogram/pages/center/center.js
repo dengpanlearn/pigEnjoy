@@ -1,6 +1,6 @@
 // miniprogram/pages/center/center.js
 
-var util = require('../../util/util.js');
+var zhyUtil = require('../../zhyUtil/util.js');
 const app = getApp();
 Page({
 
@@ -9,7 +9,6 @@ Page({
    */
   data: {
     avatarUrl: '../../images/user-unlogin.png',
-    userInfo: {},
     userName: 'Hi，你好！',
     userInfoIsGetted: false,
     userBlogInfos:[{
@@ -46,24 +45,20 @@ Page({
   },
 
   onGetUserInfo: function (e) {
-    if (!util.objectIsEmpty(e.detail.userInfo)) {
-      util.setUserInfo(e.detail.userInfo);
-      wx.showLoading({
-        title: '注册中',
-      })
-      util.registerUser(app.globalData.appName).then((res) => {
-        this.setData({
-          avatarUrl: e.detail.userInfo.avatarUrl,
-          userInfo: e.detail.userInfo,
-          userName: e.detail.userInfo.nickName,
-          userInfoIsGetted: true
-        })
-        wx.hideLoading();
-      }).catch(err => {
-        console.log(err);
-        wx.hideLoading();
+    wx.showLoading({
+      title: '加载',
+    });
+    zhyUtil.registerUser(e).then(res=>{
+      wx.hideLoading();
+    //  console.log(res);
+      this.setData({
+        avatarUrl: res.avatarUrl,
+        userName: res.nickName,
+        userInfoIsGetted: true,
       });
-    }
+    }).catch(err=>{
+      wx.hideLoading();
+    });
   },
 
   onOpenSetting: function (e) {
@@ -84,7 +79,21 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    wx.showLoading({
+      title: '加载',
+    });
 
+    zhyUtil.getUserInfoSync().then(res=>{
+      wx.hideLoading();
+   //   console.log(res);
+     this.setData({
+       avatarUrl: res.avatarUrl,
+       userName: res.nickName,
+       userInfoIsGetted: true,
+     });
+    }).catch(err=>{
+      wx.hideLoading();
+    });
   },
 
   /**
@@ -98,14 +107,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    if (util.getIsUpdateInfo()) {
-      this.setData({
-        avatarUrl: util.getAvatarUrl(),
-        userInfo: util.getUserInfo(),
-        userName: util.getUserInfo().nickName,
-        userInfoIsGetted: true,
-      })
-    }
+
   },
 
   /**

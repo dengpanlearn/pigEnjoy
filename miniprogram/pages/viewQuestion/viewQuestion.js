@@ -1,7 +1,7 @@
 // miniprogram/pages/viewQuestion/viewQuestion.js
-var publishUtil = require("../../util/publishUtil.js");
-var serverUtil = require("../../util/serverUtil.js");
-var util = require("../../util/util.js");
+var publishUtil = require("../../zhyUtil/publishUtil.js");
+var serverUtil = require("../../zhyUtil/serverUtil.js");
+var util = require("../../zhyUtil/util.js");
 function getInputContent(className) {
   return new Promise((resolve, reject) => {
     wx.createSelectorQuery().select(className).fields({
@@ -30,8 +30,8 @@ Page({
     getInputContent('.comment-input').then(res=>{
       let comment = res.trim();
       if (comment ==''){
-        wx.showLoading({
-          title: '请输入有效内容!!',
+        wx.showToast({
+          title: '请输入有效内容!!!',
         })
 
         return;
@@ -78,7 +78,12 @@ Page({
   },
 
   onViewQuestionPhoto:function(e){
-    let urls = this.data.question.fileIdList;
+    let imageFiles = this.data.question.imageFiles;
+    let urls = [];
+    for (let i = 0; i < imageFiles.length; i++) {
+      urls.push(imageFiles[i].path);
+    }
+
     let current = urls[parseInt(e.currentTarget.id)];
     wx.previewImage({
       urls: urls,
@@ -97,9 +102,9 @@ Page({
     publishUtil.loadTechnologyQuestionInfo(questionId).then(question => {
       wx.hideLoading();
 
-      question.createTimeFormate = new Date(question.createTime).toLocaleString();
+      question.createTimeFormate = new Date(question.created_at*1000).toLocaleString();
       for (let i = 0; i < question.comment.length; i++){
-      question.comment[i].createTimeFormate = new Date(question.comment[i].createTime).toLocaleString();
+        question.comment[i].createTimeFormate = new Date(question.comment[i].created_at*1000).toLocaleString();
       }
       console.log(question);
       this.setData({
@@ -148,8 +153,8 @@ Page({
           let briefComment = questionBriefList[i].briefComment;
 
           briefComment.count = tmpQuestion.comment.length;
-          briefComment.createTime = tmpQuestion.comment[tmpQuestion.comment.length - 1].createTime;
-          questionBriefList[i].createTimeFormat = new Date(briefComment.createTime).toLocaleString();
+          briefComment.created_at = tmpQuestion.comment[tmpQuestion.comment.length - 1].created_at;
+          questionBriefList[i].createTimeFormat = new Date(briefComment.created_at*1000).toLocaleString();
           questionBriefList[i].briefComment = briefComment;
           
           currentPage.setData({

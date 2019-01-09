@@ -1,4 +1,6 @@
 //app.js
+
+var zhyUtil = require('./zhyUtil/util.js');
 App({
   onLaunch: function () {
     
@@ -9,10 +11,15 @@ App({
         env:'clouddemo-480e99',
         traceUser: true,
       })
+
+      zhyUtil.zhyUtilInit(this.globalData.zhyId);
     }
 
-    this.globalData = {
-      appName:'pigEnjoy'
-    }
+
+  },
+
+    globalData: {
+    appName: 'pigEnjoy',
+    zhyId: 'd26396c499dbfb27717a'
   }
 })

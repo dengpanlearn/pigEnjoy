@@ -1,7 +1,7 @@
 // miniprogram/pages/publish/publish.js
 
-var publishUtil = require('../../util/publishUtil.js');
-var serverUtil = require('../../util/serverUtil.js');
+var publishUtil = require('../../zhyUtil/publishUtil.js');
+var serverUtil = require('../../zhyUtil/serverUtil.js');
 
 function getInputContent(className){
   return new Promise((resolve, reject)=>{
@@ -278,11 +278,11 @@ Page({
 
           let newBrief ={
             _id: res._id,
-            avatar: res.avatar,
+            avatarUrl: res.avatarUrl,
             title: res.title,
             userName: res.userName,
-            createTime: res.createTime,
-            createTimeFormat: new Date(res.createTime).toLocaleString(),
+            created_at: res.createTime,
+            createTimeFormat: new Date(res.created_at*1000).toLocaleString(),
            briefComment: briefComment
           }
           publishTechnology[curTypeIdx].unshift(newBrief);
