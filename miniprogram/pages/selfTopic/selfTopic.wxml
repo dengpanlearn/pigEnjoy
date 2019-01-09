@@ -1,0 +1,91 @@
+<!--miniprogram/pages/selfTopic/selfTopic.wxml-->
+<view class='container'>
+  <view class='profile-info' >
+    <image class='avatar' src='{{avatarUrl}}'></image>
+    <view class='info' >
+      <text class='name'>{{userName}}</text>
+    </view>
+  </view>
+
+
+  <view class='blog-collect'>
+    <view class='blog-collect-item' wx:for='{{userTopicInfos}}' wx:key='name' id ='{{item.name}}'>
+      <text class='collect-value'>{{item.value}}</text>
+      <text class='collect-name'>{{item.name}}</text>
+    </view>
+
+  </view>
+
+  <view class='topic-item-view' wx:for = '{{selfPublishTopic}}' wx:key ='_id' wx:for-item='selfPublishItem' wx:for-index='selfPublishIndex'>
+  <view class='topic-item-dividor-normal' wx:if ='{{selfPublishItem.bContinue}}'></view>
+  <view class='topic-item-dividor-time' wx:if ='{{!selfPublishItem.bContinue}}'>{{selfPublishItem.createYear}}年{{selfPublishItem.createMonth}}月</view>
+
+  <view class='topic-item-header-view'>
+    <image class='topic-item-header-avatar' src='{{selfPublishItem.avatarUrl}}'></image>
+
+    <view class='topic-item-header-user'>
+      <view class='topic-item-header-username'>{{selfPublishItem.userName}}</view>
+      <view class='topic-item-header-user-createtime'>{{selfPublishItem.createFormate}}</view>
+    </view>
+  </view>
+  
+    <view class='topic-item-title-view' wx:if = '{{selfPublishItem.topicType}}'>
+      <view class='topic-item-title-lab'>发表了一篇技术交流</view>
+      <view class='topic-item-title'>{{selfPublishItem.title}}</view>
+    </view>
+  <text class='topic-item-content' >{{selfPublishItem.content}}</text>
+
+
+
+  <view class="{{(selfPublishItem.imageFiles.length<3)?'share-life-photo-big':'share-life-photo-small'}}">
+  <image  class = "{{(selfPublishItem.imageFiles.length<3)?'share-life-photo-item-big':'share-life-photo-item-small'}}" wx:for ="{{selfPublishItem.imageFiles}}" wx:key = 'path'  wx:for-item ="selfTopicPhotoItem" wx:for-index ="selfTopicPhotoIndex" id = "{{''+selfPublishIndex+'+'+selfTopicPhotoIndex}}"
+  src='{{selfTopicPhotoItem.path}}' bindtap='onViewSelfTopicPhoto'></image>
+</view>
+
+  <view class='share-operator'>
+    <view class='view-times'>收藏0次</view>
+        <view class='share-operator-menu'>
+         <image class='share-icon' src='../../images/praise-nor.png' id='{{selfPublishIndex}}'></image>
+         <image class='share-icon' src='../../images/comment-nor.png' id="{{selfPublishIndex}}" ></image> 
+         <image class='share-icon' src='../../images/store-nor.png' ></image> 
+    </view>
+  </view>
+
+
+
+    <view class='show-praise' wx:if='{{selfPublishItem.praise.length > 0}}'>
+      <image class='show-praise-icon' src='../../images/praise-nor.png'></image>
+      <view class='show-praise-title' wx:if='{{selfPublishItem.praise.length < 5}}'>
+        <view class='show-praise-item' wx:for ='{{selfPublishItem.praise}}' wx:key='_id'>{{item.userName}} </view>
+      </view>
+
+      <view class='show-praise-title' wx:if='{{selfPublishItem.praise.length >= 5}}'>
+        <view class='show-praise-item'>{{selfPublishItem.praise[0].userName}} </view>
+        <view class='show-praise-item'>{{selfPublishItem.praise[1].userName}} </view>
+        <view class='show-praise-item'>{{selfPublishItem.praise[2].userName}} </view>
+        <view class='show-praise-item'>{{selfPublishItem.praise[3].userName}} </view>
+        <view class='show-praise-item'>{{selfPublishItem.praise[4].userName}} </view>
+        <view class='show-praise-item'>{{selfPublishItem.praise.length}} 觉得很赞</view>
+      </view>
+    </view>
+
+
+    <view class='comment-show-view' wx:if="{{selfPublishItem.comment.length > 0}}">
+      <view class='comment-show-total'>
+      <image class='comment-show-total-icon' src='../../images/comment-nor.png'></image>
+      <view class='comment-show-total-text'>{{selfPublishItem.comment.length}}条评论回复</view>
+      </view>
+      <view class='comment-show-item' wx:for = '{{selfPublishItem.comment}}' wx:for-item='commentItem' wx:key='_id'>
+        <view class='comment-show-item-usr'>{{commentItem.userName}}:</view>  
+        <view class='comment-show-item-content'>{{commentItem.content}}</view>
+      </view>
+    </view>
+
+      <view class='comment-input-view'>
+        <textarea class='comment-input' placeholder-class = 'comment-placeholder'value = '{{selfPublishItem.inputComment}}'id="{{selfPublishIndex}}"maxlength ='500' placeholder='评论' bindtap='onTapTextArea' bindblur ='onTextAreaBlur' bindconfirm = 'onCommentInput' focus='{{selfPublishItem.focus}}' cursor-spacing='20'></textarea>
+      </view>
+
+
+  </view>
+
+  </view>

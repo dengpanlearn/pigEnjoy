@@ -110,6 +110,25 @@ function loadAllPublishShareLife(time) {
   return loadAllPublish(time, 0);
 }
 
+function loadAllSelfPublish(topicTypes){
+  return new Promise((resolve, reject)=>{
+    let query = new wx.BaaS.Query();
+    let tableObject = new wx.BaaS.TableObject(61937);
+    let userId = util.getUserId();
+
+    query.compare('created_by', '=', userId);
+    query.in('topicType', topicTypes);
+
+    tableObject.setQuery(query).limit(10).orderBy('-created_at').select(['_id', 'topicType', 'title',
+      'content', 'address', 'imageFiles', 'avatarUrl', 'userName', 'created_at']).find().then(res => {
+        //  console.log(res.data.objects);
+        resolve(res.data.objects);
+      }).catch(err => {
+        reject(err);
+      });
+  });
+}
+
 
 function loadBriefPublish(time, topicType){
   return new Promise((resolve, reject) => {
@@ -130,6 +149,28 @@ function loadBriefPublish(time, topicType){
 
 function loadBriefPublishTechnology(time, typeId) {
   return loadBriefPublish(time, typeId + 1);
+}
+
+function loadSelfBriefPublish(time, topicType) {
+  return new Promise((resolve, reject) => {
+    let query = new wx.BaaS.Query();
+    let tableObject = new wx.BaaS.TableObject(61937);
+    let userId = util.getUserId();
+
+    query.compare('created_at', '<=', time);
+    query.compare('topicType', '=', topicType);
+    query.compare('created_by', '=', userId);
+    tableObject.setQuery(query).limit(10).orderBy('-created_at').select(['_id', 'title',
+      'avatarUrl', 'created_at', 'userName']).find().then(res => {
+        resolve(res.data.objects);
+      }).catch(err => {
+        reject(err);
+      });
+  });
+}
+
+function loadSelfBriefPublishTechnology(time, typeId) {
+  return loadSelfBriefPublish(time, typeId + 1);
 }
 
 function loadPublishInfo(typeId, _id){
@@ -294,8 +335,10 @@ module.exports={
   publishTopicShareLife,
   publishTopicTechnology,
   loadAllPublishShareLife,
+  loadAllSelfPublish,
   loadBriefPublishTechnology,
   loadPublishTechnologyInfo,
+  loadSelfBriefPublishTechnology,
   addComment,
   addPraise,
   getComment,

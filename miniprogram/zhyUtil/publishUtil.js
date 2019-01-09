@@ -54,7 +54,7 @@ var allShareLifePublish = [];
 var briefPublishTechnologyLoaded = [0, 0, 0];
 var briefPublishTechnology =[];
 
-
+var briefSelfPublishTechnology =[];
 function getUnUpdatePublishShareLife(){
   return unUpdatePublishShareLife
 }
@@ -94,25 +94,99 @@ function getUnUpdatePublishQuestion() {
 }
 
 
-function loadSelfPublish(){
-  serverUtil.loadSelfPublish().then(res=>{
-    if (res.length > 0){
-      for (let i = 0; i < res.length; i++){
-        if (res[i].topicType){
-          allSelfQuestionPublish.push(res[i]);
-        }else{
-          allSelfOriginalPublish.push(res[i]);
-        }
-      }
-    }
-    console.log(allSelfOriginalPublish);
-    publishLoaded = true;
-  }
-  ).catch(res=>{
-    publishLoaded = true;
-  })
+function loadSelfOriginalPublish(){
+  return new Promise((resolve, reject)=>{
+    allSelfOriginalPublish = [];
+    serverUtil.loadAllSelfPublish([0, 1, 2]).then(res => {
+      if (res.length == 0) {
 
+        reject(allSelfOriginalPublish);
+      } else {
+        allSelfOriginalPublish = res;
+
+        let waitCompleteds = 0;
+        for (let i = 0; i < res.length; i++) {
+
+          serverUtil.getComment(res[i]._id).then(comment => {
+            allSelfOriginalPublish[i].comment = comment;
+            waitCompleteds++;
+
+          }).catch(err => {
+            allSelfOriginalPublish[i].comment = [];
+            waitCompleteds++;
+          });
+
+          serverUtil.getPraise(res[i]._id).then(praise => {
+            // console.log(praise);
+            allSelfOriginalPublish[i].praise = praise;
+            waitCompleteds++;
+
+          }).catch(err => {
+            allSelfOriginalPublish[i].praise = [];
+            waitCompleteds++;
+          })
+        }
+        let timeNum = setInterval(result => {
+          if (waitCompleteds == 2 * res.length) {
+            clearInterval(timeNum);
+            resolve(allSelfOriginalPublish);
+          }
+        }, 500, 0);
+      }
+    
+    }).catch(res => {
+      reject(err);
+    })
+  })
 }
+
+
+function loadSelfQuestionPublish() {
+  return new Promise((resolve, reject) => {
+    allSelfQuestionPublish = [];
+    serverUtil.loadAllSelfPublish([3]).then(res => {
+      if (res.length == 0) {
+
+        reject(allSelfQuestionPublish);
+      } else {
+        allSelfQuestionPublish = res;
+
+        let waitCompleteds = 0;
+        for (let i = 0; i < res.length; i++) {
+
+          serverUtil.getComment(res[i]._id).then(comment => {
+            allSelfQuestionPublish[i].comment = comment;
+            waitCompleteds++;
+
+          }).catch(err => {
+            allSelfQuestionPublish[i].comment = [];
+            waitCompleteds++;
+          });
+
+          serverUtil.getPraise(res[i]._id).then(praise => {
+            // console.log(praise);
+            allSelfQuestionPublish[i].praise = praise;
+            waitCompleteds++;
+
+          }).catch(err => {
+            allSelfQuestionPublish[i].praise = [];
+            waitCompleteds++;
+          })
+        }
+        let timeNum = setInterval(result => {
+          if (waitCompleteds == 2 * res.length) {
+            clearInterval(timeNum);
+            resolve(allSelfQuestionPublish);
+          }
+        }, 500, 0);
+      }
+
+    }).catch(err => {
+      reject(err);
+    })
+  })
+}
+
 
 function loadAllPublishShareLife(){
   return new Promise((resolve, reject)=>{
@@ -313,6 +387,49 @@ function loadBriefPublishTechnologyCompeted(technologyTypeId) {
   return briefPublishTechnologyLoaded[technologyTypeId];
 }
 
+function loadSelfBriefPublishTechnology(technologyTypeId) {
+  return new Promise((resolve, reject) => {
+    const curTime = new Date().getTime();
+    serverUtil.loadSelfBriefPublishTechnology(curTime, technologyTypeId).then(res => {
+      if (res.length == 0) {
+        briefSelfPublishTechnology[technologyTypeId] = [];
+        resolve(briefSelfPublishTechnology[technologyTypeId]);
+      } else {
+        briefSelfPublishTechnology[technologyTypeId] = res;
+        let waitCompleteds = 0;
+        for (let i = 0; i < res.length; i++) {
+          serverUtil.getBriefComment(res[i]._id).then(briefComment => {
+            briefSelfPublishTechnology[technologyTypeId][i].briefComment = briefComment;
+            waitCompleteds++;
+          }).catch(err => {
+            briefSelfPublishTechnology[technologyTypeId][i].briefComment = {
+              count: 0,
+              created_at: briefSelfPublishTechnology[technologyTypeId][i].created_at
+            };
+
+            waitCompleteds++;
+          });
+
+        }
+
+        let timeNum = setInterval(result => {
+          if (waitCompleteds == res.length) {
+            clearInterval(timeNum);
+            resolve(briefSelfPublishTechnology[technologyTypeId]);
+          }
+        }, 500, 0);
+      }
+    }).catch(err => {
+      briefSelfPublishTechnology[technologyTypeId] = [];
+      reject(err);
+    })
+  })
+}
+
+function loadSelfBriefPublishTechnologyQuestion() {
+  return loadSelfBriefPublishTechnology(3);
+}
+
 function addComment(comment){
  
   return new Promise((resolve, reject)=>{
@@ -439,12 +556,14 @@ module.exports = {
   setUnUpdatePublishShareLife,
   setUnUpdatePublishQuestion,
   getUnUpdatePublishQuestion,
-  loadSelfPublish,
   loadShareLifeCompeted,
   loadAllPublishShareLife,
+  loadSelfOriginalPublish,
+  loadSelfQuestionPublish,
   loadBriefPublishTechnology,
   loadBriefPublishTechnologyCompeted,
   loadBriefPublishTechnologyQuestion,
+  loadSelfBriefPublishTechnologyQuestion,
   getAllPublishShareLife,
   getBriefPublishTechnoloy,
   addComment,

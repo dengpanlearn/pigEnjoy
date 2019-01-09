@@ -1,0 +1,103 @@
+/* miniprogram/pages/selfQuestion/selfQuestion.wxss */
+.container{
+  width: 100%;
+  height: 100%;
+}
+
+.profile-info{
+  width: 100%;
+  height: 280rpx;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+
+  background: #fffdfd;
+
+  border-bottom:1rpx solid #bebcbcfc;
+}
+
+.profile-info .avatar{
+  width: 148rpx;
+  height: 148rpx;
+  border-radius: 50%;
+}
+
+.profile-info .info{
+  width: 150rpx;
+  height: 85rpx;
+  padding-left: 32.5rpx;
+}
+
+.profile-info .name{
+  display: block;
+  height: 45rpx;
+  line-height: 45rpx;
+  font-size: 37.5rpx;
+  margin-bottom: 10rpx;
+}
+
+.question-biref-item{
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  border-bottom: 1rpx solid #dddcdcfc;
+}
+
+.question-item-title{
+  width: auto;
+  height: auto;
+  line-height: 45rpx;
+  font-size: 25rpx;
+  text-align: left;
+  margin-left: 20rpx;
+  margin-top: 20rpx;
+}
+
+.question-item-brief-info{
+  width: 100%;
+  height: 45rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10rpx;
+}
+
+.question-item-time{
+  width: auto;
+  height: 45rpx;
+  margin-left: 20rpx;
+  line-height: 45rpx;
+  text-align: left;
+  font-size: 20rpx;
+  color: #bebcbcfc;
+}
+
+.question-item-comment{
+  width: auto;
+  height: 45rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  margin-right: 20rpx;
+}
+
+.question-item-comment-icon{
+  width: 30rpx;
+  height: 30rpx;
+}
+
+.question-item-comment-counts{
+  width: auto;
+  height: 45rpx;
+   margin-left: 20rpx;
+  line-height: 45rpx;
+  text-align: right;
+  font-size: 20rpx;
+  color: #bebcbcfc;
+}

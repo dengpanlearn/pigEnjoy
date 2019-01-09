@@ -106,7 +106,7 @@ Page({
       for (let i = 0; i < question.comment.length; i++){
         question.comment[i].createTimeFormate = new Date(question.comment[i].created_at*1000).toLocaleString();
       }
-      console.log(question);
+   //   console.log(question);
       this.setData({
         question: question
       });

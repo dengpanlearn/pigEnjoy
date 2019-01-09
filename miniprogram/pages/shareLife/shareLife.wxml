@@ -19,7 +19,7 @@
       </view>
 
 
-      <view class='share-life-content'>{{shareLifeItem.content}}</view>
+      <text class='share-life-content'>{{shareLifeItem.content}}</text>
 
       <view class="{{(shareLifeItem.imageFiles.length<3)?'share-life-photo-big':'share-life-photo-small'}}">
         <image  class = "{{(shareLifeItem.imageFiles.length<3)?'share-life-photo-item-big':'share-life-photo-item-small'}}" wx:for ="{{shareLifeItem.imageFiles}}" wx:key = 'cdn_path'  wx:for-item ="sharePhotoItem" wx:for-index ="sharePhotoIndex" id = "{{''+shareLifeIndex+'+'+sharePhotoIndex}}"

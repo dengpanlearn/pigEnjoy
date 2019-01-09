@@ -10,7 +10,7 @@ Page({
   data: {
     avatarUrl: '../../images/user-unlogin.png',
     userName: 'Hi，你好！',
-    userInfoIsGetted: false,
+    userInfoIsGetted: true,
     userBlogInfos:[{
       name:'等级',
       value: 0
@@ -31,17 +31,28 @@ Page({
       }
     ],
 
-    centerMenu:[
-      '我的原创',
-      '我的提问',
-      '我的回复',
-      '我的收藏'
+    centerMenu:[{
+      name: '我的原创',
+      url:'../selfTopic/selfTopic'
+    },{
+      name: '我的求助',
+      url: '../selfQuestion/selfQuestion'
+    },{
+      name: '我的收藏',
+      url: '../selfTopic/selfTopic'
+    }
     ],
 
     connectMenu:[
       '反馈问题',
       '联系方式'
     ]
+  },
+
+  onViewSelfTopic:function(e){
+    wx.navigateTo({
+      url: e.currentTarget.id,
+    })
   },
 
   onGetUserInfo: function (e) {
@@ -58,6 +69,9 @@ Page({
       });
     }).catch(err=>{
       wx.hideLoading();
+      this.setData({
+        userInfoIsGetted: false,
+      });
     });
   },
 
@@ -93,6 +107,9 @@ Page({
      });
     }).catch(err=>{
       wx.hideLoading();
+      this.setData({
+        userInfoIsGetted: false,
+      });
     });
   },
 
