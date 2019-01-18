@@ -331,6 +331,151 @@ function getPraise(publishId) {
       });
   })
 }
+
+function loadBriefContents(time, groupId, categoryID){
+  return new Promise((resolve, reject)=>{
+    let MyContentGroup = new wx.BaaS.ContentGroup(groupId);
+    let query = new wx.BaaS.Query()
+    query.arrayContains('categories', [categoryID]);
+    query.compare('created_at', '<=', time);
+
+    MyContentGroup.setQuery(query).limit(10).orderBy('-created_at').select(['title', 'description', 'id', 'created_at', 'cover']).find().then(res=>{
+  //    console.log(res.data.objects);
+      resolve(res.data.objects);
+    }).catch(err=>{
+      reject(err);
+    })
+
+  });
+}
+
+function loadBriefTopNews(time){
+  return loadBriefContents(time, 1547688310232191, 1547688378319635);
+}
+
+function loadBriefPushNews(time) {
+  return loadBriefContents(time, 1547688310232191, 1547799942627512);
+}
+
+function getContent(groupId, contentId){
+  return new Promise((resolve, reject)=>{
+    console.log(contentId);
+    let MyContentGroup = new wx.BaaS.ContentGroup(groupId);
+    MyContentGroup.select(['title', 'description', 'id', 'created_at', 'content']).getContent(contentId).then(res=>{
+      resolve(res.data);
+    }).catch(err=>{
+      reject(err);
+    })
+  })
+
+}
+
+function getTopNews(contentId) {
+  return getContent(1547688310232191, contentId);
+}
+
+
+function addNewsComment(newsComment) {
+  return new Promise((resolve, reject) => {
+    let tableObject = new wx.BaaS.TableObject(63074);
+    let newRow = tableObject.create();
+ 
+    newRow.set({
+      content: newsComment.content,
+      avatarUrl: util.getUserAvatarUrl(),
+      userName: util.getUserName(),
+      newsId: newsComment.newsId
+    });
+    newRow.save().then(res => {
+     // console.log(res);
+      resolve({
+        _id: res.data._id,
+        content: res.data.content,
+        avatarUrl: res.data.avatarUrl,
+        userName: res.data.userName,
+        newsId: res.data.newsId,
+        created_at: res.data.created_at
+      });
+    }).catch(err => {
+      reject(err);
+    })
+
+  })
+}
+
+function addNewsPraise(newsId) {
+  return new Promise((resolve, reject) => {
+    let tableObject = new wx.BaaS.TableObject(62956);
+
+    let query = new wx.BaaS.Query();
+
+    query.compare('created_by', '=', util.getUserId());
+    query.compare('newsId', '=', newsId);
+    tableObject.setQuery(query).count().then(num => {
+      if (num > 0) {
+        reject(num);
+      } else {
+        let newRow = tableObject.create();
+        newRow.set({
+          avatarUrl: util.getUserAvatarUrl(),
+          userName: util.getUserName(),
+          newsId: newsId
+        });
+        newRow.save().then(res => {
+          //console.log(res);
+          resolve({
+            _id: res.data._id,
+            avatarUrl: res.data.avatarUrl,
+            userName: res.data.userName,
+            newsId: res.data.newsId
+          });
+        }).catch(err => {
+          reject(err);
+        })
+      }
+    }).catch(err => {
+      reject(err);
+    })
+
+
+  })
+}
+
+
+function getNewsComment(newsId) {
+  return new Promise((resolve, reject) => {
+    let tableObject = new wx.BaaS.TableObject(63074);
+
+  
+    let query = new wx.BaaS.Query();
+    query.compare('newsId', '=', newsId);
+    console.log(newsId);
+    tableObject.setQuery(query).limit(10).orderBy('created_at').select(['_id', 'content',
+      'avatarUrl', 'created_at', 'userName', 'newsId']).find().then(res => {
+        // console.log(res);
+        resolve(res.data.objects);
+      }).catch(err => {
+        reject(err);
+      });
+  })
+}
+
+function getNewsPraise(newsId) {
+  return new Promise((resolve, reject) => {
+    let tableObject = new wx.BaaS.TableObject(62956);
+    let query = new wx.BaaS.Query();
+    query.compare('newsId', '=', newsId);
+    tableObject.setQuery(query).limit(10).orderBy('created_at').select(['_id',
+      'avatarUrl', 'userName', 'newsId']).find().then(res => {
+       //  console.log(res);
+        resolve(res.data.objects);
+      }).catch(err => {
+        reject(err);
+      });
+  })
+}
+
+
 module.exports={
   publishTopicShareLife,
   publishTopicTechnology,
@@ -344,4 +489,11 @@ module.exports={
   getComment,
   getBriefComment,
   getPraise,
+  loadBriefTopNews,
+  getTopNews,
+  addNewsComment,
+  addNewsPraise,
+  getNewsComment,
+  getNewsPraise,
+  loadBriefPushNews
 }

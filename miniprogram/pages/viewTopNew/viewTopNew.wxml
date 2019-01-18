@@ -1,0 +1,84 @@
+<!--miniprogram/pages/viewTopNew/viewTopNew.wxml-->
+
+<scroll-view class='top-new' scroll-y = 'true'>
+
+
+  <view class='top-new-header'>
+    <view class='top-new-header-title'>{{topNew.title}}</view>
+    <view class='top-new-header-info'>
+      <view class='top-new-header-desc'>{{topNew.description}}</view>
+      <view class='top-new-header-time'>{{topNew.createTimeFormate}}</view>
+    </view>
+  </view>
+
+  <view class='top-new-content'>
+
+    <import src="../../zhyUtil/wxParser/index.wxml"/>
+    <view class="wxParser">
+      <template is="wxParser" data="{{wxParserData:richText.nodes}}"/>
+    </view> 
+  </view>
+
+
+   <view class='menu-view'>
+    <view class='menu-item-view'>
+    <view class='menu-item'>
+      <view class='item-photo' bindtap='onPraise'>
+      <image class='item-icon' src='../../images/praise-icon.png'></image>
+      </view>
+
+      <view class='item-title'>点赞鼓励</view>
+    </view>
+
+      <view class='menu-item'>
+      <view class='item-photo'>
+      <image class='item-icon' src='../../images/transmit.png'></image>
+      
+      </view>
+      <view class='item-title'>转发给朋友</view>
+    </view>
+    </view>
+  </view>
+
+
+  
+  <view class='show-praise' wx:if='{{topNew.praise.length > 0}}'>
+        <image class='show-praise-icon' src='../../images/praise-nor.png'></image>
+        <view class='show-praise-title' wx:if='{{topNew.praise.length < 5}}'>
+          <view class='show-praise-item' wx:for ='{{topNew.praise}}' wx:key='_id'>{{item.userName}} </view>
+        </view>
+
+        <view class='show-praise-title' wx:if='{{topNew.praise.length >= 5}}'>
+          <view class='show-praise-item'>{{topNew.praise[0].userName}} </view>
+          <view class='show-praise-item'>{{topNew.praise[1].userName}} </view>
+          <view class='show-praise-item'>{{topNew.praise[2].userName}} </view>
+          <view class='show-praise-item'>{{topNew.praise[3].userName}} </view>
+          <view class='show-praise-item'>{{topNew.praise[4].userName}} </view>
+          <view class='show-praise-item'>{{topNew.praise.length}} 觉得很赞</view>
+        </view>
+      </view>
+
+
+        <view class='comment-show-view' wx:if="{{topNew.comment.length > 0}}">
+          <view class='comment-show-total'>
+          <image class='comment-show-total-icon' src='../../images/comment-nor.png'></image>
+          <view class='comment-show-total-text'>{{topNew.comment.length}}条评论回复</view>
+          </view>
+          <view class='comment-show-item' wx:for = '{{topNew.comment}}' wx:for-item='commentItem' wx:key='_id'>
+            <view class='comment-show-item-usr'>{{commentItem.userName}}:</view>  
+            <view class='comment-show-item-content'>{{commentItem.content}}</view>
+          </view>
+        </view>
+
+</scroll-view>
+
+<view class='comment-view'>
+  <textarea class='comment-input' maxlength ='500' 
+placeholder='回帖参与讨论' placeholder-class ='placeholder-view' bindtap='onTapTextArea' bindblur ='onTextAreaBlur' bindconfirm = 'onCommentInput' focus='{{commenFocus}}' value = '{{commentValue}}' cursor-spacing='20'></textarea>
+  <view class='collect-view' >
+    <image class='collect-icon' src='../../images/store-pressed.png'></image>
+    <text class='collect-title'>收藏</text>
+  </view>
+  </view>
+
+

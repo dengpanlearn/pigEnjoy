@@ -2,18 +2,7 @@
 var publishUtil = require("../../zhyUtil/publishUtil.js");
 var serverUtil = require("../../zhyUtil/serverUtil.js");
 var util = require("../../zhyUtil/util.js");
-function getInputContent(className) {
-  return new Promise((resolve, reject) => {
-    wx.createSelectorQuery().select(className).fields({
-      dataset: true,
-      size: true,
-      scrollOffset: true,
-      properties: ['value']
-    }, res => {
-      resolve(res.value);
-    }).exec();
-  })
-}
+
 Page({
 
   /**
@@ -27,7 +16,7 @@ Page({
   },
 
   onSendComment:function(e){
-    getInputContent('.comment-input').then(res=>{
+    util.getInputContent('.comment-input').then(res=>{
       let comment = res.trim();
       if (comment ==''){
         wx.showToast({

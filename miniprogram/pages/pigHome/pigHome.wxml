@@ -1,2 +1,25 @@
 <!--miniprogram/pages/pigHome/pigHome.wxml-->
-<text>miniprogram/pages/pigHome/pigHome.wxml</text>
+<view class='container'>
+
+  <swiper class='push-swiper' indicator-dots='true'>
+    <view class='push-news-item-view' wx:for='{{pushNews}}' wx:key='id' id='{{item.id}}' bindtap='onView'>
+      <swiper-item class='push-news-item'>
+        <image src="{{item.cover}}" class="slide-image"></image>
+      </swiper-item>
+    </view>
+  </swiper>
+
+  <view class='new-type'>
+    <view class="{{(curType == 0)? 'type-selected': 'type-selected-nor'}}" bindtap='onSelectTopNews'>资讯</view>
+    <view class="{{(curType == 1)? 'type-selected': 'type-selected-nor'}}" bindtap='onSelectHotPublishs'>热帖</view>
+  </view>
+
+  <view class='top-news-item' wx:for ='{{topNews}}' wx:key ='id' id='{{item.id}}' bindtap='onView'>
+    <view class='top-news-item-info'>
+    <view class='top-news-item-title'>{{item.title}}</view>
+      <view class='top-news-item-desc'>{{item.description}}</view>
+    </view>
+
+    <image class='top-news-item-cover' src='{{item.cover}}'></image>
+  </view>
+</view>

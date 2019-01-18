@@ -20,7 +20,8 @@
     "pages/publishQuestion/publishQuestion",
     "pages/viewQuestion/viewQuestion",
     "pages/selfTopic/selfTopic",
-    "pages/selfQuestion/selfQuestion"
+    "pages/selfQuestion/selfQuestion",
+    "pages/viewTopNew/viewTopNew"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",

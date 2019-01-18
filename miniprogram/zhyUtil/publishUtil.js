@@ -55,6 +55,8 @@ var briefPublishTechnologyLoaded = [0, 0, 0];
 var briefPublishTechnology =[];
 
 var briefSelfPublishTechnology =[];
+
+var topNewsPublished = [];
 function getUnUpdatePublishShareLife(){
   return unUpdatePublishShareLife
 }
@@ -546,6 +548,95 @@ function loadTechnologyQuestionInfo(questionId){
   })
 }
 
+function loadBriefPublishedTopNews(){
+  return new Promise((resolve, reject)=>{
+    const curTime = new Date().getTime();
+    serverUtil.loadBriefTopNews(curTime).then(res=>{
+      //console.log(res);
+
+     
+      resolve(res);
+      }).catch(err=>{
+        reject(err);
+      });
+    })
+}
+
+function loadBriefPublishedPushNews() {
+  return new Promise((resolve, reject) => {
+    const curTime = new Date().getTime();
+    serverUtil.loadBriefPushNews(curTime).then(res => {
+      //console.log(res);
+
+
+      resolve(res);
+    }).catch(err => {
+      reject(err);
+    });
+  })
+}
+
+function getTopNews(contentId){
+  return new Promise((resolve, reject)=>{
+    serverUtil.getTopNews(contentId).then(res=>{
+      let waitTimes = 0;
+      res.comment=[];
+      serverUtil.getNewsComment(contentId).then(comment=>{
+        res.comment = comment;
+        waitTimes++;
+      }).catch(err=>{
+        waitTimes++;
+      })
+
+      res.praise = [];
+      serverUtil.getNewsPraise(contentId).then(praise => {
+        res.praise = praise;
+        waitTimes++;
+      }).catch(err => {
+        waitTimes++;
+      })
+
+      let timeNum = setInterval(result => {
+        if (waitTimes == 2) {
+          clearInterval(timeNum);
+          resolve(res);
+        }
+      }, 500, 0);
+    }).catch(err=>{
+      reject(err);
+    });
+  });
+}
+
+function addNewsComment(newsComment) {
+
+  return new Promise((resolve, reject) => {
+
+    serverUtil.addNewsComment(newsComment).then(res => {
+      resolve(res);
+    }).catch(err => {
+
+      reject(err);
+    });
+  })
+
+}
+
+function addNewsPraise(newsId) {
+
+  return new Promise((resolve, reject) => {
+
+    serverUtil.addNewsPraise(newsId).then(res => {
+
+      resolve(res);
+    }).catch(err => {
+
+      reject(err);
+    });
+  })
+
+}
+
 module.exports = {
   publishShareLife,
   publishTechnology,
@@ -570,4 +661,9 @@ module.exports = {
   addPraise,
   loadTechnologyInfo,
   loadTechnologyQuestionInfo,
+  loadBriefPublishedTopNews,
+  loadBriefPublishedPushNews,
+  getTopNews,
+  addNewsComment,
+  addNewsPraise
 }

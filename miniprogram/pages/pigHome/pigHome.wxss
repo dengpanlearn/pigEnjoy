@@ -1,1 +1,100 @@
 /* miniprogram/pages/pigHome/pigHome.wxss */
+
+.container{
+  width: 100%;
+  height: 100%;
+}
+
+.push-swiper{
+  width: 100%;
+  height: 310rpx;
+}
+
+.push-news-view{
+    width: 100%;
+  height: 100%;
+}
+
+.push-news-item{
+  width: 100%;
+  height: 100%;
+}
+
+.slide-image{
+  width: 100%;
+  height: 100%;
+}
+.new-type{
+  width: 100%;
+  height: 65rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  border-bottom: 1rpx solid #b1acacfc;
+}
+
+.type-selected{
+  width: 25%;
+  height: 65rpx;
+  line-height: 65rpx;
+  font-size: 32rpx;
+  text-align: center;
+  border-bottom: 1rpx solid #ee1212fc;
+}
+
+.type-selected-nor{
+  width: 25%;
+  height: 65rpx;
+  line-height: 65rpx;
+  font-size: 32rpx;
+  text-align: center;
+
+}
+
+.top-news-item{
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  border-bottom: 10rpx solid #b1acacfc;
+}
+
+.top-news-item-info{
+  width: 70%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin-left: 20rpx;
+  margin-top: 20rpx;
+}
+
+.top-news-item-title{
+  width: auto;
+  height: auto;
+  line-height: 35rpx;
+  font-size: 28rpx;
+  text-align: left;
+}
+
+.top-news-item-desc{
+  width: auto;
+  height: auto;
+  line-height: 30rpx;
+  font-size: 23rpx;
+  text-align: left;
+  color: #b1acacfc;
+  margin-bottom: 20rpx;
+  margin-top: 20rpx;
+}
+
+.top-news-item-cover{
+  width: 22%;
+  height: 120rpx;
+  margin-bottom: 20rpx;
+  margin-top: 20rpx;
+}
