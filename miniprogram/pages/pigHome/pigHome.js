@@ -49,7 +49,8 @@ onSelectTopNews:function(e){
     util.userLoad().then(res=>{
     // 
       let waitTimes = 0;
-      publishUtil.loadBriefPublishedPushNews().then(pushNews=>{
+      let curTime = Math.round(new Date().getTime()/1000);
+      publishUtil.loadBriefPublishedPushNews(curTime).then(pushNews=>{
        // console.log(pushNews);
         this.setData({
           pushNews: pushNews
@@ -59,7 +60,7 @@ onSelectTopNews:function(e){
         console.log(err);
         waitTimes++;
       });
-      publishUtil.loadBriefPublishedTopNews().then(topNews=>{
+      publishUtil.loadBriefPublishedTopNews(curTime).then(topNews=>{
        // console.log(topNews);
        this.setData({
          topNews: topNews

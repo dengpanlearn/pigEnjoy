@@ -190,36 +190,36 @@ function loadSelfQuestionPublish() {
 }
 
 
-function loadAllPublishShareLife(){
+function loadAllPublishShareLife(curTime){
   return new Promise((resolve, reject)=>{
-    const curTime = new Date().getTime();
-    allShareLifePublish = [];
+   // const curTime = new Date().getTime();
+  //  allShareLifePublish = [];
     serverUtil.loadAllPublishShareLife(curTime).then(res=>{
       if (res.length == 0) {
        
-        reject(allShareLifePublish);
+        reject(res);
       }else{
-        allShareLifePublish = res;
+      //  allShareLifePublish = res;
         let waitCompleteds = 0;
         for (let i = 0; i < res.length; i++) {
        
           serverUtil.getComment(res[i]._id).then(comment => {
-            allShareLifePublish[i].comment = comment;
+            res[i].comment = comment;
             waitCompleteds++;
       
           }).catch(err => {
-            allShareLifePublish[i].comment = [];
+            res[i].comment = [];
             waitCompleteds++;
           })
 
 
           serverUtil.getPraise(res[i]._id).then(praise => {
            // console.log(praise);
-            allShareLifePublish[i].praise = praise;
+            res[i].praise = praise;
             waitCompleteds++;
           
           }).catch(err => {
-            allShareLifePublish[i].praise = [];
+            res[i].praise = [];
             waitCompleteds++;
           })
 
@@ -228,7 +228,7 @@ function loadAllPublishShareLife(){
         let timeNum = setInterval(result => {
           if (waitCompleteds == 2*res.length) {
             clearInterval(timeNum);
-            resolve(allShareLifePublish);
+            resolve(res);
           }
         }, 500, 0);
 
@@ -296,24 +296,24 @@ function loadShareLifeCompeted(){
   return publishShareLifeLoaded==3;
 }
 
-function loadBriefPublishTechnology(technologyTypeId){
+function loadBriefPublishTechnology(curTime, technologyTypeId){
   return new Promise((resolve, reject)=>{
-    const curTime = new Date().getTime();
+   // const curTime = new Date().getTime();
     serverUtil.loadBriefPublishTechnology(curTime, technologyTypeId).then(res=>{
       if (res.length == 0) {
-        briefPublishTechnology[technologyTypeId] = [];
-        resolve(briefPublishTechnology[technologyTypeId]);
+     //   briefPublishTechnology[technologyTypeId] = [];
+        resolve(res);
       }else{
-        briefPublishTechnology[technologyTypeId] = res;
+    //    briefPublishTechnology[technologyTypeId] = res;
         let waitCompleteds = 0;
         for (let i = 0; i < res.length; i++) {
           serverUtil.getBriefComment(res[i]._id).then(briefComment => {
-            briefPublishTechnology[technologyTypeId][i].briefComment = briefComment;
+            res[i].briefComment = briefComment;
             waitCompleteds++;
           }).catch(err => {
-            briefPublishTechnology[technologyTypeId][i].briefComment = {
+            res[i].briefComment = {
               count: 0,
-              created_at: briefPublishTechnology[technologyTypeId][i].created_at
+              created_at: res[i].created_at
             };
 
             waitCompleteds++;
@@ -324,12 +324,12 @@ function loadBriefPublishTechnology(technologyTypeId){
         let timeNum = setInterval(result => {
           if (waitCompleteds == res.length) {
             clearInterval(timeNum);
-            resolve(briefPublishTechnology[technologyTypeId]);
+            resolve(res);
           }
         }, 500, 0);
       }
     }).catch(err=>{
-      briefPublishTechnology[technologyTypeId] = [];
+     
       reject(err);
     })
   })
@@ -381,8 +381,8 @@ function loadBriefPublishTechnology(technologyTypeId){
 
 }
 
-function loadBriefPublishTechnologyQuestion(){
-  return loadBriefPublishTechnology(3);
+function loadBriefPublishTechnologyQuestion(curTime){
+  return loadBriefPublishTechnology(curTime, 3);
 }
 
 function loadBriefPublishTechnologyCompeted(technologyTypeId) {
@@ -548,9 +548,9 @@ function loadTechnologyQuestionInfo(questionId){
   })
 }
 
-function loadBriefPublishedTopNews(){
+function loadBriefPublishedTopNews(curTime){
   return new Promise((resolve, reject)=>{
-    const curTime = new Date().getTime();
+   // const curTime = new Date().getTime();
     serverUtil.loadBriefTopNews(curTime).then(res=>{
       //console.log(res);
 
@@ -562,9 +562,9 @@ function loadBriefPublishedTopNews(){
     })
 }
 
-function loadBriefPublishedPushNews() {
+function loadBriefPublishedPushNews(curTime) {
   return new Promise((resolve, reject) => {
-    const curTime = new Date().getTime();
+   // const curTime = new Date().getTime();
     serverUtil.loadBriefPushNews(curTime).then(res => {
       //console.log(res);
 

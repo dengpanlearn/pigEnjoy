@@ -169,8 +169,8 @@ onCommentInput:function(e){
     wx.showLoading({
       title: '加载',
     });
-
-    publishUtil.loadAllPublishShareLife().then(res=>{
+    let curTime = Math.round(new Date().getTime()/1000);
+    publishUtil.loadAllPublishShareLife(curTime).then(res=>{
       wx.hideLoading();
       let loadedShareLifeArry = res;
       let allShareLifeArry = [];
@@ -242,9 +242,34 @@ onCommentInput:function(e){
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function () {
- 
-  },
+  onPullDownRefresh: util.throttle(function () {
+    wx.showLoading({
+      title: '加载',
+    });
+    let curTime = Math.round(new Date().getTime() / 1000);
+    publishUtil.loadAllPublishShareLife(curTime).then(res => {
+      wx.hideLoading();
+      let loadedShareLifeArry = res;
+      let allShareLifeArry = [];
+
+      for (let i = 0; i < loadedShareLifeArry.length; i++) {
+        let tmpShareLife = loadedShareLifeArry[i];
+        tmpShareLife.focus = false;
+        tmpShareLife.inputComment = '';
+        tmpShareLife.creatTimeFormat = new Date(tmpShareLife.created_at * 1000).toLocaleString();
+        allShareLifeArry.push(tmpShareLife);
+      }
+      this.setData({
+        allShareLifeArry: allShareLifeArry
+      });
+      wx.stopPullDownRefresh();
+    }).catch(err => {
+      wx.stopPullDownRefresh();
+      wx.hideLoading();
+    })
+
+  
+  },2000),
 
   
 
@@ -254,7 +279,33 @@ onCommentInput:function(e){
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
- 
+    let allShareLifeArry = this.data.allShareLifeArry;
+   let curTime = allShareLifeArry[allShareLifeArry.length - 1].created_at;
+    wx.showLoading({
+      title: '加载',
+    })
+
+    publishUtil.loadAllPublishShareLife(curTime).then(res=>{
+      let loadedShareLifeArry = res;
+   
+
+      for (let i = 0; i < loadedShareLifeArry.length; i++) {
+        let tmpShareLife = loadedShareLifeArry[i];
+        tmpShareLife.focus = false;
+        tmpShareLife.inputComment = '';
+        tmpShareLife.creatTimeFormat = new Date(tmpShareLife.created_at * 1000).toLocaleString();
+        allShareLifeArry.push(tmpShareLife);
+
+
+      }
+
+      this.setData({
+        allShareLifeArry: allShareLifeArry
+      });
+      wx.hideLoading();
+    }).catch(err=>{
+      wx.hideLoading();
+    })
   },
 
   /**

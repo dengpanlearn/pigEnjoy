@@ -5,7 +5,7 @@
     <view class= "{{(curTypeIdx == index)? 'technology-type-item-selected': 'technology-type-item'}}" wx:for='{{technologyType}}' wx:key ='*this' id='{{index}}' bindtap='onSelectType'>{{item}}</view>
  
   </view>
-
+  <scroll-view class='technology-srcoll' scroll-y='true' bindscrolltoupper ='onRefreshTechnology' bindscrolltolower='onNextTechnology'>
   <view class='technology-item' wx:for='{{publishTechnology[curTypeIdx]}}' wx:key='_id' bindtap='onViewTechnology' id='{{index}}'>
     <view class='technology-item-title'>{{item.title}}</view>
     <view class='technology-item-brief'>
@@ -19,7 +19,7 @@
       </view>
     </view>
   </view>
-
+</scroll-view>
   <view class='publish-btn' bindtap='onPublish'>
     <image class='publish-icon' src='../../images/publish.png'></image>
     <view class='publish-text'>发帖</view>

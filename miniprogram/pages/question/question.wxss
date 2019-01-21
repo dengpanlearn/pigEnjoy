@@ -100,6 +100,26 @@
   border-bottom: 1rpx solid #dddcdcfc;
 }
 
+.question-brief-srcoll{
+  position: fixed;
+  left: 0rpx;
+  top: 580rpx;
+  width: 100%;
+  height:53%;
+
+  display: flex;
+   flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  white-space: normal;
+}
+
+::-webkit-scrollbar{
+  width: 0;
+  height: 0;
+  color: transparent;
+}
+
 .question-biref-item{
   width: 100%;
   height: auto;

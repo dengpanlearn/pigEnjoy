@@ -25,6 +25,33 @@ Page({
       url: '../publishQuestion/publishQuestion',
     });
   },
+  onRefreshQuestion: util.throttle(function(e){
+    this.onLoad(e);
+  },1500),
+
+  onLoadNextQuestion: util.throttle(function(e){
+    wx.showLoading({
+      title: '加载',
+    })
+    let questionBriefList = this.data.questionBriefList;
+    let curTime = questionBriefList[questionBriefList.length - 1].created_at;
+    publishUtil.loadBriefPublishTechnologyQuestion(curTime).then(res => {
+      //  console.log(res);
+    
+      for (let i = 0; i < res.length; i++) {
+
+        res[i].createTimeFormat = new Date(res[i].briefComment.created_at * 1000).toLocaleString();
+        questionBriefList.push(res[i]);
+      }
+      this.setData({
+        questionBriefList: questionBriefList
+      });
+      wx.hideLoading();
+    }).catch(err => {
+      wx.hideLoading();
+    });
+  },1500),
+
   /**
    * 生命周期函数--监听页面加载
    */
@@ -32,8 +59,10 @@ Page({
     wx.showLoading({
       title: '加载',
     })
-    publishUtil.loadBriefPublishTechnologyQuestion().then(res => {
-      console.log(res);
+    let curTime = Math.round(new Date().getTime()/1000);
+   // console.log(curTime);
+    publishUtil.loadBriefPublishTechnologyQuestion(curTime).then(res => {
+     // console.log(res);
       let questionBriefList = res;
 
 

@@ -26,12 +26,48 @@ Page({
     })
   },
 
+  onRefreshTechnology: util.throttle(function (e) {
+    this.onLoad(e);
+  }, 2000),
+
+  onNextTechnology: util.throttle(function(e){
+    wx.showLoading({
+      title: '加载',
+    });
+
+    let curTypeIdx = this.data.curTypeIdx;
+    let tmpTechnologyArray = this.data.publishTechnology;
+    let lastTechnologyIdx = tmpTechnologyArray[curTypeIdx].length-1;
+    let curTime = tmpTechnologyArray[curTypeIdx][lastTechnologyIdx].created_at;
+    publishUtil.loadBriefPublishTechnology(curTime, curTypeIdx).then(res => {
+     
+
+      let tmpTechnology = res;
+
+      for (let i = 0; i < tmpTechnology.length; i++) {
+
+        tmpTechnology[i].createTimeFormat = new Date(tmpTechnology[i].briefComment.created_at * 1000).toLocaleString();
+        tmpTechnologyArray[curTypeIdx].push(tmpTechnology[i]);
+      }
+
+      this.setData({
+        publishTechnology: tmpTechnologyArray,
+        curTypeIdx: curTypeIdx
+      });
+
+      wx.hideLoading();
+    }).catch(err => {
+      wx.hideLoading();
+    });
+  },1500),
+
   onRefresh: function (curTypeIdx){
     wx.showLoading({
       title: '加载',
     });
 
-    publishUtil.loadBriefPublishTechnology(curTypeIdx).then(res=>{
+    let curTime = Math.round(new Date().getTime()/1000);
+    publishUtil.loadBriefPublishTechnology(curTime, curTypeIdx).then(res=>{
       let tmpTechnologyArray = this.data.publishTechnology;
 
       let tmpTechnology = res;

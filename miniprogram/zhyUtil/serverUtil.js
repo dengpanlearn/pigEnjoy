@@ -93,7 +93,7 @@ function loadAllPublish(time, topicType) {
   return new Promise((resolve, reject)=>{
     let query = new wx.BaaS.Query();
     let tableObject = new wx.BaaS.TableObject(61937);
-    query.compare('created_at', '<=', time);
+    query.compare('created_at', '<', time);
     query.compare('topicType', '=', topicType);
 
     tableObject.setQuery(query).limit(10).orderBy('-created_at').select(['_id','topicType', 'title',
@@ -134,7 +134,7 @@ function loadBriefPublish(time, topicType){
   return new Promise((resolve, reject) => {
     let query = new wx.BaaS.Query();
     let tableObject = new wx.BaaS.TableObject(61937);
-    query.compare('created_at', '<=', time);
+    query.compare('created_at', '<', time);
     query.compare('topicType', '=', topicType);
 
     tableObject.setQuery(query).limit(10).orderBy('-created_at').select(['_id',  'title',
@@ -337,7 +337,7 @@ function loadBriefContents(time, groupId, categoryID){
     let MyContentGroup = new wx.BaaS.ContentGroup(groupId);
     let query = new wx.BaaS.Query()
     query.arrayContains('categories', [categoryID]);
-    query.compare('created_at', '<=', time);
+    query.compare('created_at', '<', time);
 
     MyContentGroup.setQuery(query).limit(10).orderBy('-created_at').select(['title', 'description', 'id', 'created_at', 'cover']).find().then(res=>{
   //    console.log(res.data.objects);
