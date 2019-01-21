@@ -28,7 +28,7 @@ Page({
 
   onRefreshTechnology: util.throttle(function (e) {
     this.onLoad(e);
-  }, 2000),
+  }, 2500),
 
   onNextTechnology: util.throttle(function(e){
     wx.showLoading({
@@ -59,7 +59,7 @@ Page({
     }).catch(err => {
       wx.hideLoading();
     });
-  },1500),
+  },2500),
 
   onRefresh: function (curTypeIdx){
     wx.showLoading({

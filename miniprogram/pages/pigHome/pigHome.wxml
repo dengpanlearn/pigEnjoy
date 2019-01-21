@@ -14,6 +14,7 @@
     <view class="{{(curType == 1)? 'type-selected': 'type-selected-nor'}}" bindtap='onSelectHotPublishs'>热帖</view>
   </view>
 
+  <scroll-view class='news-scroll' scroll-y='true' bindscrolltoupper ='onRefreshNews' bindscrolltolower='onNextNews'>
   <view class='top-news-item' wx:for ='{{topNews}}' wx:key ='id' id='{{item.id}}' bindtap='onView'>
     <view class='top-news-item-info'>
     <view class='top-news-item-title'>{{item.title}}</view>
@@ -22,4 +23,6 @@
 
     <image class='top-news-item-cover' src='{{item.cover}}'></image>
   </view>
+
+  </scroll-view>
 </view>

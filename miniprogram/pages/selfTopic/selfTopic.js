@@ -81,7 +81,8 @@ Page({
       title: '加载',
     })
     let userId = util.getUserId();
-    publishUtil.loadSelfOriginalPublish().then(res=>{
+    let curTime = Math.round(new Date().getTime()/1000);
+    publishUtil.loadSelfOriginalPublish(curTime).then(res=>{
       wx.hideLoading();
      
       let lastYear = 0;
@@ -152,9 +153,45 @@ Page({
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function () {
+  onReachBottom: util.throttle(function () {
+    wx.showLoading({
+      title: '加载',
+    })
+    let selfPublishTopic = this.data.selfPublishTopic;
+    let curTime = selfPublishTopic[selfPublishTopic.length-1].created_at;
+    publishUtil.loadSelfOriginalPublish(curTime).then(res => {
 
-  },
+      let lastYear = selfPublishTopic[selfPublishTopic.length - 1].createYear;
+      let lastMonth = selfPublishTopic[selfPublishTopic.length - 1].createMonth;
+   
+      for (let i = 0; i < res.length; i++) {
+        let creatDate = new Date(res[i].created_at * 1000);
+        let curYear = creatDate.getFullYear();
+        let curMonth = creatDate.getMonth() + 1;
+        res[i].createFormate = creatDate.toLocaleString();
+        res[i].createYear = curYear;
+        res[i].createMonth = curMonth;
+        res[i].inputComment = '';
+        res[i].focus = false;
+        if ((curYear == lastYear) && (curMonth == lastMonth)) {
+          res[i].bContinue = true;
+        } else {
+          res[i].bContinue = false;
+          lastYear = curYear;
+          lastMonth = curMonth;
+        }
+
+        selfPublishTopic.push(res[i]);
+      }
+
+      this.setData({
+        selfPublishTopic: selfPublishTopic
+      });
+      wx.hideLoading();
+    }).catch(err => {
+      wx.hideLoading();
+    })
+  },2500),
 
   /**
    * 用户点击右上角分享

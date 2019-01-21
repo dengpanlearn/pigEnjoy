@@ -27,7 +27,7 @@ Page({
   },
   onRefreshQuestion: util.throttle(function(e){
     this.onLoad(e);
-  },1500),
+  },2500),
 
   onLoadNextQuestion: util.throttle(function(e){
     wx.showLoading({
@@ -50,7 +50,7 @@ Page({
     }).catch(err => {
       wx.hideLoading();
     });
-  },1500),
+  },2500),
 
   /**
    * 生命周期函数--监听页面加载

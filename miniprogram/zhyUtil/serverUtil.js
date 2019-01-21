@@ -110,16 +110,16 @@ function loadAllPublishShareLife(time) {
   return loadAllPublish(time, 0);
 }
 
-function loadAllSelfPublish(topicTypes){
+function loadAllSelfPublish(time, topicTypes){
   return new Promise((resolve, reject)=>{
     let query = new wx.BaaS.Query();
     let tableObject = new wx.BaaS.TableObject(61937);
     let userId = util.getUserId();
-
+    query.compare('created_at', '<', time);
     query.compare('created_by', '=', userId);
     query.in('topicType', topicTypes);
 
-    tableObject.setQuery(query).limit(10).orderBy('-created_at').select(['_id', 'topicType', 'title',
+    tableObject.setQuery(query).limit(5).orderBy('-created_at').select(['_id', 'topicType', 'title',
       'content', 'address', 'imageFiles', 'avatarUrl', 'userName', 'created_at']).find().then(res => {
         //  console.log(res.data.objects);
         resolve(res.data.objects);
@@ -157,7 +157,7 @@ function loadSelfBriefPublish(time, topicType) {
     let tableObject = new wx.BaaS.TableObject(61937);
     let userId = util.getUserId();
 
-    query.compare('created_at', '<=', time);
+    query.compare('created_at', '<', time);
     query.compare('topicType', '=', topicType);
     query.compare('created_by', '=', userId);
     tableObject.setQuery(query).limit(10).orderBy('-created_at').select(['_id', 'title',
@@ -359,7 +359,7 @@ function loadBriefPushNews(time) {
 
 function getContent(groupId, contentId){
   return new Promise((resolve, reject)=>{
-    console.log(contentId);
+   // console.log(contentId);
     let MyContentGroup = new wx.BaaS.ContentGroup(groupId);
     MyContentGroup.select(['title', 'description', 'id', 'created_at', 'content']).getContent(contentId).then(res=>{
       resolve(res.data);
@@ -449,7 +449,7 @@ function getNewsComment(newsId) {
   
     let query = new wx.BaaS.Query();
     query.compare('newsId', '=', newsId);
-    console.log(newsId);
+   // console.log(newsId);
     tableObject.setQuery(query).limit(10).orderBy('created_at').select(['_id', 'content',
       'avatarUrl', 'created_at', 'userName', 'newsId']).find().then(res => {
         // console.log(res);

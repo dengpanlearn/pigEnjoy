@@ -37,6 +37,52 @@ onSelectTopNews:function(e){
     })
   },
 
+  onRefreshNews: util.throttle(function(e){
+    wx.showLoading({
+      title: '加载',
+      mask: true
+    })
+
+
+    let curTime = Math.round(new Date().getTime() / 1000);;
+
+    publishUtil.loadBriefPublishedTopNews(curTime).then(topNews => {
+      // console.log(topNews);
+      this.setData({
+        topNews: topNews
+      });
+
+      wx.hideLoading();
+    }).catch(err => {
+      wx.hideLoading();
+
+    })
+  },2500),
+
+  onNextNews: util.throttle(function (e) {
+    wx.showLoading({
+      title: '加载',
+      mask: true
+    })
+
+    let topNews = this.data.topNews;
+    let curTime = topNews[topNews.length - 1].created_at;
+
+    publishUtil.loadBriefPublishedTopNews(curTime).then(tmpTopNews => {
+      //console.log(tmpTopNews);
+      topNews = topNews.concat(tmpTopNews)
+      this.setData({
+        topNews: topNews
+      });
+
+        wx.hideLoading();
+    }).catch(err => {
+       wx.hideLoading();
+    
+    })
+
+  },2500),
+
   /**
    * 生命周期函数--监听页面加载
    */
@@ -57,7 +103,7 @@ onSelectTopNews:function(e){
         });
         waitTimes++;
       }).catch(err=>{
-        console.log(err);
+      //  console.log(err);
         waitTimes++;
       });
       publishUtil.loadBriefPublishedTopNews(curTime).then(topNews=>{

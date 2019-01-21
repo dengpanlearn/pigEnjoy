@@ -269,7 +269,7 @@ onCommentInput:function(e){
     })
 
   
-  },2000),
+  },2500),
 
   
 
@@ -278,7 +278,7 @@ onCommentInput:function(e){
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function () {
+  onReachBottom: util.throttle(function () {
     let allShareLifeArry = this.data.allShareLifeArry;
    let curTime = allShareLifeArry[allShareLifeArry.length - 1].created_at;
     wx.showLoading({
@@ -306,7 +306,7 @@ onCommentInput:function(e){
     }).catch(err=>{
       wx.hideLoading();
     })
-  },
+  },2500),
 
   /**
    * 用户点击右上角分享

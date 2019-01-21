@@ -80,7 +80,7 @@ Page({
       wx.showLoading({
         title: '加载',
       })
-      console.log(e);
+   //   console.log(e);
 
       publishUtil.addNewsComment({
         content: e.detail.value,
@@ -88,7 +88,7 @@ Page({
       }).then(res => {
         wx.hideLoading();
         let topNew = this.data.topNew;
-        console.log(res);
+      //  console.log(res);
         topNew.comment.push(res);
         this.setData({
           topNew: topNew,

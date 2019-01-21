@@ -32,8 +32,8 @@ Page({
       avatarUrl: util.getUserAvatarUrl(),
       userName: util.getUserName()
     });
-
-    publishUtil.loadSelfBriefPublishTechnologyQuestion().then(res => {
+    let curTime = Math.round(new Date().getTime()/1000);
+    publishUtil.loadSelfBriefPublishTechnologyQuestion(curTime).then(res => {
 
       let questionBriefList = res;
 
@@ -89,9 +89,29 @@ Page({
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function () {
+  onReachBottom: util.throttle(function () {
+    wx.showLoading({
+      title: '加载',
+    })
 
-  },
+    let questionBriefList=  this.data.questionBriefList;
+    let curTime = questionBriefList[questionBriefList.length-1].created_at;
+    publishUtil.loadSelfBriefPublishTechnologyQuestion(curTime).then(res => {
+
+  
+      for (let i = 0; i < res.length; i++) {
+
+        res[i].createTimeFormat = new Date(res[i].briefComment.created_at * 1000).toLocaleString();
+        questionBriefList.push(res[i]);
+      }
+      this.setData({
+        questionBriefList: questionBriefList
+      });
+      wx.hideLoading();
+    }).catch(err => {
+      wx.hideLoading();
+    });
+  },2500),
 
   /**
    * 用户点击右上角分享
