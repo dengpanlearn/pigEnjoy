@@ -37,6 +37,14 @@ Page({
             commenFocus: false,
             commentValue: ''
           });
+
+          wxParser.parse({
+            bind: 'richText',
+            html: topNew.content,
+            target: this,
+          })
+
+          
         }).catch(err => {
           wx.hideLoading();
         });
