@@ -299,7 +299,7 @@
 
 .question-comment-user-name{
   width: auto;
-  height: 35rpx;
+  height: auto;
   line-height: 35rpx;
   text-align: left;
   font-size: 25rpx;
@@ -307,7 +307,7 @@
 
 .question-comment-user-time{
   width: auto;
-  height: 35rpx;
+  height: auto;
   line-height: 35rpx;
   text-align: left;
   font-size: 25rpx;
@@ -322,4 +322,15 @@
   margin-bottom: 20rpx;
    margin-left: 20rpx;
    margin-top: 20rpx;
+}
+
+.question-comment-more{
+  width: auto;
+  height: auto;
+  margin-left: 20rpx;
+  line-height: 40rpx;
+  text-align: left;
+  font-size: 32rpx;
+  color: #6248f5fc;
+    margin-top: 20rpx;
 }

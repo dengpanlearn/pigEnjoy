@@ -245,34 +245,48 @@
 
 .comment-show-item{
   width: 92%;
-  height: 50rpx;
+  height: auto;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
   margin-left: 20rpx;
+  margin-bottom: 10rpx;
+  margin-top: 10rpx;
 }
 
 .comment-show-item-usr{
   width: auto;
-   height: 30rp;
+   height: auto;
   line-height: 30rpx;
-  text-align: left;
+  text-align: start;
   font-size: 22rpx;
   color: #7431f1fc;
 }
 
 .comment-show-item-content{
    width: auto;
-   height: 30rp;
+   height: auto;
   line-height: 30rpx;
   text-align: left;
   font-size: 22rpx;
   margin-left: 10rpx;
+
+}
+.comment-show-more{
+  width: auto;
+   height: auto;
+  line-height: 30rpx;
+  text-align: left;
+  font-size: 22rpx;
+  margin-left: 10rpx;
+   color: #7431f1fc;
+  margin-bottom: 10rpx;
+  margin-top: 10rpx;
 }
 
 .comment-view{
- 
+
   width: 100%;
   height: 80rpx;
   display: flex;

@@ -2,6 +2,7 @@
 
 const wxParser = require('../../zhyUtil/wxParser/index');
 var publishUtil = require("../../zhyUtil/publishUtil.js");
+var serverUtil = require("../../zhyUtil/serverUtil.js");
 var util = require("../../zhyUtil/util.js");
 Page({
 
@@ -14,6 +15,22 @@ Page({
     contentHtml:'',
     commenFocus:false,
     commentValue:''
+  },
+
+  onShowMoreComment:function(e){
+    let topNew = this.data.topNew;
+    wx.showLoading({
+      title: '加载',
+    });
+    serverUtil.getMoreNextNewsComment(topNew.id, topNew.comment.length, topNew.commentCount - topNew.comment.length).then(comment=>{
+      topNew.comment = topNew.comment.concat(comment);
+      this.setData({
+        topNew: topNew
+      });
+      wx.hideLoading();
+    }).catch(err=>{
+      wx.hideLoading();
+    });
   },
 
   onSend:function(e){
@@ -31,7 +48,7 @@ Page({
           wx.hideLoading();
           let topNew = this.data.topNew;
          // console.log(res);
-          topNew.comment.push(res);
+          topNew.selfComment.push(res);
           this.setData({
             topNew: topNew,
             commenFocus: false,
@@ -61,10 +78,23 @@ Page({
       wx.hideLoading();
       let topNew = this.data.topNew;
       topNew.praise.push(res);
+      topNew.praiseCount++;
       this.setData({
         topNew:topNew
       });
     }).catch(err=>{
+      wx.hideLoading();
+    });
+  },
+
+  onCollect: function (e) {
+    wx.showLoading({
+      title: '加载',
+    })
+
+    publishUtil.addNewsCollect(this.data.topNew.id).then(res => {
+      wx.hideLoading();
+    }).catch(err => {
       wx.hideLoading();
     });
   },
@@ -97,7 +127,7 @@ Page({
         wx.hideLoading();
         let topNew = this.data.topNew;
       //  console.log(res);
-        topNew.comment.push(res);
+        topNew.selfComment.push(res);
         this.setData({
           topNew: topNew,
           commenFocus:false,
@@ -121,6 +151,7 @@ Page({
     publishUtil.getTopNews(parseInt(options.topNewsId)).then(res=>{
       wx.hideLoading();
    //   console.log(res);
+      res.selfComment = [];
       res.createTimeFormate = new Date(res.created_at*1000).toLocaleString();
       this.setData({
         topNew:res,

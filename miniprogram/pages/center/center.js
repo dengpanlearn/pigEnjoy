@@ -39,7 +39,7 @@ Page({
       url: '../selfQuestion/selfQuestion'
     },{
       name: '我的收藏',
-      url: '../selfTopic/selfTopic'
+      url: '../collect/collect'
     }
     ],
 

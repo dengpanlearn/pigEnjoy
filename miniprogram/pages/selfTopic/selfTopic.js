@@ -1,5 +1,6 @@
 // miniprogram/pages/selfTopic/selfTopic.js
 var util = require('../../zhyUtil/util.js');
+var serverUtil = require("../../zhyUtil/serverUtil.js");
 var publishUtil = require('../../zhyUtil/publishUtil.js');
 Page({
 
@@ -30,6 +31,29 @@ Page({
     ],
     selfPublishTopic:[]
   },
+
+  onShowMoreComment:function(e){
+    let selfPublishTopic = this.data.selfPublishTopic;
+    let lifeIndex = parseInt(e.currentTarget.id);
+    let tmpSelfPublish = selfPublishTopic[lifeIndex];
+
+    wx.showLoading({
+      title: '加载',
+    })
+
+    serverUtil.getMoreNextComment(tmpSelfPublish._id, tmpSelfPublish.comment.length, tmpSelfPublish.commentCount - tmpSelfPublish.comment.length).then(comment=>{
+      tmpSelfPublish.comment = tmpSelfPublish.comment.concat(comment);
+      selfPublishTopic[lifeIndex] = tmpSelfPublish;
+      this.setData({
+        selfPublishTopic: selfPublishTopic
+      });
+      wx.hideLoading();
+    }).catch(err=>{
+      wx.hideLoading();
+    })
+
+  },
+
 
   onViewSelfTopicPhoto:function(e){
     let indexArray = e.currentTarget.id.split('+');

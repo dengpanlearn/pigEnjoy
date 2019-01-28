@@ -15,7 +15,7 @@
 
     <view class='question-period'>
       <view class='question-period-title'>病猪阶段:</view>
-      <view class='question-period-value'>{{question.content.selectedPeriodIndex}}</view>
+      <view class='question-period-value'>{{questionPeriods[question.content.selectedPeriodIndex]}}</view>
     </view>
 
     <view class='question-num'>
@@ -47,7 +47,22 @@
 
           
         </view>
-        <view class='question-user-content'>{{item.content}}</view>
+        <text class='question-user-content'>{{item.content}}</text>
+        </view>
+
+    <view class='question-comment-more' bindtap='onShowMoreComment' wx:if ='{{question.comment.length < question.commentCount}}'>更多解答>></view>
+
+      <view class='question-comment-show-item' wx:for='{{question.selfComment}}' wx:key='_id'>
+        <view class='question-comment-user'>
+          <image class='question-comment-user-avatar' src='{{item.avatarUrl}}'></image>
+          <view class='question-comment-user-info'>
+            <view class='question-comment-user-name'>{{item.userName}}</view>
+            <view class='question-comment-user-time'>{{item.createTimeFormate}}</view>
+          </view>
+
+          
+        </view>
+        <text class='question-user-content'>{{item.content}}</text>
         </view>
   </scroll-view>
 

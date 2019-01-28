@@ -14,6 +14,24 @@ Page({
     newComment:false
   },
 
+  onShowMoreComment:function(e){
+    let tmpTechnology = this.data.technology;
+    wx.showLoading({
+      title: '加载',
+    })
+
+    serverUtil.getMoreNextComment(tmpTechnology._id, tmpTechnology.comment.length, tmpTechnology.commentCount - tmpTechnology.comment.length).then(comment=>{
+      tmpTechnology.comment = tmpTechnology.comment.concat(comment);
+
+      this.setData({
+        technology: tmpTechnology
+      });
+      wx.hideLoading();
+    }).catch(err=>{
+      wx.hideLoading();
+    });
+  },
+
   onViewtechnologyPhoto: function(e){
     let imageFiles = this.data.technology.imageFiles;
     let urls = [];
@@ -37,10 +55,22 @@ Page({
  
       let tmpTechnology = this.data.technology;
       tmpTechnology.praise.push(res);
+      tmpTechnology.praiseCount++;
       this.setData({
         technology: tmpTechnology
       });
     }).catch(err=>{
+      wx.hideLoading();
+    });
+  },
+
+  onCollect: function (e) {
+    wx.showLoading({
+      title: '加载',
+    });
+    serverUtil.addCollect(this.data.technology._id).then(res => {
+      wx.hideLoading();
+    }).catch(err => {
       wx.hideLoading();
     });
   },
@@ -70,7 +100,7 @@ Page({
       }).then(res=>{
         wx.hideLoading();
         let tmpTechnology = this.data.technology;
-        tmpTechnology.comment.push(res);
+        tmpTechnology.selfComment.push(res);
 
         this.setData({
           technology: tmpTechnology,
@@ -97,7 +127,7 @@ Page({
     
     publishUtil.loadTechnologyInfo(parseInt(options.technologyTypeIdx), options._id).then(technology=>{
       wx.hideLoading();
-
+      technology.selfComment =[];
       technology.createTimeFormate = new Date(technology.created_at*1000).toLocaleString();
       console.log(technology);
       this.setData({
@@ -139,6 +169,9 @@ Page({
       let pages = getCurrentPages();
       let currentPage = pages[pages.length - 2];
       let curTypeIdx = currentPage.data.curTypeIdx;
+      if (curTypeIdx == undefined){
+        return;
+      }
       let publishTechnology = currentPage.data.publishTechnology;
       let typePublishTechnology = publishTechnology[curTypeIdx];
       
@@ -146,8 +179,8 @@ Page({
         if (typePublishTechnology[i]._id == tmpTechnology._id){
           let briefComment = typePublishTechnology[i].briefComment;
 
-          briefComment.count = tmpTechnology.comment.length;
-          briefComment.created_at = tmpTechnology.comment[tmpTechnology.comment.length - 1].created_at;
+          briefComment.count = tmpTechnology.commentCount + tmpTechnology.selfComment.length;
+          briefComment.created_at = tmpTechnology.selfComment[tmpTechnology.selfComment.length - 1].created_at;
           typePublishTechnology[i].createTimeFormat = new Date(briefComment.created_at*1000).toLocaleString();
           typePublishTechnology[i].briefComment = briefComment;
           publishTechnology[curTypeIdx] = typePublishTechnology;

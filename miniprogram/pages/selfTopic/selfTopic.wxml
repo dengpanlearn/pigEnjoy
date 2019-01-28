@@ -55,17 +55,17 @@
 
     <view class='show-praise' wx:if='{{selfPublishItem.praise.length > 0}}'>
       <image class='show-praise-icon' src='../../images/praise-nor.png'></image>
-      <view class='show-praise-title' wx:if='{{selfPublishItem.praise.length < 5}}'>
+      <view class='show-praise-title' wx:if='{{selfPublishItem.praiseCount < 5}}'>
         <view class='show-praise-item' wx:for ='{{selfPublishItem.praise}}' wx:key='_id'>{{item.userName}} </view>
       </view>
 
-      <view class='show-praise-title' wx:if='{{selfPublishItem.praise.length >= 5}}'>
+      <view class='show-praise-title' wx:if='{{selfPublishItem.praiseCount >= 5}}'>
         <view class='show-praise-item'>{{selfPublishItem.praise[0].userName}} </view>
         <view class='show-praise-item'>{{selfPublishItem.praise[1].userName}} </view>
         <view class='show-praise-item'>{{selfPublishItem.praise[2].userName}} </view>
         <view class='show-praise-item'>{{selfPublishItem.praise[3].userName}} </view>
         <view class='show-praise-item'>{{selfPublishItem.praise[4].userName}} </view>
-        <view class='show-praise-item'>{{selfPublishItem.praise.length}} 觉得很赞</view>
+        <view class='show-praise-item'>{{selfPublishItem.praiseCount}} 觉得很赞</view>
       </view>
     </view>
 
@@ -73,12 +73,15 @@
     <view class='comment-show-view' wx:if="{{selfPublishItem.comment.length > 0}}">
       <view class='comment-show-total'>
       <image class='comment-show-total-icon' src='../../images/comment-nor.png'></image>
-      <view class='comment-show-total-text'>{{selfPublishItem.comment.length}}条评论回复</view>
+      <view class='comment-show-total-text'>{{selfPublishItem.commentCount}}条评论回复</view>
       </view>
       <view class='comment-show-item' wx:for = '{{selfPublishItem.comment}}' wx:for-item='commentItem' wx:key='_id'>
         <view class='comment-show-item-usr'>{{commentItem.userName}}:</view>  
         <view class='comment-show-item-content'>{{commentItem.content}}</view>
       </view>
+
+       <view class='comment-show-more' id="{{selfPublishIndex}}" wx:if='{{selfPublishItem.comment.length<selfPublishItem.commentCount}}' bindtap='onShowMoreComment'>更多回复>></view>
+
     </view>
 
       <view class='comment-input-view'>

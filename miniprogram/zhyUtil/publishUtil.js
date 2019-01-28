@@ -110,7 +110,8 @@ function loadSelfOriginalPublish(time){
         for (let i = 0; i < res.length; i++) {
 
           serverUtil.getComment(res[i]._id).then(comment => {
-            res[i].comment = comment;
+            res[i].commentCount = comment.count
+            res[i].comment = comment.comment;
             waitCompleteds++;
 
           }).catch(err => {
@@ -120,7 +121,8 @@ function loadSelfOriginalPublish(time){
 
           serverUtil.getPraise(res[i]._id).then(praise => {
             // console.log(praise);
-            res[i].praise = praise;
+            res[i].praiseCount = praise.count;
+            res[i].praise = praise.praise;
             waitCompleteds++;
 
           }).catch(err => {
@@ -157,7 +159,8 @@ function loadSelfQuestionPublish(time) {
         for (let i = 0; i < res.length; i++) {
 
           serverUtil.getComment(res[i]._id).then(comment => {
-            res[i].comment = comment;
+            res[i].commentCount = comment.count
+            res[i].comment = comment.comment;
             waitCompleteds++;
 
           }).catch(err => {
@@ -167,7 +170,8 @@ function loadSelfQuestionPublish(time) {
 
           serverUtil.getPraise(res[i]._id).then(praise => {
             // console.log(praise);
-            res[i].praise = praise;
+            res[i].praiseCount = praise.count;
+            res[i].praise = praise.praise;
             waitCompleteds++;
 
           }).catch(err => {
@@ -204,7 +208,9 @@ function loadAllPublishShareLife(curTime){
         for (let i = 0; i < res.length; i++) {
        
           serverUtil.getComment(res[i]._id).then(comment => {
-            res[i].comment = comment;
+          //  console.log(comment);
+            res[i].commentCount = comment.count
+            res[i].comment = comment.comment;
             waitCompleteds++;
       
           }).catch(err => {
@@ -215,7 +221,8 @@ function loadAllPublishShareLife(curTime){
 
           serverUtil.getPraise(res[i]._id).then(praise => {
            // console.log(praise);
-            res[i].praise = praise;
+            res[i].praiseCount = praise.count;
+            res[i].praise = praise.praise;
             waitCompleteds++;
           
           }).catch(err => {
@@ -432,6 +439,42 @@ function loadSelfBriefPublishTechnologyQuestion(curTime) {
   return loadSelfBriefPublishTechnology(curTime, 3);
 }
 
+function loadBriefTopRank(curTime){
+  return new Promise((resolve, reject)=>{
+    serverUtil.loadBriefTopRankTechnology(curTime).then(res=>{
+      if (res.length == 0){
+        resovle(res);
+      }else{
+    
+          let waitCompleteds = 0;
+          for (let i = 0; i < res.length; i++) {
+            serverUtil.getBriefComment(res[i]._id).then(briefComment => {
+              res[i].briefComment = briefComment;
+              waitCompleteds++;
+            }).catch(err => {
+              res[i].briefComment = {
+                count: 0,
+                created_at: res[i].created_at
+              };
+
+              waitCompleteds++;
+            });
+
+          }
+
+          let timeNum = setInterval(result => {
+            if (waitCompleteds == res.length) {
+              clearInterval(timeNum);
+              resolve(res);
+            }
+          }, 500, 0);
+        }
+    }).catch(err=>{
+      reject(err);
+    })
+  });
+}
+
 function addComment(comment){
  
   return new Promise((resolve, reject)=>{
@@ -451,6 +494,21 @@ function addPraise(publishId) {
   return new Promise((resolve, reject) => {
     
     serverUtil.addPraise(publishId).then(res => {
+
+      resolve(res);
+    }).catch(err => {
+
+      reject(err);
+    });
+  })
+
+}
+
+function addCollect(publishId) {
+
+  return new Promise((resolve, reject) => {
+
+    serverUtil.addCollect(publishId).then(res => {
 
       resolve(res);
     }).catch(err => {
@@ -509,14 +567,18 @@ function loadTechnologyInfo(technologyTypeId, _id)
       technologyInfo.loaded = 0;
 
       serverUtil.getComment(_id).then(comment=>{
-        technologyInfo.comment = comment;
+
+        technologyInfo.commentCount = comment.count
+        technologyInfo.comment = comment.comment;
         technologyInfo.loaded |= 1;
       }).catch(err=>{
         technologyInfo.loaded |= 1;
       })
 
       serverUtil.getPraise(_id).then(praise=>{
-        technologyInfo.praise = praise;
+        technologyInfo.praiseCount = praise.count;
+        technologyInfo.praise = praise.praise;
+       
         technologyInfo.loaded |= 2;
       }).catch(err=>{
         technologyInfo.loaded |= 2;
@@ -582,7 +644,8 @@ function getTopNews(contentId){
       let waitTimes = 0;
       res.comment=[];
       serverUtil.getNewsComment(contentId).then(comment=>{
-        res.comment = comment;
+        res.commentCount = comment.count;
+        res.comment = comment.comment;
         waitTimes++;
       }).catch(err=>{
         waitTimes++;
@@ -590,7 +653,8 @@ function getTopNews(contentId){
 
       res.praise = [];
       serverUtil.getNewsPraise(contentId).then(praise => {
-        res.praise = praise;
+       res.praiseCount = praise.count;
+        res.praise = praise.praise;
         waitTimes++;
       }).catch(err => {
         waitTimes++;
@@ -637,6 +701,25 @@ function addNewsPraise(newsId) {
 
 }
 
+function addNewsCollect(newsId) {
+
+  return new Promise((resolve, reject) => {
+
+    serverUtil.addNewsCollect(newsId).then(res => {
+
+      resolve(res);
+    }).catch(err => {
+
+      reject(err);
+    });
+  })
+
+}
+
+function loadSelfCollect(curTime){
+
+}
+
 module.exports = {
   publishShareLife,
   publishTechnology,
@@ -655,15 +738,18 @@ module.exports = {
   loadBriefPublishTechnologyCompeted,
   loadBriefPublishTechnologyQuestion,
   loadSelfBriefPublishTechnologyQuestion,
+  loadBriefTopRank,
   getAllPublishShareLife,
   getBriefPublishTechnoloy,
   addComment,
   addPraise,
+  addCollect,
   loadTechnologyInfo,
   loadTechnologyQuestionInfo,
   loadBriefPublishedTopNews,
   loadBriefPublishedPushNews,
   getTopNews,
   addNewsComment,
-  addNewsPraise
+  addNewsPraise,
+  addNewsCollect
 }

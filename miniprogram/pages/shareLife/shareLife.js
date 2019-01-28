@@ -13,6 +13,27 @@ Page({
     allShareLifeArry:[]
   },
 
+  onShowMoreComment:function(e){
+    let shareLifeIndex = parseInt(e.currentTarget.id);
+    let allShareLifeArry = this.data.allShareLifeArry;
+    let tmpShareLife = allShareLifeArry[shareLifeIndex];
+
+    wx.showLoading({
+      title: '加载',
+    })
+
+    serverUtil.getMoreNextComment(tmpShareLife._id, tmpShareLife.comment.length, tmpShareLife.commentCount-tmpShareLife.comment.length).then(comment=>{
+      tmpShareLife.comment = tmpShareLife.comment.concat(comment);
+      allShareLifeArry[shareLifeIndex] = tmpShareLife;
+      this.setData({
+        allShareLifeArry: allShareLifeArry
+      });
+      wx.hideLoading();
+    }).catch(err=>{
+      wx.hideLoading();
+    });
+  },
+
   onViewSharePhoto:function(e){
     let indexArray = e.currentTarget.id.split('+');
     if (indexArray.length != 2)
@@ -82,9 +103,10 @@ Page({
            
               tmpShareLife.focus = false;
               tmpShareLife.inputComment = '';
-              tmpShareLife.comment.push(res);
+             
+              tmpShareLife.selfComment.push(res);
               allShareLifeArry[shareLifeIndex] = tmpShareLife;
-
+            
               this.setData({
                 allShareLifeArry: allShareLifeArry
               });
@@ -114,6 +136,7 @@ Page({
     publishUtil.addPraise(tmpShareLife._id).then(res=>{
      
       tmpShareLife.praise.push(res);
+      tmpShareLife.praiseCount++;
       allShareLifeArry[shareLifeIndex] = tmpShareLife
   
       this.setData({
@@ -125,6 +148,21 @@ Page({
     }).catch(res=>{
       wx.hideLoading();
  
+    });
+  },
+
+  onCollect:function(e){
+    wx.showLoading({
+      title: '加载',
+    });
+    let shareLifeIndex = parseInt(e.currentTarget.id);
+    let allShareLifeArry = this.data.allShareLifeArry;
+    let tmpShareLife = allShareLifeArry[shareLifeIndex];
+
+    publishUtil.addCollect(tmpShareLife._id).then(res => {
+      wx.hideLoading();
+    }).catch(res => {
+      wx.hideLoading();
     });
   },
 
@@ -146,7 +184,7 @@ onCommentInput:function(e){
 
         tmpShareLife.focus = false;
         tmpShareLife.inputComment = '';
-        tmpShareLife.comment.push(res);
+        tmpShareLife.selfComment.push(res);
         allShareLifeArry[shareLifeIndex] = tmpShareLife;
        
       
@@ -179,6 +217,7 @@ onCommentInput:function(e){
         let tmpShareLife = loadedShareLifeArry[i];
         tmpShareLife.focus = false;
         tmpShareLife.inputComment = '';
+        tmpShareLife.selfComment =[];
         tmpShareLife.creatTimeFormat = new Date(tmpShareLife.created_at*1000).toLocaleString();
         allShareLifeArry.push(tmpShareLife);
       }
@@ -256,6 +295,7 @@ onCommentInput:function(e){
         let tmpShareLife = loadedShareLifeArry[i];
         tmpShareLife.focus = false;
         tmpShareLife.inputComment = '';
+        tmpShareLife.selfComment=[];
         tmpShareLife.creatTimeFormat = new Date(tmpShareLife.created_at * 1000).toLocaleString();
         allShareLifeArry.push(tmpShareLife);
       }
@@ -293,6 +333,7 @@ onCommentInput:function(e){
         let tmpShareLife = loadedShareLifeArry[i];
         tmpShareLife.focus = false;
         tmpShareLife.inputComment = '';
+        tmpShareLife.selfComment = [];
         tmpShareLife.creatTimeFormat = new Date(tmpShareLife.created_at * 1000).toLocaleString();
         allShareLifeArry.push(tmpShareLife);
 

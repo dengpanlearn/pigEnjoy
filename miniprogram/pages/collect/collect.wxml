@@ -1,0 +1,27 @@
+<!--miniprogram/pages/collect/collect.wxml-->
+<view class='container'>
+  <view class='profile-info' >
+    <image class='avatar' src='{{avatarUrl}}'></image>
+    <view class='info' >
+      <text class='name'>{{userName}}</text>
+    </view>
+  </view>
+
+  <view class='new-type'>
+    <view class="{{(curType == 0)? 'type-selected': 'type-selected-nor'}}" bindtap='onSelectTopNews'>资讯</view>
+    <view class="{{(curType == 1)? 'type-selected': 'type-selected-nor'}}" bindtap='onSelectHotPublishs'>帖子</view>
+  </view>
+
+    <scroll-view class='news-scroll' scroll-y='true' bindscrolltoupper ='onRefreshNews' bindscrolltolower='onNextNews'>
+  <view class='top-news-item' wx:if='{{curType==0}}' wx:for ='{{collectPushNews}}' wx:key ='id' id='{{item.id}}' bindtap='onView'>
+    <view class='top-news-item-info'>
+    <view class='top-news-item-title'>{{item.title}}</view>
+      <view class='top-news-item-desc'>{{item.description}}</view>
+    </view>
+
+    <image class='top-news-item-cover' src='{{item.cover}}'></image>
+  </view>
+
+
+  </scroll-view>
+</view>

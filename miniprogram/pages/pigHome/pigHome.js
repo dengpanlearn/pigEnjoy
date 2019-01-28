@@ -15,6 +15,7 @@ Page({
   data: {
     topNews:[],
     pushNews: [],
+    topPublish:[],
     curType: 0
   },
 
@@ -32,9 +33,19 @@ onSelectTopNews:function(e){
 
   onView:function(e){
     //console.log(e);
-    wx.navigateTo({
-      url: '../viewTopNew/viewTopNew?topNewsId='+e.currentTarget.id,
-    })
+    let curType = this.data.curType;
+    if (curType == 0){
+      wx.navigateTo({
+        url: '../viewTopNew/viewTopNew?topNewsId=' + e.currentTarget.id,
+      })
+    }else{
+    //  console.log(e);
+      let tmpPublish = this.data.topPublish[parseInt(e.currentTarget.id)];
+      wx.navigateTo({
+        url: '../viewTechnology/viewTechnology?_id=' + tmpPublish._id + '&technologyTypeIdx=' + tmpPublish.topicType,
+      })
+    }
+
   },
 
   onRefreshNews: util.throttle(function(e){
@@ -45,18 +56,35 @@ onSelectTopNews:function(e){
 
 
     let curTime = Math.round(new Date().getTime() / 1000);;
+    let curType = this.data.curType;
+    if (curType == 0){
+      publishUtil.loadBriefPublishedTopNews(curTime).then(topNews => {
+        // console.log(topNews);
+        this.setData({
+          topNews: topNews
+        });
 
-    publishUtil.loadBriefPublishedTopNews(curTime).then(topNews => {
-      // console.log(topNews);
-      this.setData({
-        topNews: topNews
+        wx.hideLoading();
+      }).catch(err => {
+        wx.hideLoading();
+
+      })
+    }else{
+      publishUtil.loadBriefTopRank(curTime).then(topPublish => {
+        //  console.log(topPublish);
+        for (let i = 0; i < topPublish.length; i++) {
+          topPublish[i].description = topPublish[i].userName + '  ' + new Date(topPublish[i].briefComment.created_at * 1000).toLocaleString();
+        }
+
+        this.setData({
+          topPublish: topPublish
+        });
+        wx.hideLoading();
+      }).catch(err=>{
+        wx.hideLoading();
       });
-
-      wx.hideLoading();
-    }).catch(err => {
-      wx.hideLoading();
-
-    })
+    }
+ 
   },2500),
 
   onNextNews: util.throttle(function (e) {
@@ -65,21 +93,42 @@ onSelectTopNews:function(e){
       mask: true
     })
 
-    let topNews = this.data.topNews;
-    let curTime = topNews[topNews.length - 1].created_at;
+    let curType = this.data.curType;
+    if (curType == 0){
+      let topNews = this.data.topNews;
+      let curTime = topNews[topNews.length - 1].created_at;
 
-    publishUtil.loadBriefPublishedTopNews(curTime).then(tmpTopNews => {
-      //console.log(tmpTopNews);
-      topNews = topNews.concat(tmpTopNews)
-      this.setData({
-        topNews: topNews
-      });
+      publishUtil.loadBriefPublishedTopNews(curTime).then(tmpTopNews => {
+        //console.log(tmpTopNews);
+        topNews = topNews.concat(tmpTopNews)
+        this.setData({
+          topNews: topNews
+        });
 
         wx.hideLoading();
-    }).catch(err => {
-       wx.hideLoading();
-    
-    })
+      }).catch(err => {
+        wx.hideLoading();
+
+      })
+    }else{
+      let topPublish = this.data.topPublish;
+      let curTime = topPublish[topPublish.length - 1].created_at;
+
+      publishUtil.loadBriefTopRank(curTime).then(nextPublish => {
+        //  console.log(topPublish);
+        for (let i = 0; i < nextPublish.length; i++) {
+          nextPublish[i].description = nextPublish[i].userName + '  ' + new Date(nextPublish[i].briefComment.created_at * 1000).toLocaleString();
+        }
+        topPublish = topPublish.concat(nextPublish)
+        this.setData({
+          topPublish: topPublish
+        });
+        wx.hideLoading();
+      }).catch(err => {
+        wx.hideLoading();
+      });
+    }
+  
 
   },2500),
 
@@ -116,11 +165,23 @@ onSelectTopNews:function(e){
       }).catch(err=>{
        // wx.hideLoading();
         waitTimes++;
-      })
+      });
 
+      publishUtil.loadBriefTopRank(curTime).then(topPublish=>{
+      //  console.log(topPublish);
+      for (let i = 0; i < topPublish.length; i++){
+        topPublish[i].description = topPublish[i].userName + '  ' + new Date(topPublish[i].briefComment.created_at*1000).toLocaleString();
+      }
+        waitTimes++;
+        this.setData({
+          topPublish: topPublish
+        });
+      }).catch(err=>{
+        waitTimes++;
+      });
 
       let timeNum = setInterval(result => {
-        if (waitTimes == 2) {
+        if (waitTimes == 3) {
           clearInterval(timeNum);
           wx.hideLoading();
         }

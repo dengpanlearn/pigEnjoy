@@ -321,7 +321,7 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: center;
+  align-items: flex-start;
   margin-bottom: 20rpx;
 }
 
@@ -376,6 +376,16 @@
   line-height: 45rpx;
   text-align: left;
   font-size: 25rpx;
+}
+
+.comment-show-more{
+   width: auto;
+  height: auto;
+  line-height: 45rpx;
+  text-align: left;
+  font-size: 25rpx;
+   color: #4c439edc;
+   margin-left: 20rpx;
 }
 
 

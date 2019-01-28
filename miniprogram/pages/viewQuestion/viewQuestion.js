@@ -9,10 +9,28 @@ Page({
    * 页面的初始数据
    */
   data: {
+    questionPeriods: ['哺乳仔猪', '断奶仔猪', '保育猪', '育肥猪', '后备母猪', '妊娠母猪', '哺乳母猪', '空怀母猪', '种公猪'],
     question:{},
     commenFocus:false,
     commentValue:'',
     newComment:false
+  },
+
+  onShowMoreComment:function(e){
+    let tmpQuestion = this.data.question;
+    wx.showLoading({
+      title: '加载',
+    })
+    serverUtil.getMoreNextComment(tmpQuestion._id, tmpQuestion.comment.length, tmpQuestion.commentCount - tmpQuestion.comment.length).then(comment=>{
+
+      tmpQuestion.comment = tmpQuestion.comment.concat(comment);
+      this.setData({
+        question: tmpQuestion
+      });
+      wx.hideLoading();
+    }).catch(err=>{
+      wx.hideLoading();
+    })
   },
 
   onSendComment:function(e){
@@ -37,7 +55,7 @@ Page({
         result.createtimeFormate = new Date(result.createTime).toLocaleString();
         wx.hideLoading();
         let tmpQuestion = this.data.question;
-        tmpQuestion.comment.push(result);
+        tmpQuestion.selfComment.push(result);
 
         this.setData({
           question: tmpQuestion,
@@ -91,6 +109,7 @@ Page({
     publishUtil.loadTechnologyQuestionInfo(questionId).then(question => {
       wx.hideLoading();
 
+      question.selfComment = [];
       question.createTimeFormate = new Date(question.created_at*1000).toLocaleString();
       for (let i = 0; i < question.comment.length; i++){
         question.comment[i].createTimeFormate = new Date(question.comment[i].created_at*1000).toLocaleString();
@@ -141,8 +160,8 @@ Page({
         if (questionBriefList[i]._id == tmpQuestion._id) {
           let briefComment = questionBriefList[i].briefComment;
 
-          briefComment.count = tmpQuestion.comment.length;
-          briefComment.created_at = tmpQuestion.comment[tmpQuestion.comment.length - 1].created_at;
+          briefComment.count += tmpQuestion.selfComment.length;
+          briefComment.created_at = tmpQuestion.selfComment[tmpQuestion.selfComment.length - 1].created_at;
           questionBriefList[i].createTimeFormat = new Date(briefComment.created_at*1000).toLocaleString();
           questionBriefList[i].briefComment = briefComment;
           

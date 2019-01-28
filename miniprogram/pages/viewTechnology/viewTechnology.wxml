@@ -42,38 +42,46 @@
 
   <view class='show-praise' wx:if='{{technology.praise.length > 0}}'>
         <image class='show-praise-icon' src='../../images/praise-nor.png'></image>
-        <view class='show-praise-title' wx:if='{{technology.praise.length < 5}}'>
+        <view class='show-praise-title' wx:if='{{technology.praiseCount < 5}}'>
           <view class='show-praise-item' wx:for ='{{technology.praise}}' wx:key='_id'>{{item.userName}} </view>
         </view>
 
-        <view class='show-praise-title' wx:if='{{technology.praise.length >= 5}}'>
+        <view class='show-praise-title' wx:if='{{technology.praiseCount >= 5}}'>
           <view class='show-praise-item'>{{technology.praise[0].userName}} </view>
           <view class='show-praise-item'>{{technology.praise[1].userName}} </view>
           <view class='show-praise-item'>{{technology.praise[2].userName}} </view>
           <view class='show-praise-item'>{{technology.praise[3].userName}} </view>
           <view class='show-praise-item'>{{technology.praise[4].userName}} </view>
-          <view class='show-praise-item'>{{technology.praise.length}} 觉得很赞</view>
+          <view class='show-praise-item'>{{technology.praiseCount}} 觉得很赞</view>
         </view>
       </view>
 
     
 
-        <view class='comment-show-view' wx:if="{{technology.comment.length > 0}}">
+        <view class='comment-show-view' wx:if="{{(technology.comment.length+technology.selfComment.length) > 0}}">
           <view class='comment-show-total'>
           <image class='comment-show-total-icon' src='../../images/comment-nor.png'></image>
-          <view class='comment-show-total-text'>{{technology.comment.length}}条评论回复</view>
+          <view class='comment-show-total-text'>{{technology.commentCount+technology.selfComment.length}}条评论回复</view>
           </view>
           <view class='comment-show-item' wx:for = '{{technology.comment}}' wx:for-item='commentItem' wx:key='_id'>
             <view class='comment-show-item-usr'>{{commentItem.userName}}:</view>  
-            <view class='comment-show-item-content'>{{commentItem.content}}</view>
+            <text class='comment-show-item-content'>{{commentItem.content}}</text>
           </view>
+
+         <view class='comment-show-more' wx:if='{{technology.comment.length<technology.commentCount}}' bindtap='onShowMoreComment'>更多回复>></view>  
+
+         <view class='comment-show-item' wx:for = '{{technology.selfComment}}' wx:for-item='selfCommentItem' wx:key='_id'>
+            <view class='comment-show-item-usr'>{{selfCommentItem.userName}}:</view>  
+            <text class='comment-show-item-content'>{{selfCommentItem.content}}</text>
+          </view>
+
         </view>
   </scroll-view>
 
   <view class='comment-view'>
   <textarea class='comment-input' maxlength ='500' 
 placeholder='回帖参与讨论' placeholder-class ='placeholder-view' bindtap='onTapTextArea' bindblur ='onTextAreaBlur' bindconfirm = 'onCommentInput' focus='{{commenFocus}}' value = '{{commentValue}}' cursor-spacing='20'></textarea>
-  <view class='collect-view'>
+  <view class='collect-view' bindtap='onCollect'>
     <image class='collect-icon' src='../../images/store-pressed.png'></image>
     <text class='collect-title'>收藏</text>
   </view>

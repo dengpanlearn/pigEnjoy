@@ -151,6 +151,23 @@ function loadBriefPublishTechnology(time, typeId) {
   return loadBriefPublish(time, typeId + 1);
 }
 
+function loadBriefTopRankTechnology(time){
+  return new Promise((resolve, reject) => {
+    let query = new wx.BaaS.Query();
+    let tableObject = new wx.BaaS.TableObject(61937);
+    query.compare('created_at', '<', time);
+    query.in('topicType', [1,2,3]);
+
+    tableObject.setQuery(query).limit(6).orderBy(['-rank', '-created_at']).select(['_id','topicType', 'title',
+       'created_at', 'userName', 'imageFiles']).find().then(res => {
+       // console.log(res);
+        resolve(res.data.objects);
+      }).catch(err => {
+        reject(err);
+      });
+  });
+}
+
 function loadSelfBriefPublish(time, topicType) {
   return new Promise((resolve, reject) => {
     let query = new wx.BaaS.Query();
@@ -160,6 +177,7 @@ function loadSelfBriefPublish(time, topicType) {
     query.compare('created_at', '<', time);
     query.compare('topicType', '=', topicType);
     query.compare('created_by', '=', userId);
+
     tableObject.setQuery(query).limit(10).orderBy('-created_at').select(['_id', 'title',
       'avatarUrl', 'created_at', 'userName']).find().then(res => {
         resolve(res.data.objects);
@@ -204,15 +222,28 @@ function addComment(comment) {
       publishTopic: topicRow
     });
     newRow.save().then(res=>{
-      console.log(res);
-      resolve({
-        _id: res.data._id,
-        content: res.data.content,
-        avatarUrl: res.data.avatarUrl,
-        userName: res.data.userName,
-        publishTopic: res.data.publishTopic,
-        created_at: res.data.created_at
+   //   console.log(res);
+      topicRow.incrementBy('rank', 2);
+      topicRow.update().then(rankVal =>{
+        resolve({
+          _id: res.data._id,
+          content: res.data.content,
+          avatarUrl: res.data.avatarUrl,
+          userName: res.data.userName,
+          publishTopic: res.data.publishTopic,
+          created_at: res.data.created_at
+        });
+      }).catch(err=>{
+        resolve({
+          _id: res.data._id,
+          content: res.data.content,
+          avatarUrl: res.data.avatarUrl,
+          userName: res.data.userName,
+          publishTopic: res.data.publishTopic,
+          created_at: res.data.created_at
+        });
       });
+
     }).catch(err=>{
       reject(err);
     })
@@ -243,12 +274,24 @@ function addPraise(publishId)
         });
         newRow.save().then(res => {
           //console.log(res);
-          resolve({
-            _id: res.data._id,
-            avatarUrl: res.data.avatarUrl,
-            userName: res.data.userName,
-            publishTopic: res.data.publishTopic
-          });
+          topicRow.incrementBy('rank', 1);
+          topicRow.update().then(rankVal=>{
+            resolve({
+              _id: res.data._id,
+              avatarUrl: res.data.avatarUrl,
+              userName: res.data.userName,
+              publishTopic: res.data.publishTopic
+            });
+          }).catch(err=>{
+            resolve({
+              _id: res.data._id,
+              avatarUrl: res.data.avatarUrl,
+              userName: res.data.userName,
+              publishTopic: res.data.publishTopic
+            });
+          })
+
+        
         }).catch(err => {
           reject(err);
         })
@@ -260,6 +303,57 @@ function addPraise(publishId)
 
   })
 }
+
+function addCollect(publishId) {
+  return new Promise((resolve, reject) => {
+    let tableObject = new wx.BaaS.TableObject(63926);
+
+    let tableTopic = new wx.BaaS.TableObject(61937);
+    let topicRow = tableTopic.getWithoutData(publishId);
+    let query = new wx.BaaS.Query();
+
+    query.compare('created_by', '=', util.getUserId());
+    query.compare('publishTopic', '=', topicRow);
+    tableObject.setQuery(query).count().then(num => {
+      if (num > 0) {
+        reject(num);
+      } else {
+        let newRow = tableObject.create();
+        newRow.set({
+          avatarUrl: util.getUserAvatarUrl(),
+          userName: util.getUserName(),
+          publishTopic: topicRow
+        });
+        newRow.save().then(res => {
+          //console.log(res);
+          topicRow.incrementBy('rank', 3);
+          topicRow.update().then(rankVal => {
+            resolve({
+              _id: res.data._id,
+              avatarUrl: res.data.avatarUrl,
+              userName: res.data.userName,
+              publishTopic: res.data.publishTopic
+            });
+          }).catch(err => {
+            resolve({
+              _id: res.data._id,
+              avatarUrl: res.data.avatarUrl,
+              userName: res.data.userName,
+              publishTopic: res.data.publishTopic
+            });
+          })
+
+
+        }).catch(err => {
+          reject(err);
+        })
+      }
+    }).catch(err => {
+      reject(err);
+    })
+  })
+}
+
 function getBriefComment(_id) {
 
   return new Promise((resolve, reject) => {
@@ -304,10 +398,42 @@ function getComment(publishId){
     let topicRow = tableTopic.getWithoutData(publishId);
     let query = new wx.BaaS.Query();
     query.compare('publishTopic', '=', topicRow);
-    tableObject.setQuery(query).limit(10).orderBy('created_at').select(['_id', 'content',
+    tableObject.setQuery(query).count().then(num=>{
+      
+      tableObject.setQuery(query).limit(5).orderBy('created_at').select(['_id', 'content',
+        'avatarUrl', 'created_at', 'userName', 'publishTopic']).find().then(res => {
+          // console.log(res);
+          resolve({
+            count: num,
+            comment:res.data.objects
+          })
+        }).catch(err => {
+          reject(err);
+        });
+    }).catch(err=>{
+      reject(err);
+    })
+ 
+  })
+}
+
+function getMoreNextComment(publishId, skipNum,count){
+  return new Promise((resolve, reject)=>{
+    let tableObject = new wx.BaaS.TableObject(61953);
+
+    let tableTopic = new wx.BaaS.TableObject(61937);
+    let topicRow = tableTopic.getWithoutData(publishId);
+    let query = new wx.BaaS.Query();
+    query.compare('publishTopic', '=', topicRow);
+    if (count > 5){
+      count = 5;
+    }
+    tableObject.setQuery(query).limit(count).offset(skipNum).orderBy('created_at').select(['_id', 'content',
       'avatarUrl', 'created_at', 'userName', 'publishTopic']).find().then(res => {
-       // console.log(res);
-        resolve(res.data.objects);
+        // console.log(res);
+        resolve(
+           res.data.objects
+        )
       }).catch(err => {
         reject(err);
       });
@@ -322,13 +448,21 @@ function getPraise(publishId) {
     let topicRow = tableTopic.getWithoutData(publishId);
     let query = new wx.BaaS.Query();
     query.compare('publishTopic', '=', topicRow);
-    tableObject.setQuery(query).limit(10).orderBy('created_at').select(['_id',
-      'avatarUrl', 'userName', 'publishTopic']).find().then(res => {
-        // console.log(res);
-        resolve(res.data.objects);
-      }).catch(err => {
-        reject(err);
-      });
+    tableObject.setQuery(query).count().then(num=>{
+      tableObject.setQuery(query).limit(10).orderBy('created_at').select(['_id',
+        'avatarUrl', 'userName', 'publishTopic']).find().then(res => {
+          // console.log(res);
+          resolve({
+            count:num,
+            praise:res.data.objects
+          });
+        }).catch(err => {
+          reject(err);
+        });
+    }).catch(err=>{
+      reject(err);
+    })
+
   })
 }
 
@@ -349,12 +483,34 @@ function loadBriefContents(time, groupId, categoryID){
   });
 }
 
+
+
 function loadBriefTopNews(time){
   return loadBriefContents(time, 1547688310232191, 1547688378319635);
 }
 
 function loadBriefPushNews(time) {
   return loadBriefContents(time, 1547688310232191, 1547799942627512);
+}
+
+function loadBriefContentsById(groupId, newsIdArray) {
+  return new Promise((resolve, reject) => {
+    let MyContentGroup = new wx.BaaS.ContentGroup(groupId);
+    let query = new wx.BaaS.Query()
+ 
+   
+    query.in('id', newsIdArray);
+    MyContentGroup.setQuery(query).limit(10).orderBy('-created_at').select(['title', 'description', 'id', 'created_at', 'cover']).find().then(res => {
+      //    console.log(res.data.objects);
+      resolve(res.data.objects);
+    }).catch(err => {
+      reject(err);
+    })
+
+  });
+}
+function getBriefCollectNews(idArray){
+  return loadBriefContentsById(1547688310232191, idArray);
 }
 
 function getContent(groupId, contentId){
@@ -441,6 +597,43 @@ function addNewsPraise(newsId) {
   })
 }
 
+function addNewsCollect(newsId) {
+  return new Promise((resolve, reject) => {
+    let tableObject = new wx.BaaS.TableObject(63927);
+
+    let query = new wx.BaaS.Query();
+
+    query.compare('created_by', '=', util.getUserId());
+    query.compare('newsId', '=', newsId);
+    tableObject.setQuery(query).count().then(num => {
+      if (num > 0) {
+        reject(num);
+      } else {
+        let newRow = tableObject.create();
+        newRow.set({
+          avatarUrl: util.getUserAvatarUrl(),
+          userName: util.getUserName(),
+          newsId: newsId
+        });
+        newRow.save().then(res => {
+          //console.log(res);
+          resolve({
+            _id: res.data._id,
+            avatarUrl: res.data.avatarUrl,
+            userName: res.data.userName,
+            newsId: res.data.newsId
+          });
+        }).catch(err => {
+          reject(err);
+        })
+      }
+    }).catch(err => {
+      reject(err);
+    })
+
+
+  })
+}
 
 function getNewsComment(newsId) {
   return new Promise((resolve, reject) => {
@@ -450,13 +643,44 @@ function getNewsComment(newsId) {
     let query = new wx.BaaS.Query();
     query.compare('newsId', '=', newsId);
    // console.log(newsId);
-    tableObject.setQuery(query).limit(10).orderBy('created_at').select(['_id', 'content',
-      'avatarUrl', 'created_at', 'userName', 'newsId']).find().then(res => {
-        // console.log(res);
-        resolve(res.data.objects);
-      }).catch(err => {
-        reject(err);
-      });
+    tableObject.setQuery(query).count().then(num=>{
+      tableObject.setQuery(query).limit(5).orderBy('created_at').select(['_id', 'content',
+        'avatarUrl', 'created_at', 'userName', 'newsId']).find().then(res => {
+          // console.log(res);
+          resolve({
+            count: num,
+            comment: res.data.objects
+          });
+        }).catch(err => {
+          reject(err);
+        });
+    }).catch(err=>{
+      reject(err);
+    });
+
+  })
+}
+
+function getMoreNextNewsComment(newsId, skipNum, count) {
+  return new Promise((resolve, reject) => {
+    let tableObject = new wx.BaaS.TableObject(63074);
+
+
+    let query = new wx.BaaS.Query();
+    if (count > 5)
+      count = 5;
+    query.compare('newsId', '=', newsId);
+    // console.log(newsId);
+
+    tableObject.setQuery(query).limit(count).offset(skipNum).orderBy('created_at').select(['_id', 'content',
+        'avatarUrl', 'created_at', 'userName', 'newsId']).find().then(res => {
+          // console.log(res);
+          resolve(res.data.objects);
+        }).catch(err => {
+          reject(err);
+        });
+
+
   })
 }
 
@@ -465,16 +689,38 @@ function getNewsPraise(newsId) {
     let tableObject = new wx.BaaS.TableObject(62956);
     let query = new wx.BaaS.Query();
     query.compare('newsId', '=', newsId);
-    tableObject.setQuery(query).limit(10).orderBy('created_at').select(['_id',
-      'avatarUrl', 'userName', 'newsId']).find().then(res => {
-       //  console.log(res);
-        resolve(res.data.objects);
-      }).catch(err => {
-        reject(err);
-      });
+    tableObject.setQuery(query).count().then(num=>{
+      tableObject.setQuery(query).limit(5).orderBy('created_at').select(['_id',
+        'avatarUrl', 'userName', 'newsId']).find().then(res => {
+          //  console.log(res);
+          resolve({
+            count: num,
+            praise: res.data.objects
+          });
+        }).catch(err => {
+          reject(err);
+        });
+    }).catch(err=>{
+      reject(err);
+    });
+   
   })
 }
 
+function loadSelfNewsCollectInfo(){
+  return new Promise((resolve, reject)=>{
+    let tableObject = new wx.BaaS.TableObject(63927);
+    let query = new wx.BaaS.Query();
+    query.compare('created_by', '=', util.getUserId());
+    query.compare('userName', '=', util.getUserName());
+
+    tableObject.setQuery(query).limit(5).orderBy('created_at').select(['_id', 'newsId']).find().then(res=>{
+      resovle(res.data.objects);
+    }).catch(err=>{
+      reject(err);
+    })
+  });
+}
 
 module.exports={
   publishTopicShareLife,
@@ -484,16 +730,24 @@ module.exports={
   loadBriefPublishTechnology,
   loadPublishTechnologyInfo,
   loadSelfBriefPublishTechnology,
+  loadBriefTopRankTechnology,
   addComment,
   addPraise,
+  addCollect,
   getComment,
+  
+  getMoreNextComment,
   getBriefComment,
   getPraise,
   loadBriefTopNews,
   getTopNews,
   addNewsComment,
   addNewsPraise,
+  addNewsCollect,
   getNewsComment,
+  getMoreNextNewsComment,
   getNewsPraise,
-  loadBriefPushNews
+  loadBriefPushNews,
+  loadSelfNewsCollectInfo,
+  getBriefCollectNews
 }

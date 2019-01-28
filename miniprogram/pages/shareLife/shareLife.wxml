@@ -31,33 +31,39 @@
         <view class='share-operator-menu'>
          <image class='share-icon' src='../../images/praise-nor.png' id='{{shareLifeIndex}}'  bindtap='onPraise'></image>
           <image class='share-icon' src='../../images/comment-nor.png' id="{{shareLifeIndex}}" bindtap='onCommentInputBtn'></image> 
-          <image class='share-icon' src='../../images/store-nor.png' ></image> 
+          <image class='share-icon' bindtap='onCollect' src='../../images/store-nor.png' id="{{shareLifeIndex}}" ></image> 
         </view>
       </view>
 
       <view class='show-praise' wx:if='{{shareLifeItem.praise.length > 0}}'>
         <image class='show-praise-icon' src='../../images/praise-nor.png'></image>
-        <view class='show-praise-title' wx:if='{{shareLifeItem.praise.length < 5}}'>
+        <view class='show-praise-title' wx:if='{{shareLifeItem.praiseCount < 5}}'>
           <view class='show-praise-item' wx:for ='{{shareLifeItem.praise}}' wx:key='_id'>{{item.userName}} </view>
         </view>
 
-        <view class='show-praise-title' wx:if='{{shareLifeItem.praise.length >= 5}}'>
+        <view class='show-praise-title' wx:if='{{shareLifeItem.praiseCount >= 5}}'>
           <view class='show-praise-item'>{{shareLifeItem.praise[0].userName}} </view>
           <view class='show-praise-item'>{{shareLifeItem.praise[1].userName}} </view>
           <view class='show-praise-item'>{{shareLifeItem.praise[2].userName}} </view>
           <view class='show-praise-item'>{{shareLifeItem.praise[3].userName}} </view>
           <view class='show-praise-item'>{{shareLifeItem.praise[4].userName}} </view>
-          <view class='show-praise-item'>{{shareLifeItem.praise.length}} 觉得很赞</view>
+          <view class='show-praise-item'>{{shareLifeItem.praiseCount}} 觉得很赞</view>
         </view>
       </view>
-        <view class='comment-show-view' wx:if="{{shareLifeItem.comment.length > 0}}">
+        <view class='comment-show-view' wx:if="{{(shareLifeItem.comment.length+shareLifeItem.selfComment.length) > 0}}">
           <view class='comment-show-total'>
           <image class='comment-show-total-icon' src='../../images/comment-nor.png'></image>
-          <view class='comment-show-total-text'>{{shareLifeItem.comment.length}}条评论回复</view>
+          <view class='comment-show-total-text'>{{shareLifeItem.commentCount+shareLifeItem.selfComment.length}}条评论回复</view>
           </view>
           <view class='comment-show-item' wx:for = '{{shareLifeItem.comment}}' wx:for-item='commentItem' wx:key='_id'>
             <view class='comment-show-item-usr'>{{commentItem.userName}}:</view>  
-            <view class='comment-show-item-content'>{{commentItem.content}}</view>
+            <text class='comment-show-item-content'>{{commentItem.content}}</text>
+          </view>
+          <view class='comment-show-more' id="{{shareLifeIndex}}" wx:if='{{shareLifeItem.comment.length<shareLifeItem.commentCount}}' bindtap='onShowMoreComment'>更多回复>></view>
+
+          <view class='comment-show-item' wx:for = '{{shareLifeItem.selfComment}}' wx:for-item='selfCommentItem' wx:key='_id'>
+            <view class='comment-show-item-usr'>{{selfCommentItem.userName}}:</view>  
+            <text class='comment-show-item-content'>{{selfCommentItem.content}}</text>
           </view>
         </view>
       <view class='comment-input-view'>

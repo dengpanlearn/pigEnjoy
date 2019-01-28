@@ -247,7 +247,7 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: center;
+  align-items: flex-start;
   margin-bottom: 20rpx;
 }
 
@@ -287,7 +287,7 @@
 
 .comment-show-item-usr{
   width: auto;
-  height: 45rpx;
+  height: auto;
   line-height: 45rpx;
   text-align: left;
   font-size: 25rpx;
@@ -296,10 +296,19 @@
 
 .comment-show-item-content{
   width: auto;
-  height: 45rpx;
+  height: auto;
   line-height: 45rpx;
   text-align: left;
   font-size: 25rpx;
+}
+
+.comment-show-more{
+  width: auto;
+  height: auto;
+  line-height: 45rpx;
+  text-align: left;
+  font-size: 25rpx;
+  color: #4c439edc;
 }
 
 

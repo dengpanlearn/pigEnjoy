@@ -1,0 +1,130 @@
+/* miniprogram/pages/collect/collect.wxss */
+
+.container{
+  width: 100%;
+  height: 100%;
+}
+
+.profile-info{
+  width: 100%;
+  height: 280rpx;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+
+  background: #fffdfd;
+
+  border-bottom:1rpx solid #bebcbcfc;
+}
+
+.profile-info .avatar{
+  width: 148rpx;
+  height: 148rpx;
+  border-radius: 50%;
+}
+
+.profile-info .info{
+  width: 150rpx;
+  height: 85rpx;
+  padding-left: 32.5rpx;
+}
+
+.profile-info .name{
+  display: block;
+  height: 45rpx;
+  line-height: 45rpx;
+  font-size: 37.5rpx;
+  margin-bottom: 10rpx;
+}
+
+.new-type{
+  width: 100%;
+  height: 65rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  border-bottom: 1rpx solid #b1acacfc;
+}
+
+.type-selected{
+  width: 25%;
+  height: 65rpx;
+  line-height: 65rpx;
+  font-size: 32rpx;
+  text-align: center;
+  border-bottom: 1rpx solid #ee1212fc;
+}
+
+.type-selected-nor{
+  width: 25%;
+  height: 65rpx;
+  line-height: 65rpx;
+  font-size: 32rpx;
+  text-align: center;
+
+}
+
+.news-scroll{
+  position: fixed;
+  left: 0rpx;
+  top: 345rpx;
+  width: 100%;
+  height: 70%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+::-webkit-scrollbar{
+  width: 0;
+  height: 0;
+  color: transparent;
+}
+.top-news-item{
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  border-bottom: 10rpx solid #c4c1c1fc;
+}
+
+.top-news-item-info{
+  width: 70%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin-left: 20rpx;
+  margin-top: 20rpx;
+}
+
+.top-news-item-title{
+  width: auto;
+  height: auto;
+  line-height: 35rpx;
+  font-size: 28rpx;
+  text-align: left;
+}
+
+.top-news-item-desc{
+  width: auto;
+  height: auto;
+  line-height: 30rpx;
+  font-size: 23rpx;
+  text-align: left;
+  color: #b1acacfc;
+  margin-bottom: 20rpx;
+  margin-top: 20rpx;
+}
+
+.top-news-item-cover{
+  width: 22%;
+  height: 120rpx;
+  margin-bottom: 20rpx;
+  margin-top: 20rpx;
+}
