@@ -1,0 +1,22 @@
+<!--miniprogram/pages/homeContact/homeContact.wxml-->
+<view class='container'>
+
+  <swiper class='push-swiper' indicator-dots='true' bindchange='onSwiperChange'>
+    <view class='push-news-item-view' wx:for='{{homeContact}}' wx:key='id' id='{{index}}' bindtap='onView' >
+      <swiper-item class='push-news-item'>
+        <image src="{{item.cover}}" class="slide-image"></image>
+      </swiper-item>
+    </view>
+  </swiper>
+
+  <view class='push-news-item-title'>{{homeContact[curContactIndex].title}}</view>
+
+   <view class='top-new-content'>
+
+    <import src="../../zhyUtil/wxParser/index.wxml"/>
+    <view class="wxParser">
+      <template is="wxParser" data="{{wxParserData:richText.nodes}}"/>
+    </view> 
+  </view>
+
+  </view>

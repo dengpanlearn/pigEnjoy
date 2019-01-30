@@ -1,0 +1,40 @@
+<!--miniprogram/pages/feedBack/feedBack.wxml-->
+<view class='container'>
+  <view class='feed-back-type'>
+    <view class='feed-back-type-title'>反馈类型</view>
+
+    <view class='feed-back-type-picker-view'>
+      <picker class='feed-back-type-picker' value="{{pickerIndex}}" range="{{range}}" bindchange= 'onChangeType'>
+        <view class='picker-view'>{{range[pickerIndex]}}</view>
+      </picker>
+      <image class='picker-icon' src='../../images/go.png'></image>
+    </view>
+  </view>
+
+  <view class='add-feed-back-view'>
+    <view class='add-feed-back-title'>补充说明</view>
+
+    <textarea class='add-feed-back-input' placeholder='请填写反馈补充说明' placeholder-class= 'add-feed-back-placeholder' bindinput='onInput' value='{{content}}'></textarea>
+  </view>
+
+  <scroll-view class='publish-image' scroll-x= 'true'>
+  <view class='publish-image-load' wx:for='{{toLoadedPhotos}}' wx:key = 'src' id = '{{item.src}}' bindlongpress='onTouchDelete'>
+  <image class='publish-image-load-src' src='{{item.src}}' bindtap='onShowImage' id='{{item.src}}'></image>
+    <image class='publish-image-load-delete' wx:if='{{item.bDelete}}'  bindtap='onDeleteImage' id='{{item.src}}' src='../../images/delete.png'></image>
+  </view>
+
+    <view class='publish-image-put' bindtap='onGetPhoto'>
+    <view class='publish-image-put-tmp'>
+      <image class='publish-image-icon' src='../../images/photo.png'></image>
+      <text class='publish-image-title'>照片</text>
+    </view>
+   </view>
+</scroll-view>
+
+
+<view class='publish-end'>
+    <text class='publish-end-cancle' bindtap='onCancle'>取消</text>
+    <text class='publish-end-confirm' bindtap='onConfirm'>发表</text>
+  </view>
+
+</view>

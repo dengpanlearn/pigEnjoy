@@ -172,10 +172,11 @@ onSelectTopNews:function(e){
       for (let i = 0; i < topPublish.length; i++){
         topPublish[i].description = topPublish[i].userName + '  ' + new Date(topPublish[i].briefComment.created_at*1000).toLocaleString();
       }
-        waitTimes++;
         this.setData({
           topPublish: topPublish
         });
+        waitTimes++;
+
       }).catch(err=>{
         waitTimes++;
       });

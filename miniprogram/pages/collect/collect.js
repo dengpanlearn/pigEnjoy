@@ -27,6 +27,69 @@ Page({
     });
   },
 
+  onView: function (e) {
+    //console.log(e);
+    let curType = this.data.curType;
+    if (curType == 0) {
+      wx.navigateTo({
+        url: '../viewTopNew/viewTopNew?topNewsId=' + e.currentTarget.id,
+      })
+    } else {
+      let tmpPublish = this.data.collectPublish[parseInt(e.currentTarget.id)];
+      wx.navigateTo({
+        url: '../viewTechnology/viewTechnology?_id=' + tmpPublish._id + '&technologyTypeIdx=' + tmpPublish.topicType,
+      })
+    }
+
+  },
+
+
+  onNextNews: util.throttle(function (e) {
+    wx.showLoading({
+      title: '加载',
+      mask: true
+    })
+
+    let curType = this.data.curType;
+    if (curType == 0) {
+      let pushNews = this.data.collectPushNews;
+      let offset = pushNews.length;
+
+      publishUtil.loadSelfNewsCollect(offset).then(tmpPushNews => {
+        //console.log(pushNews);
+        pushNews = pushNews.concat(tmpPushNews)
+        this.setData({
+          collectPushNews: pushNews
+        });
+
+        wx.hideLoading();
+      }).catch(err => {
+        wx.hideLoading();
+
+      })
+    } else {
+      let collectPublish = this.data.collectPublish;
+      let offset = collectPublish.length;
+
+      publishUtil.loadSelfTopicCollect(offset).then(nextPublish => {
+        //  console.log(topPublish);
+        for (let i = 0; i < nextPublish.length; i++) {
+          nextPublish[i].description = nextPublish[i].userName + '  ' + new Date(nextPublish[i].created_at * 1000).toLocaleString();
+        }
+        collectPublish = collectPublish.concat(nextPublish)
+        this.setData({
+          collectPublish: collectPublish
+        });
+        wx.hideLoading();
+      }).catch(err => {
+        wx.hideLoading();
+      });
+    }
+
+
+  }, 2500),
+
+
   /**
    * 生命周期函数--监听页面加载
    */
@@ -40,13 +103,29 @@ Page({
     });
 
     let waitTimes = 0;
-    let curTime = Math.round(new Date().getTime() / 1000);
-    publishUtil.loadBriefPublishedTopNews(curTime).then(collectPushNews => {
-      
-      this.setData({
-        collectPushNews: collectPushNews
-      });
+    let collectPushNews =[];
+    let collectPublish = [];
+    
+    publishUtil.loadSelfTopicCollect(0).then(res=>{
+      for (let i = 0; i < res.length; i++){
+      res[i].description = res[i].userName + '  ' + new Date(res[i].created_at * 1000).toLocaleString();
+      }
+
+      collectPublish =res;
       waitTimes++;
+     // console.log(collectPublish);
+   
+    }).catch(err => {
+      //  console.log(err);
+      waitTimes++;
+    });
+
+    publishUtil.loadSelfNewsCollect(0).then(res => {
+    
+      collectPushNews = res;
+   //   console.log(res);
+      waitTimes++;
+     
     }).catch(err => {
       //  console.log(err);
       waitTimes++;
@@ -54,8 +133,12 @@ Page({
 
 
     let timeNum = setInterval(result => {
-      if (waitTimes == 1) {
+      if (waitTimes == 2) {
         clearInterval(timeNum);
+        this.setData({
+          collectPublish: collectPublish,
+          collectPushNews: collectPushNews
+        });
         wx.hideLoading();
       }
     }, 500, 0);

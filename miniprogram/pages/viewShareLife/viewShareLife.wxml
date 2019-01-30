@@ -1,0 +1,71 @@
+<!--miniprogram/pages/viewShareLife/viewShareLife.wxml-->
+<view class='container'>
+  <scroll-view class='scroll-view' scroll-y='true'>
+  <view class='technology-header'>
+    <view class='technology-user'>
+      <view class='technology-user-info'>
+       <image class='technology-avatar' src='{{shareLife.avatarUrl}}'></image>
+       <view class='technology-username'>{{shareLife.userName}}</view>
+      </view>
+
+      <view class='technology-createtime'>{{shareLife.createTimeFormate}}</view>
+    </view>
+  </view>
+
+  <view class='technology-content-view'>
+   <text class='technology-content'>{{shareLife.content}}</text>
+  </view>
+      <view class="{{(shareLife.imageFiles.length<3)?'technology-photo-big':'technology-photo-small'}}">
+        <image  class = "{{(shareLife.imageFiles.length<3)?'technology-photo-item-big':'technology-photo-item-small'}}" wx:for ="{{shareLife.imageFiles}}" wx:key = 'path'  wx:for-item ="technologyPhotoItem" wx:for-index ="technologyPhotoIndex" id = "{{technologyPhotoIndex}}"
+        src='{{technologyPhotoItem.path}}' bindtap='onViewtechnologyPhoto'></image>
+      </view>
+
+
+  <view class='show-praise' wx:if='{{shareLife.praise.length > 0}}'>
+        <image class='show-praise-icon' src='../../images/praise-nor.png'></image>
+        <view class='show-praise-title' wx:if='{{shareLife.praiseCount < 5}}'>
+          <view class='show-praise-item' wx:for ='{{shareLife.praise}}' wx:key='_id'>{{item.userName}} </view>
+        </view>
+
+        <view class='show-praise-title' wx:if='{{shareLife.praiseCount >= 5}}'>
+          <view class='show-praise-item'>{{shareLife.praise[0].userName}} </view>
+          <view class='show-praise-item'>{{shareLife.praise[1].userName}} </view>
+          <view class='show-praise-item'>{{shareLife.praise[2].userName}} </view>
+          <view class='show-praise-item'>{{shareLife.praise[3].userName}} </view>
+          <view class='show-praise-item'>{{shareLife.praise[4].userName}} </view>
+          <view class='show-praise-item'>{{shareLife.praiseCount}} 觉得很赞</view>
+        </view>
+      </view>
+
+    
+
+        <view class='comment-show-view' wx:if="{{(shareLife.comment.length+shareLife.selfComment.length) > 0}}">
+          <view class='comment-show-total'>
+          <image class='comment-show-total-icon' src='../../images/comment-nor.png'></image>
+          <view class='comment-show-total-text'>{{shareLife.commentCount+shareLife.selfComment.length}}条评论回复</view>
+          </view>
+          <view class='comment-show-item' wx:for = '{{shareLife.comment}}' wx:for-item='commentItem' wx:key='_id'>
+            <view class='comment-show-item-usr'>{{commentItem.userName}}:</view>  
+            <text class='comment-show-item-content'>{{commentItem.content}}</text>
+          </view>
+
+         <view class='comment-show-more' wx:if='{{shareLife.comment.length<shareLife.commentCount}}' bindtap='onShowMoreComment'>更多回复>></view>  
+
+         <view class='comment-show-item' wx:for = '{{shareLife.selfComment}}' wx:for-item='selfCommentItem' wx:key='_id'>
+            <view class='comment-show-item-usr'>{{selfCommentItem.userName}}:</view>  
+            <text class='comment-show-item-content'>{{selfCommentItem.content}}</text>
+          </view>
+
+        </view>
+  </scroll-view>
+
+  <view class='comment-view'>
+  <textarea class='comment-input' maxlength ='500' 
+placeholder='回帖参与讨论' placeholder-class ='placeholder-view' bindtap='onTapTextArea' bindblur ='onTextAreaBlur' bindconfirm = 'onCommentInput' focus='{{commenFocus}}' value = '{{commentValue}}' cursor-spacing='20'></textarea>
+  <view class='collect-view' bindtap='onPraise'>
+    <image class='collect-icon' src='../../images/praise-icon.png'></image>
+    <text class='collect-title'>点赞</text>
+  </view>
+  </view>
+</view>
+

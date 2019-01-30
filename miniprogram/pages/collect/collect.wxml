@@ -12,7 +12,7 @@
     <view class="{{(curType == 1)? 'type-selected': 'type-selected-nor'}}" bindtap='onSelectHotPublishs'>帖子</view>
   </view>
 
-    <scroll-view class='news-scroll' scroll-y='true' bindscrolltoupper ='onRefreshNews' bindscrolltolower='onNextNews'>
+    <scroll-view class='news-scroll' scroll-y='true' bindscrolltolower='onNextNews'>
   <view class='top-news-item' wx:if='{{curType==0}}' wx:for ='{{collectPushNews}}' wx:key ='id' id='{{item.id}}' bindtap='onView'>
     <view class='top-news-item-info'>
     <view class='top-news-item-title'>{{item.title}}</view>
@@ -20,6 +20,15 @@
     </view>
 
     <image class='top-news-item-cover' src='{{item.cover}}'></image>
+  </view>
+
+   <view class='top-news-item' wx:if='{{curType==1}}' wx:for ='{{collectPublish}}' wx:key ='_id' id='{{index}}' bindtap='onView'>
+    <view class='top-news-item-info'>
+       <view class='top-news-item-title'>{{item.title}}</view>
+      <text class='top-news-item-desc'>{{item.description}}</text>
+    </view>
+
+    <image class='top-news-item-cover' wx:if='{{item.imageFiles.length >0 }}' src='{{item.imageFiles[0].path}}'></image>
   </view>
 
 

@@ -20,10 +20,21 @@ Page({
   onViewTechnology:function(e){
     let curPublishTechnologyIndex = parseInt(e.currentTarget.id);
     let curPublishTechnology = this.data.publishTechnology[this.data.curTypeIdx][curPublishTechnologyIndex];
+    wx.showLoading({
+      title: '加载',
+    });
+    publishUtil.addViewTimes(curPublishTechnology._id).then(res=>{
+      curPublishTechnology.viewTimes++;
+      wx.hideLoading();
 
-    wx.navigateTo({
-      url: '../viewTechnology/viewTechnology?_id=' + curPublishTechnology._id +'&technologyTypeIdx='+this.data.curTypeIdx,
-    })
+      wx.navigateTo({
+        url: '../viewTechnology/viewTechnology?_id=' + curPublishTechnology._id + '&technologyTypeIdx=' + this.data.curTypeIdx,
+      })
+    }).catch(err=>{
+      wx.hideLoading();
+    });
+
+
   },
 
   onRefreshTechnology: util.throttle(function (e) {

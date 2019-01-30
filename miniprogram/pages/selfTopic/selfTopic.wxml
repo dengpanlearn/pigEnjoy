@@ -43,7 +43,7 @@
 </view>
 
   <view class='share-operator'>
-    <view class='view-times'>收藏0次</view>
+    <view class='view-times'>浏览{{selfPublishItem.viewTimes}}次</view>
         <view class='share-operator-menu'>
          <image class='share-icon' src='../../images/praise-nor.png' id='{{selfPublishIndex}}'></image>
          <image class='share-icon' src='../../images/comment-nor.png' id="{{selfPublishIndex}}" ></image> 

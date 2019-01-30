@@ -91,7 +91,7 @@ function getInputContent(className) {
       id: true,
       properties: ['value']
     }, res => {
-      console.log(res);
+     // console.log(res);
       resolve(res.value);
     }).exec();
   })

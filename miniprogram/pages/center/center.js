@@ -43,9 +43,13 @@ Page({
     }
     ],
 
-    connectMenu:[
-      '反馈问题',
-      '联系方式'
+    connectMenu: [{
+      name: '反馈问题',
+      url: '../feedBack/feedBack'
+    }, {
+        name: '联系方式',
+        url: '../homeContact/homeContact'
+      }
     ]
   },
 

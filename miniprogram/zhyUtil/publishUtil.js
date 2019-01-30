@@ -35,6 +35,14 @@ var unUpdatePublish =[
     toLoadedPhotos: [],
     address: '添加地点',
     bPhotoHighFormat: false
+  },
+  {
+    curTypeIdx: 4,
+    title: '',
+    content: '',
+    toLoadedPhotos: [],
+    address: '添加地点',
+    bPhotoHighFormat: false
   }
 ];
 
@@ -64,6 +72,7 @@ function getUnUpdatePublishShareLife(){
 function setUnUpdatePublishShareLife(usrUnUpdatePublishShareLife) {
   unUpdatePublishShareLife = usrUnUpdatePublishShareLife;
 }
+
 
 function getUnUpdatePublish(typeIdx){
   return unUpdatePublish[typeIdx];
@@ -95,6 +104,24 @@ function getUnUpdatePublishQuestion() {
   }
 }
 
+function setUnUpdatePublishFeedBack(feedBack) {
+  unUpdatePublish[4] = {
+    curTypeIdx: 4,
+    title: '反馈',
+    content: JSON.stringify(feedBack.content),
+    address: '',
+    toLoadedPhotos: feedBack.toLoadedPhotos,
+    bPhotoHighFormat: true,
+  };
+}
+
+function getUnUpdatePublishFeedBack() {
+  let technology = unUpdatePublish[4];
+  return {
+    content: (technology.content == '') ? undefined : JSON.parse(technology.content),
+    photoPathList: technology.toLoadedPhotos,
+  }
+}
 
 function loadSelfOriginalPublish(time){
   return new Promise((resolve, reject)=>{
@@ -557,6 +584,64 @@ function publishQuestion(question){
   });
 }
 
+function publishFeedBack(feedBack) {
+  return new Promise((resolve, reject) => {
+    let technologyFeedBack = {
+      topicType: 4,
+      title: '反馈',
+      content: JSON.stringify(feedBack.content),
+      address:'none',
+      photoPathList: feedBack.toLoadedPhotoDir,
+      bPhotoHighFormat: true
+    };
+    serverUtil.publishTopicTechnology(technologyFeedBack).then(res => {
+      resolve(res);
+    }).catch(res => {
+      reject(res);
+    });
+  });
+}
+
+function loadPublishShareLifeInfo(_id) {
+  return new Promise((resolve, reject) => {
+    serverUtil.loadPublishShareLifeInfo(_id).then(res => {
+      let shareLifeInfo = res;
+      shareLifeInfo.comment = [];
+      shareLifeInfo.praise = [];
+      shareLifeInfo.loaded = 0;
+
+      serverUtil.getComment(_id).then(comment => {
+
+        shareLifeInfo.commentCount = comment.count
+        shareLifeInfo.comment = comment.comment;
+        shareLifeInfo.loaded |= 1;
+      }).catch(err => {
+        shareLifeInfo.loaded |= 1;
+      })
+
+      serverUtil.getPraise(_id).then(praise => {
+        shareLifeInfo.praiseCount = praise.count;
+        shareLifeInfo.praise = praise.praise;
+
+        shareLifeInfo.loaded |= 2;
+      }).catch(err => {
+        shareLifeInfo.loaded |= 2;
+      })
+
+      let timeNum = setInterval(result => {
+        if (shareLifeInfo.loaded == 3) {
+          clearInterval(timeNum);
+          resolve(shareLifeInfo);
+        }
+      }, 500, 0);
+
+    }).catch(err => {
+      reject(err);
+    });
+
+  })
+}
+
 function loadTechnologyInfo(technologyTypeId, _id)
 {
   return new Promise((resolve, reject)=>{
@@ -628,6 +713,20 @@ function loadBriefPublishedPushNews(curTime) {
   return new Promise((resolve, reject) => {
    // const curTime = new Date().getTime();
     serverUtil.loadBriefPushNews(curTime).then(res => {
+      //console.log(res);
+
+
+      resolve(res);
+    }).catch(err => {
+      reject(err);
+    });
+  })
+}
+
+function loadHomeContactNews(curTime) {
+  return new Promise((resolve, reject) => {
+    // const curTime = new Date().getTime();
+    serverUtil.loadHomeContactNews(curTime).then(res => {
       //console.log(res);
 
 
@@ -716,20 +815,72 @@ function addNewsCollect(newsId) {
 
 }
 
-function loadSelfCollect(curTime){
+function loadSelfTopicCollect(skipCount){
+  return new Promise((resolve, reject)=>{
+    serverUtil.loadSelfTopicCollectInfo(skipCount).then(res=>{
+   //   console.log(res);
 
+      let topicIdArray =[];
+      for (let i = 0; i < res.length; i++){
+        topicIdArray.push(res[i].publishTopic.id);
+      }
+      serverUtil.getBriefCollectPublishTopic(topicIdArray).then(briefTopic=>{
+       // console.log(briefTopic);
+        resolve(briefTopic);
+      }).catch(err=>{
+        reject(err);
+      });
+
+    }).catch(err=>{
+      reject(err);
+    });
+  })
+}
+
+function loadSelfNewsCollect(skipCount){
+  return new Promise((resolve, reject) => {
+    serverUtil.loadSelfNewsCollectInfo(skipCount).then(res => {
+      //   console.log(res);
+
+      let newsIdArray = [];
+      for (let i = 0; i < res.length; i++) {
+        newsIdArray.push(res[i].newsId);
+      }
+      serverUtil.getBriefCollectNews(newsIdArray).then(collectNews => {
+     //   console.log(collectNews);
+        resolve(collectNews);
+      }).catch(err => {
+        reject(err);
+      });
+    }).catch(err => {
+      reject(err);
+    });
+  })
+}
+
+function addViewTimes(topicId){
+  return new Promise((resolve, reject)=>{
+    serverUtil.addViewTimes(topicId).then(res=>{
+      resolve(res);
+    }).catch(err=>{
+      reject(err);
+    });
+  });
 }
 
 module.exports = {
   publishShareLife,
   publishTechnology,
   publishQuestion,
+  publishFeedBack,
   getUnUpdatePublish,
   setUnUpdatePublish,
   getUnUpdatePublishShareLife,
   setUnUpdatePublishShareLife,
   setUnUpdatePublishQuestion,
   getUnUpdatePublishQuestion,
+  setUnUpdatePublishFeedBack,
+  getUnUpdatePublishFeedBack,
   loadShareLifeCompeted,
   loadAllPublishShareLife,
   loadSelfOriginalPublish,
@@ -745,11 +896,16 @@ module.exports = {
   addPraise,
   addCollect,
   loadTechnologyInfo,
+  loadPublishShareLifeInfo,
   loadTechnologyQuestionInfo,
   loadBriefPublishedTopNews,
   loadBriefPublishedPushNews,
+  loadHomeContactNews,
   getTopNews,
   addNewsComment,
   addNewsPraise,
-  addNewsCollect
+  addNewsCollect,
+  loadSelfTopicCollect,
+  loadSelfNewsCollect,
+  addViewTimes
 }

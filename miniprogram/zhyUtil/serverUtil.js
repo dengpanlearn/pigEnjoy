@@ -39,6 +39,7 @@ function publishTopic(topic){
         imageFiles: fileResult,
         avatarUrl: util.getUserAvatarUrl(),
         userName: util.getUserName(),
+        viewTimes:0,
         bPhotoHighFormat:false
       });
 
@@ -52,7 +53,8 @@ function publishTopic(topic){
           imageFiles: res.data.imageFiles,
           avatarUrl: res.data.avatarUrl,
           userName: res.data.userName,
-          created_at: res.data.created_at
+          created_at: res.data.created_at,
+          viewTimes:res.data.viewTimes
           });
       }).catch(err=>{
         reject(err);
@@ -97,8 +99,8 @@ function loadAllPublish(time, topicType) {
     query.compare('topicType', '=', topicType);
 
     tableObject.setQuery(query).limit(10).orderBy('-created_at').select(['_id','topicType', 'title',
-      'content', 'address', 'imageFiles', 'avatarUrl', 'userName', 'created_at']).find().then(res=>{
-      //  console.log(res.data.objects);
+      'content', 'address', 'imageFiles', 'avatarUrl', 'userName', 'created_at', 'viewTimes']).find().then(res=>{
+       // console.log(res.data.objects);
       resolve(res.data.objects);
     }).catch(err=>{
       reject(err);
@@ -120,7 +122,7 @@ function loadAllSelfPublish(time, topicTypes){
     query.in('topicType', topicTypes);
 
     tableObject.setQuery(query).limit(5).orderBy('-created_at').select(['_id', 'topicType', 'title',
-      'content', 'address', 'imageFiles', 'avatarUrl', 'userName', 'created_at']).find().then(res => {
+      'content', 'address', 'imageFiles', 'avatarUrl', 'userName', 'created_at', 'viewTimes']).find().then(res => {
         //  console.log(res.data.objects);
         resolve(res.data.objects);
       }).catch(err => {
@@ -139,7 +141,7 @@ function loadBriefPublish(time, topicType){
 
     tableObject.setQuery(query).limit(10).orderBy('-created_at').select(['_id',  'title',
       'avatarUrl', 'created_at', 'userName']).find().then(res => {
-        console.log(res);
+       // console.log(res);
         resolve(res.data.objects);
       }).catch(err => {
         reject(err);
@@ -206,6 +208,24 @@ function loadPublishInfo(typeId, _id){
 
 function loadPublishTechnologyInfo(typeId, _id) {
   return loadPublishInfo(typeId + 1, _id);
+}
+
+function loadPublishShareLifeInfo(_id){
+  return loadPublishInfo(0, _id);
+}
+
+function addViewTimes(topicId){
+  return new Promise((resolve, reject)=>{
+    let tableTopic = new wx.BaaS.TableObject(61937);
+    let topicRow = tableTopic.getWithoutData(topicId);
+
+    topicRow.incrementBy('viewTimes', 1)
+    topicRow.update().then(res=>{
+      resolve(res);
+    }).catch(err=>{
+      reject(err);
+    });
+  });
 }
 
 function addComment(comment) {   
@@ -493,6 +513,27 @@ function loadBriefPushNews(time) {
   return loadBriefContents(time, 1547688310232191, 1547799942627512);
 }
 
+function loadHomeContactNews(time) {
+  return loadBriefContents(time, 1548832369449674, 1548832391528266);
+}
+
+function loadBriefPublishTopicById(tableId, newsIdArray){
+  return new Promise((resolve, reject)=>{
+    let tableObject = new wx.BaaS.TableObject(tableId);
+    let query = new wx.BaaS.Query()
+
+    query.in('_id', newsIdArray);
+
+    tableObject.setQuery(query).orderBy('-created_at').select(['_id', 'title',
+      'avatarUrl', 'created_at', 'userName', 'imageFiles','topicType']).find().then(res => {
+      //    console.log(res.data.objects);
+      resolve(res.data.objects);
+    }).catch(err => {
+      reject(err);
+    })
+  });
+}
+
 function loadBriefContentsById(groupId, newsIdArray) {
   return new Promise((resolve, reject) => {
     let MyContentGroup = new wx.BaaS.ContentGroup(groupId);
@@ -500,7 +541,7 @@ function loadBriefContentsById(groupId, newsIdArray) {
  
    
     query.in('id', newsIdArray);
-    MyContentGroup.setQuery(query).limit(10).orderBy('-created_at').select(['title', 'description', 'id', 'created_at', 'cover']).find().then(res => {
+    MyContentGroup.setQuery(query).orderBy('-created_at').select(['title', 'description', 'id', 'created_at', 'cover']).find().then(res => {
       //    console.log(res.data.objects);
       resolve(res.data.objects);
     }).catch(err => {
@@ -511,6 +552,10 @@ function loadBriefContentsById(groupId, newsIdArray) {
 }
 function getBriefCollectNews(idArray){
   return loadBriefContentsById(1547688310232191, idArray);
+}
+
+function getBriefCollectPublishTopic(idArray) {
+  return loadBriefPublishTopicById(61937, idArray);
 }
 
 function getContent(groupId, contentId){
@@ -707,15 +752,32 @@ function getNewsPraise(newsId) {
   })
 }
 
-function loadSelfNewsCollectInfo(){
-  return new Promise((resolve, reject)=>{
-    let tableObject = new wx.BaaS.TableObject(63927);
+function loadSelfTopicCollectInfo(skipCount){
+  return new Promise((resolve, reject) => {
+    let tableObject = new wx.BaaS.TableObject(63926);
     let query = new wx.BaaS.Query();
+   
     query.compare('created_by', '=', util.getUserId());
     query.compare('userName', '=', util.getUserName());
 
-    tableObject.setQuery(query).limit(5).orderBy('created_at').select(['_id', 'newsId']).find().then(res=>{
-      resovle(res.data.objects);
+    tableObject.setQuery(query).limit(5).offset(skipCount).orderBy('-created_at').select([ '_id', 'publishTopic']).find().then(res => {
+      resolve(res.data.objects);
+    }).catch(err => {
+      reject(err);
+    })
+  });
+}
+
+function loadSelfNewsCollectInfo(skipCount){
+  return new Promise((resolve, reject)=>{
+    let tableObject = new wx.BaaS.TableObject(63927);
+    let query = new wx.BaaS.Query();
+   
+    query.compare('created_by', '=', util.getUserId());
+    query.compare('userName', '=', util.getUserName());
+
+    tableObject.setQuery(query).limit(5).offset(skipCount).orderBy('-created_at').select(['_id', 'newsId']).find().then(res=>{
+      resolve(res.data.objects);
     }).catch(err=>{
       reject(err);
     })
@@ -731,6 +793,8 @@ module.exports={
   loadPublishTechnologyInfo,
   loadSelfBriefPublishTechnology,
   loadBriefTopRankTechnology,
+  loadPublishShareLifeInfo,
+  addViewTimes,
   addComment,
   addPraise,
   addCollect,
@@ -740,6 +804,7 @@ module.exports={
   getBriefComment,
   getPraise,
   loadBriefTopNews,
+  loadHomeContactNews,
   getTopNews,
   addNewsComment,
   addNewsPraise,
@@ -748,6 +813,8 @@ module.exports={
   getMoreNextNewsComment,
   getNewsPraise,
   loadBriefPushNews,
+  loadSelfTopicCollectInfo,
   loadSelfNewsCollectInfo,
-  getBriefCollectNews
+  getBriefCollectNews,
+  getBriefCollectPublishTopic
 }

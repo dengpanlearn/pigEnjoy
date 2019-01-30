@@ -19,7 +19,7 @@
       </view>
 
 
-      <text class='share-life-content'>{{shareLifeItem.content}}</text>
+      <text class='share-life-content' bindtap='onViewShareLife' id='{{shareLifeIndex}}'>{{shareLifeItem.content}}</text>
 
       <view class="{{(shareLifeItem.imageFiles.length<3)?'share-life-photo-big':'share-life-photo-small'}}">
         <image  class = "{{(shareLifeItem.imageFiles.length<3)?'share-life-photo-item-big':'share-life-photo-item-small'}}" wx:for ="{{shareLifeItem.imageFiles}}" wx:key = 'cdn_path'  wx:for-item ="sharePhotoItem" wx:for-index ="sharePhotoIndex" id = "{{''+shareLifeIndex+'+'+sharePhotoIndex}}"
@@ -27,11 +27,10 @@
       </view>
 
       <view class='share-operator'>
-        <view class='view-times'>收藏0次</view>
+        <view class='view-times'>浏览{{shareLifeItem.viewTimes}}次</view>
         <view class='share-operator-menu'>
          <image class='share-icon' src='../../images/praise-nor.png' id='{{shareLifeIndex}}'  bindtap='onPraise'></image>
           <image class='share-icon' src='../../images/comment-nor.png' id="{{shareLifeIndex}}" bindtap='onCommentInputBtn'></image> 
-          <image class='share-icon' bindtap='onCollect' src='../../images/store-nor.png' id="{{shareLifeIndex}}" ></image> 
         </view>
       </view>
 

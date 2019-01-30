@@ -13,6 +13,30 @@ Page({
     allShareLifeArry:[]
   },
 
+  onViewShareLife:function(e){
+    wx.showLoading({
+      title: '加载',
+    })
+    let shareLifeIndex = parseInt(e.currentTarget.id);
+    let allShareLifeArry = this.data.allShareLifeArry;
+    let tmpShareLife = allShareLifeArry[shareLifeIndex];
+    publishUtil.addViewTimes(tmpShareLife._id).then(res=>{
+   
+      tmpShareLife.viewTimes++;
+      allShareLifeArry[shareLifeIndex] = tmpShareLife;
+      this.setData({
+        allShareLifeArry: allShareLifeArry
+      });
+      wx.hideLoading();
+      wx.navigateTo({
+        url: '../viewShareLife/viewShareLife?_id=' + tmpShareLife._id,
+      })
+    }).catch(err=>{
+      wx.hideLoading();
+    });
+
+  },
+
   onShowMoreComment:function(e){
     let shareLifeIndex = parseInt(e.currentTarget.id);
     let allShareLifeArry = this.data.allShareLifeArry;
@@ -212,7 +236,7 @@ onCommentInput:function(e){
       wx.hideLoading();
       let loadedShareLifeArry = res;
       let allShareLifeArry = [];
-
+    //  console.log(res);
       for (let i = 0; i < loadedShareLifeArry.length; i++) {
         let tmpShareLife = loadedShareLifeArry[i];
         tmpShareLife.focus = false;
@@ -290,7 +314,7 @@ onCommentInput:function(e){
       wx.hideLoading();
       let loadedShareLifeArry = res;
       let allShareLifeArry = [];
-
+   
       for (let i = 0; i < loadedShareLifeArry.length; i++) {
         let tmpShareLife = loadedShareLifeArry[i];
         tmpShareLife.focus = false;

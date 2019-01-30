@@ -24,8 +24,8 @@
   </view>
   <view class='border-view'></view>
    <view class='center-menu'>
-    <view class='center-menu-item' wx:for='{{connectMenu}}' wx:key='*this' id ='{{item}}'>
-      <text class='center-menu-name'>{{item}}</text>
+    <view class='center-menu-item' wx:for='{{connectMenu}}' wx:key='name' id ='{{item.url}}' bindtap='onViewSelfTopic'>
+      <text class='center-menu-name'>{{item.name}}</text>
       <image class='center-menu-icon' src='../../images/go.png'></image>
     </view>
   </view>
