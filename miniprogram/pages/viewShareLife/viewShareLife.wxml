@@ -20,6 +20,11 @@
         src='{{technologyPhotoItem.path}}' bindtap='onViewtechnologyPhoto'></image>
       </view>
 
+        <view class='show-address' wx:if="{{shareLife.address != '添加地点'}}">
+        <image class ='show-address-icon' src='../../images/address.png'></image>
+        <text class='show-address-value'>{{shareLife.address}}</text>
+      </view>
+
 
   <view class='show-praise' wx:if='{{shareLife.praise.length > 0}}'>
         <image class='show-praise-icon' src='../../images/praise-nor.png'></image>

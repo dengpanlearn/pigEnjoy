@@ -20,6 +20,12 @@
         <image  class = "{{(technology.imageFiles.length<3)?'technology-photo-item-big':'technology-photo-item-small'}}" wx:for ="{{technology.imageFiles}}" wx:key = 'path'  wx:for-item ="technologyPhotoItem" wx:for-index ="technologyPhotoIndex" id = "{{technologyPhotoIndex}}"
         src='{{technologyPhotoItem.path}}' bindtap='onViewtechnologyPhoto'></image>
       </view>
+
+    
+        <view class='show-address' wx:if="{{technology.address != '添加地点'}}">
+        <image class ='show-address-icon' src='../../images/address.png'></image>
+        <text class='show-address-value'>{{technology.address}}</text>
+      </view>
   <view class='menu-view'>
     <view class='menu-item-view'>
     <view class='menu-item'>

@@ -42,6 +42,11 @@
   src='{{selfTopicPhotoItem.path}}' bindtap='onViewSelfTopicPhoto'></image>
 </view>
 
+      <view class='show-address' wx:if="{{selfPublishItem.address != '添加地点'}}">
+        <image class ='show-address-icon' src='../../images/address.png'></image>
+        <text class='show-address-value'>{{selfPublishItem.address}}</text>
+      </view>
+
   <view class='share-operator'>
     <view class='view-times'>浏览{{selfPublishItem.viewTimes}}次</view>
         <view class='share-operator-menu'>

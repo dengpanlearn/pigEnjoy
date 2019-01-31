@@ -36,7 +36,10 @@
         src='{{questionPhotoItem.path}}' bindtap='onViewQuestionPhoto'></image>
       </view>
      
-
+        <view class='show-address' wx:if="{{question.address != '添加地点'}}">
+        <image class ='show-address-icon' src='../../images/address.png'></image>
+        <text class='show-address-value'>{{question.address}}</text>
+        </view>
       <view class='question-comment-show-item' wx:for='{{question.comment}}' wx:key='_id'>
         <view class='question-comment-user'>
           <image class='question-comment-user-avatar' src='{{item.avatarUrl}}'></image>

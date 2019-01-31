@@ -216,6 +216,33 @@
        margin-bottom: 10rpx;
 }
 
+
+.show-address{
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.show-address-icon{
+  width: 45rpx;
+  height: 45rpx;
+  margin-left: 20rpx;
+  margin-top: 10rpx;
+}
+
+.show-address-value{
+  width: auto;
+  height: auto;
+  line-height: 45rpx;
+    margin-left: 20rpx;
+  margin-top: 10rpx;
+  font-size: 25rpx;
+  text-align: left;
+}
+
 .comment-view{
   position: fixed;
   top: 93%;

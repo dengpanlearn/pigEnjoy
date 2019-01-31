@@ -129,7 +129,7 @@ Page({
       wx.hideLoading();
       technology.selfComment =[];
       technology.createTimeFormate = new Date(technology.created_at*1000).toLocaleString();
-      console.log(technology);
+    //  console.log(technology);
       this.setData({
         technology: technology
       });

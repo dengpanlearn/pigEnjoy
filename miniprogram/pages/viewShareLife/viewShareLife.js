@@ -122,7 +122,7 @@ Page({
       wx.hideLoading();
       shareLife.selfComment = [];
       shareLife.createTimeFormate = new Date(shareLife.created_at * 1000).toLocaleString();
-      console.log(shareLife);
+   //   console.log(shareLife);
       this.setData({
         shareLife: shareLife
       });

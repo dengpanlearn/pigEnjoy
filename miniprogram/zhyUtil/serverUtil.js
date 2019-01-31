@@ -198,7 +198,7 @@ function loadPublishInfo(typeId, _id){
   return new Promise((resolve, reject)=>{
     let tableObject = new wx.BaaS.TableObject(61937);
     tableObject.select(['_id', 'title',
-      'avatarUrl', 'created_at', 'userName', 'content', 'imageFiles','topicType'
+      'avatarUrl', 'created_at', 'userName', 'content', 'imageFiles','topicType','address'
       ]).get(_id).then(res=>{
     resolve(res.data);
   }).catch(err=>{

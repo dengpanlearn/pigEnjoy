@@ -29,7 +29,7 @@ Page({
     questionTitle:'',
     curTypeIdx: 0,
     toLoadedPhotos: [],
-    curAddress: '选择地址',
+    curAddress: '添加地点',
     bModify: false
   },
 
