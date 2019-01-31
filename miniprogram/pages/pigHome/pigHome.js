@@ -240,7 +240,11 @@ onSelectTopNews:function(e){
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
-
+  onShareAppMessage: function (Object) {
+    return {
+      title: '欢迎来到小猪易达',
+      path: '/pages/pigHome/pigHome',
+      imageUrl: 'https://cloud-minapp-21575.cloud.ifanrusercontent.com/1gp5NiPaBHy51Acc.png'
+    }
   }
 })

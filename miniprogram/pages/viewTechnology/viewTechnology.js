@@ -212,7 +212,28 @@ Page({
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
-
+  onShareAppMessage: function (Object) {
+    let technology = this.data.technology;
+    let icon = '';
+    if (technology.imageFiles.length == 0)
+    {
+      icon = 'https://cloud-minapp-21575.cloud.ifanrusercontent.com/1gp5NiPaBHy51Acc.png';
+    }
+    else{
+      icon = technology.imageFiles[0];
+    }
+    if (Object.from == 'button') {
+      return {
+        title: technology.title,
+        path: '/pages/viewTechnology/viewTechnology?_id=' + technology._id + '&technologyTypeIdx=' + technology.topicType,
+        imageUrl: icon
+      }
+    } else {
+      return {
+        title: '欢迎来到小猪易达',
+        path: '/pages/pigHome/pigHome',
+        imageUrl: 'https://cloud-minapp-21575.cloud.ifanrusercontent.com/1gp5NiPaBHy51Acc.png'
+      }
+    }
   }
 })

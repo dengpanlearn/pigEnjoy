@@ -198,7 +198,8 @@ function loadPublishInfo(typeId, _id){
   return new Promise((resolve, reject)=>{
     let tableObject = new wx.BaaS.TableObject(61937);
     tableObject.select(['_id', 'title',
-      'avatarUrl', 'created_at', 'userName', 'content', 'imageFiles']).get(_id).then(res=>{
+      'avatarUrl', 'created_at', 'userName', 'content', 'imageFiles','topicType'
+      ]).get(_id).then(res=>{
     resolve(res.data);
   }).catch(err=>{
     reject(err);
@@ -562,7 +563,7 @@ function getContent(groupId, contentId){
   return new Promise((resolve, reject)=>{
    // console.log(contentId);
     let MyContentGroup = new wx.BaaS.ContentGroup(groupId);
-    MyContentGroup.select(['title', 'description', 'id', 'created_at', 'content']).getContent(contentId).then(res=>{
+    MyContentGroup.select(['title', 'description', 'id', 'created_at', 'content', 'cover']).getContent(contentId).then(res=>{
       resolve(res.data);
     }).catch(err=>{
       reject(err);

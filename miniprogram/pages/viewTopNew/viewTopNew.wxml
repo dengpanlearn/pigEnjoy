@@ -32,8 +32,10 @@
 
       <view class='menu-item'>
       <view class='item-photo'>
+
+        <button class='item-btn' open-type = 'share'>
       <image class='item-icon' src='../../images/transmit.png'></image>
-      
+      </button>
       </view>
       <view class='item-title'>转发给朋友</view>
     </view>
