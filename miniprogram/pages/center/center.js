@@ -135,7 +135,13 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    if (zhyUtil.getUserIsLogon() && !(this.data.userInfoIsGetted)){
+      this.setData({
+        avatarUrl: zhyUtil.getUserAvatarUrl(),
+        userName: zhyUtil.getUserName(),
+        userInfoIsGetted: true,
+      });
+    }
   },
 
   /**
