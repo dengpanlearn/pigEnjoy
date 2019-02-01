@@ -126,6 +126,13 @@ Page({
   },
 
   onPublish:function(e){
+    if (!util.getUserIsLogon()) {
+      wx.showToast({
+        title: '请登录',
+      })
+
+      return;
+    }
     let curTypeIdx = this.data.curTypeIdx;
     let curType = this.data.technologyType[curTypeIdx];
     wx.navigateTo({

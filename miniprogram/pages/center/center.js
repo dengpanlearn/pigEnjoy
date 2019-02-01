@@ -54,6 +54,13 @@ Page({
   },
 
   onViewSelfTopic:function(e){
+
+    if (!this.data.userInfoIsGetted){
+      wx.showToast({
+        title: '请登录',
+      })
+      return;
+    }
     wx.navigateTo({
       url: e.currentTarget.id,
     })

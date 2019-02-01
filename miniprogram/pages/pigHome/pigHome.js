@@ -141,7 +141,8 @@ onSelectTopNews:function(e){
       mask: true
     })
 
-    util.userLoad().then(res=>{
+    util.userLoad();
+    
     // 
       let waitTimes = 0;
       let curTime = Math.round(new Date().getTime()/1000);
@@ -187,12 +188,6 @@ onSelectTopNews:function(e){
           wx.hideLoading();
         }
       }, 500, 0);
-
-    }).catch(err=>{
-      wx.hideLoading();
-    });
-
-
   },
 
   /**

@@ -231,6 +231,11 @@ function addViewTimes(topicId){
 
 function addComment(comment) {   
   return new Promise((resolve, reject)=>{
+
+    if (!util.getUserIsLogon()) {
+      reject('app not login');
+      return;
+    }
     let tableObject = new wx.BaaS.TableObject(61953);
     let newRow = tableObject.create();
     let tableTopic = new wx.BaaS.TableObject(61937);
@@ -275,6 +280,12 @@ function addComment(comment) {
 function addPraise(publishId)
 {
   return new Promise((resolve, reject) => {
+
+    if (!util.getUserIsLogon()){
+      reject('app not login');
+      return;
+    }
+    
     let tableObject = new wx.BaaS.TableObject(61960);
    
     let tableTopic = new wx.BaaS.TableObject(61937);
@@ -327,6 +338,11 @@ function addPraise(publishId)
 
 function addCollect(publishId) {
   return new Promise((resolve, reject) => {
+
+    if (!util.getUserIsLogon()) {
+      reject('app not login');
+      return;
+    }
     let tableObject = new wx.BaaS.TableObject(63926);
 
     let tableTopic = new wx.BaaS.TableObject(61937);
@@ -579,6 +595,10 @@ function getTopNews(contentId) {
 
 function addNewsComment(newsComment) {
   return new Promise((resolve, reject) => {
+    if (!util.getUserIsLogon()) {
+      reject('app not login');
+      return;
+    }
     let tableObject = new wx.BaaS.TableObject(63074);
     let newRow = tableObject.create();
  
@@ -607,6 +627,11 @@ function addNewsComment(newsComment) {
 
 function addNewsPraise(newsId) {
   return new Promise((resolve, reject) => {
+
+    if (!util.getUserIsLogon()) {
+      reject('app not login');
+      return;
+    }
     let tableObject = new wx.BaaS.TableObject(62956);
 
     let query = new wx.BaaS.Query();
@@ -645,6 +670,12 @@ function addNewsPraise(newsId) {
 
 function addNewsCollect(newsId) {
   return new Promise((resolve, reject) => {
+
+    if (!util.getUserIsLogon()) {
+      reject('app not login');
+      return;
+    }
+
     let tableObject = new wx.BaaS.TableObject(63927);
 
     let query = new wx.BaaS.Query();

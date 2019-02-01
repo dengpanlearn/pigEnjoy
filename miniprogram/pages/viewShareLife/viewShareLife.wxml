@@ -1,5 +1,6 @@
 <!--miniprogram/pages/viewShareLife/viewShareLife.wxml-->
 <view class='container'>
+
   <scroll-view class='scroll-view' scroll-y='true'>
   <view class='technology-header'>
     <view class='technology-user'>
@@ -29,15 +30,15 @@
   <view class='show-praise' wx:if='{{shareLife.praise.length > 0}}'>
         <image class='show-praise-icon' src='../../images/praise-nor.png'></image>
         <view class='show-praise-title' wx:if='{{shareLife.praiseCount < 5}}'>
-          <view class='show-praise-item' wx:for ='{{shareLife.praise}}' wx:key='_id'>{{item.userName}} </view>
+          <view class='show-praise-item' wx:for ='{{shareLife.praise}}' wx:key='_id'>{{item.userName}}， </view>
         </view>
 
         <view class='show-praise-title' wx:if='{{shareLife.praiseCount >= 5}}'>
-          <view class='show-praise-item'>{{shareLife.praise[0].userName}} </view>
-          <view class='show-praise-item'>{{shareLife.praise[1].userName}} </view>
-          <view class='show-praise-item'>{{shareLife.praise[2].userName}} </view>
-          <view class='show-praise-item'>{{shareLife.praise[3].userName}} </view>
-          <view class='show-praise-item'>{{shareLife.praise[4].userName}} </view>
+          <view class='show-praise-item'>{{shareLife.praise[0].userName}}， </view>
+          <view class='show-praise-item'>{{shareLife.praise[1].userName}}， </view>
+          <view class='show-praise-item'>{{shareLife.praise[2].userName}}， </view>
+          <view class='show-praise-item'>{{shareLife.praise[3].userName}}， </view>
+          <view class='show-praise-item'>{{shareLife.praise[4].userName}}， </view>
           <view class='show-praise-item'>{{shareLife.praiseCount}} 觉得很赞</view>
         </view>
       </view>
@@ -62,6 +63,7 @@
           </view>
 
         </view>
+        <button type = 'primary' hidden='{{userInfoIsGetted}}' open-type='getUserInfo' lang='zh_CN'                bindgetuserinfo='onGetUserInfo' class='get-info'>登录</button>
   </scroll-view>
 
   <view class='comment-view'>

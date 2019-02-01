@@ -11,7 +11,26 @@ Page({
     technology:{},
     commenFocus: false,
     commentValue:'',
-    newComment:false
+    newComment:false,
+    userInfoIsGetted:true,
+  },
+
+  onGetUserInfo: function (e) {
+    wx.showLoading({
+      title: '加载',
+    });
+    util.registerUser(e).then(res => {
+      wx.hideLoading();
+      //  console.log(res);
+      this.setData({
+        userInfoIsGetted: true,
+      });
+    }).catch(err => {
+      wx.hideLoading();
+      this.setData({
+        userInfoIsGetted: false,
+      });
+    });
   },
 
   onShowMoreComment:function(e){
@@ -60,6 +79,11 @@ Page({
         technology: tmpTechnology
       });
     }).catch(err=>{
+      if (err == 'app not login'){
+        this.setData({
+          userInfoIsGetted:false
+        });
+      }
       wx.hideLoading();
     });
   },
@@ -71,6 +95,11 @@ Page({
     serverUtil.addCollect(this.data.technology._id).then(res => {
       wx.hideLoading();
     }).catch(err => {
+      if (err == 'app not login') {
+        this.setData({
+          userInfoIsGetted: false
+        });
+      }
       wx.hideLoading();
     });
   },
@@ -109,9 +138,12 @@ Page({
         });
       }).catch(err=>{
         wx.hideLoading();
-        this.setData({
-          commentValue: ''
-        });
+       // console.log(err);
+        if (err == 'app not login') {
+          this.setData({
+            userInfoIsGetted: false
+          });
+        }
       });
     }
 

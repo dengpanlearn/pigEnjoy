@@ -1,5 +1,6 @@
 <!--miniprogram/pages/viewQuestion/viewQuestion.wxml-->
 <view class='container'>
+
   <scroll-view class='scroll-view' scroll-y='true'>
     <view class='question-header'>
       <view class='question-title'>{{question.title}}</view>
@@ -67,6 +68,7 @@
         </view>
         <text class='question-user-content'>{{item.content}}</text>
         </view>
+        <button type = 'primary' hidden='{{userInfoIsGetted}}' open-type='getUserInfo' lang='zh_CN'                bindgetuserinfo='onGetUserInfo' class='get-info'>登录</button>
   </scroll-view>
 
   <view class='comment-view'>

@@ -13,9 +13,26 @@ Page({
     question:{},
     commenFocus:false,
     commentValue:'',
-    newComment:false
+    newComment:false,
+    userInfoIsGetted:true
   },
-
+  onGetUserInfo: function (e) {
+    wx.showLoading({
+      title: '加载',
+    });
+    util.registerUser(e).then(res => {
+      wx.hideLoading();
+      //  console.log(res);
+      this.setData({
+        userInfoIsGetted: true,
+      });
+    }).catch(err => {
+      wx.hideLoading();
+      this.setData({
+        userInfoIsGetted: false,
+      });
+    });
+  },
   onShowMoreComment:function(e){
     let tmpQuestion = this.data.question;
     wx.showLoading({
@@ -64,9 +81,11 @@ Page({
         });
       }).catch(err => {
         wx.hideLoading();
-        this.setData({
-          commentValue: ''
-        });
+        if (err == 'app not login') {
+          this.setData({
+            userInfoIsGetted: false
+          });
+        }
       });
 
     });

@@ -77,6 +77,13 @@ Page({
   },
 
   onShareSelfLife:function(e){
+    if (!util.getUserIsLogon()){
+      wx.showToast({
+        title: '请登录',
+      })
+
+      return;
+    }
     wx.navigateTo({
       url: '../publishShareLife/publishShareLife',
     })
@@ -103,7 +110,14 @@ Page({
   },
 
   onCommentInputBtn:function(e){
-  
+
+    let allShareLifeArry = this.data.allShareLifeArry;
+    let lifeIndex = parseInt(e.currentTarget.id);
+    allShareLifeArry[lifeIndex].focus = true;
+    this.setData({
+      allShareLifeArry: allShareLifeArry
+    });
+/*
     util.getInputContents('.comment-input').then(res=>{
 
       for (let i = 0; i < res.length; i++){
@@ -146,7 +160,7 @@ Page({
         }
       }
     
-    })
+    })*/
   },
 
   onPraise:function(e){
@@ -170,7 +184,13 @@ Page({
 
 
     }).catch(res=>{
+     // console.log(res);
       wx.hideLoading();
+      if (res == 'app not login') {
+        wx.showToast({
+          title: '请到个人中心登录',
+        })
+      }
  
     });
   },
@@ -215,11 +235,13 @@ onCommentInput:function(e){
       this.setData({
         allShareLifeArry: allShareLifeArry
       });
-    }).catch(res=>{
+    }).catch(err =>{
       wx.hideLoading();
-      wx.showToast({
-        title: '评论失败',
-      })
+      if (err == 'app not login') {
+        wx.showToast({
+          title: '请到个人中心登录',
+        })
+      }
     });
   }
 },

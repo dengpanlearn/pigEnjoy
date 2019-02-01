@@ -20,7 +20,13 @@ Page({
   },
 
   onQuestion:function(e){
+    if (!util.getUserIsLogon()) {
+      wx.showToast({
+        title: '请到登录',
+      })
 
+      return;
+    }
     wx.navigateTo({
       url: '../publishQuestion/publishQuestion',
     });

@@ -54,6 +54,10 @@ function userLoad(){
     ;
   })
 }
+function getUserIsLogon(){
+ // console.log(userInfo);
+  return (Object.keys(userInfo).length != 0);
+}
 
 function getUserInfoSync(){
   return new Promise((resolve, reject)=>{
@@ -131,6 +135,7 @@ module.exports = {
   zhyUtilInit,
   userLoad,
   registerUser,
+  getUserIsLogon,
   getUserInfoSync,
   getUserAvatarUrl,
   getUserName,

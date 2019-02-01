@@ -1,8 +1,5 @@
 <!--miniprogram/pages/viewTopNew/viewTopNew.wxml-->
 
-
-
-
   <view class='top-new-header'>
     <view class='top-new-header-title'>{{topNew.title}}</view>
     <view class='top-new-header-info'>
@@ -47,15 +44,15 @@
   <view class='show-praise' wx:if='{{topNew.praise.length > 0}}'>
         <image class='show-praise-icon' src='../../images/praise-nor.png'></image>
         <view class='show-praise-title' wx:if='{{topNew.praiseCount < 5}}'>
-          <view class='show-praise-item' wx:for ='{{topNew.praise}}' wx:key='_id'>{{item.userName}} </view>
+          <view class='show-praise-item' wx:for ='{{topNew.praise}}' wx:key='_id'>{{item.userName}}， </view>
         </view>
 
         <view class='show-praise-title' wx:if='{{topNew.praiseCount >= 5}}'>
-          <view class='show-praise-item'>{{topNew.praise[0].userName}} </view>
-          <view class='show-praise-item'>{{topNew.praise[1].userName}} </view>
-          <view class='show-praise-item'>{{topNew.praise[2].userName}} </view>
-          <view class='show-praise-item'>{{topNew.praise[3].userName}} </view>
-          <view class='show-praise-item'>{{topNew.praise[4].userName}} </view>
+          <view class='show-praise-item'>{{topNew.praise[0].userName}}， </view>
+          <view class='show-praise-item'>{{topNew.praise[1].userName}}， </view>
+          <view class='show-praise-item'>{{topNew.praise[2].userName}}， </view>
+          <view class='show-praise-item'>{{topNew.praise[3].userName}}， </view>
+          <view class='show-praise-item'>{{topNew.praise[4].userName}} ，</view>
           <view class='show-praise-item'>{{topNew.praise.length}} 人觉得很赞</view>
         </view>
       </view>
@@ -79,6 +76,7 @@
 
         </view>
 
+<button type = 'primary' hidden='{{userInfoIsGetted}}' open-type='getUserInfo' lang='zh_CN'                bindgetuserinfo='onGetUserInfo' class='get-info'>用户登录</button>
 
 
 <view class='comment-view'>

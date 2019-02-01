@@ -14,7 +14,27 @@ Page({
 
     contentHtml:'',
     commenFocus:false,
-    commentValue:''
+    commentValue:'',
+    userInfoIsGetted:true
+  },
+
+
+  onGetUserInfo: function (e) {
+    wx.showLoading({
+      title: '加载',
+    });
+    util.registerUser(e).then(res => {
+      wx.hideLoading();
+      //  console.log(res);
+      this.setData({
+        userInfoIsGetted: true,
+      });
+    }).catch(err => {
+      wx.hideLoading();
+      this.setData({
+        userInfoIsGetted: false,
+      });
+    });
   },
 
   onShowMoreComment:function(e){
@@ -63,6 +83,11 @@ Page({
 
           
         }).catch(err => {
+          if (err == 'app not login') {
+            this.setData({
+              userInfoIsGetted: false
+            });
+          }
           wx.hideLoading();
         });
       }
@@ -83,6 +108,11 @@ Page({
         topNew:topNew
       });
     }).catch(err=>{
+      if (err == 'app not login') {
+        this.setData({
+          userInfoIsGetted: false
+        });
+      }
       wx.hideLoading();
     });
   },
@@ -95,6 +125,11 @@ Page({
     publishUtil.addNewsCollect(this.data.topNew.id).then(res => {
       wx.hideLoading();
     }).catch(err => {
+      if (err == 'app not login') {
+        this.setData({
+          userInfoIsGetted: false
+        });
+      }
       wx.hideLoading();
     });
   },
@@ -134,6 +169,11 @@ Page({
           commentValue:''
         });
       }).catch(err => {
+        if (err == 'app not login') {
+          this.setData({
+            userInfoIsGetted: false
+          });
+        }
         wx.hideLoading();
       });
     }
