@@ -247,12 +247,14 @@ Page({
   onShareAppMessage: function (Object) {
     let technology = this.data.technology;
     let icon = '';
+    //console.log(technology);
+   // console.log(Object);
     if (technology.imageFiles.length == 0)
     {
       icon = 'https://cloud-minapp-21575.cloud.ifanrusercontent.com/1gp5NiPaBHy51Acc.png';
     }
     else{
-      icon = technology.imageFiles[0];
+      icon = technology.imageFiles[0].path;
     }
     if (Object.from == 'button') {
       return {

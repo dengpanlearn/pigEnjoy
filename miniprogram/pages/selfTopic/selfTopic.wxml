@@ -60,17 +60,17 @@
 
     <view class='show-praise' wx:if='{{selfPublishItem.praise.length > 0}}'>
       <image class='show-praise-icon' src='../../images/praise-nor.png'></image>
-      <view class='show-praise-title' wx:if='{{selfPublishItem.praiseCount < 5}}'>
-        <view class='show-praise-item' wx:for ='{{selfPublishItem.praise}}' wx:key='_id'>{{item.userName}} </view>
+      <view class='show-praise-title' wx:if='{{selfPublishItem.praiseCount <= 4}}'>
+        <view class='show-praise-item' wx:for ='{{selfPublishItem.praise}}' wx:key='_id'>{{item.userName+','}} </view>
       </view>
 
-      <view class='show-praise-title' wx:if='{{selfPublishItem.praiseCount >= 5}}'>
-        <view class='show-praise-item'>{{selfPublishItem.praise[0].userName}} </view>
-        <view class='show-praise-item'>{{selfPublishItem.praise[1].userName}} </view>
-        <view class='show-praise-item'>{{selfPublishItem.praise[2].userName}} </view>
-        <view class='show-praise-item'>{{selfPublishItem.praise[3].userName}} </view>
-        <view class='show-praise-item'>{{selfPublishItem.praise[4].userName}} </view>
-        <view class='show-praise-item'>{{selfPublishItem.praiseCount}} 觉得很赞</view>
+      <view class='show-praise-title' wx:if='{{selfPublishItem.praiseCount > 4}}'>
+        <view class='show-praise-item'>{{selfPublishItem.praise[0].userName+','}} </view>
+        <view class='show-praise-item'>{{selfPublishItem.praise[1].userName+','}} </view>
+        <view class='show-praise-item'>{{selfPublishItem.praise[2].userName+','}} </view>
+        <view class='show-praise-item'>{{selfPublishItem.praise[3].userName+','}} </view>
+        <view class='show-praise-item'>{{selfPublishItem.praise[4].userName+','}} </view>
+        <view class='show-praise-item'>{{'等'+selfPublishItem.praiseCount+'觉得很赞'}}</view>
       </view>
     </view>
 

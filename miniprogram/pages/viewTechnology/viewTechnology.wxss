@@ -219,16 +219,17 @@
 
 .show-praise-title{
   width: auto;
-  height: 40rpx;
+  height: auto;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .show-praise-item{
  width: auto;
-  height: 40rpx;
+  height: auto;
   line-height: 40rpx;
   text-align: left;
   font-size: 25rpx;

@@ -41,17 +41,17 @@
 
       <view class='show-praise' wx:if='{{shareLifeItem.praise.length > 0}}'>
         <image class='show-praise-icon' src='../../images/praise-nor.png'></image>
-        <view class='show-praise-title' wx:if='{{shareLifeItem.praiseCount < 5}}'>
-          <view class='show-praise-item' wx:for ='{{shareLifeItem.praise}}' wx:key='_id'>{{item.userName}} ，</view>
+        <view class='show-praise-title' wx:if='{{shareLifeItem.praiseCount <= 5}}'>
+          <view class='show-praise-item' wx:for ='{{shareLifeItem.praise}}' wx:key='_id'>{{item.userName+','}} </view>
         </view>
 
-        <view class='show-praise-title' wx:if='{{shareLifeItem.praiseCount >= 5}}'>
-          <view class='show-praise-item'>{{shareLifeItem.praise[0].userName}} ，</view>
-          <view class='show-praise-item'>{{shareLifeItem.praise[1].userName}}， </view>
-          <view class='show-praise-item'>{{shareLifeItem.praise[2].userName}}， </view>
-          <view class='show-praise-item'>{{shareLifeItem.praise[3].userName}} ，</view>
-          <view class='show-praise-item'>{{shareLifeItem.praise[4].userName}}， </view>
-          <view class='show-praise-item'>{{shareLifeItem.praiseCount}} 觉得很赞</view>
+        <view class='show-praise-title' wx:if='{{shareLifeItem.praiseCount > 5}}'>
+          <view class='show-praise-item'>{{shareLifeItem.praise[0].userName+','}} </view>
+          <view class='show-praise-item'>{{shareLifeItem.praise[1].userName+','}} </view>
+          <view class='show-praise-item'>{{shareLifeItem.praise[2].userName+','}} </view>
+          <view class='show-praise-item'>{{shareLifeItem.praise[3].userName+','}} </view>
+          <view class='show-praise-item'>{{shareLifeItem.praise[4].userName+','}}</view>
+          <view class='show-praise-item'>{{'等'+shareLifeItem.praiseCount+'觉得很赞'}} </view>
         </view>
       </view>
         <view class='comment-show-view' wx:if="{{(shareLifeItem.comment.length+shareLifeItem.selfComment.length) > 0}}">
